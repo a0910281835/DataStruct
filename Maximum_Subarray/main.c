@@ -48,10 +48,11 @@ int MaxSubArray(int *nums, int numSize)
 int MaxSubArray(int *nums, int numSize)
 {
     int MaxVal = INT_MIN;
+    //Print The Nums in Now.
     // Inital Condition
     if (numSize == 1)
     {
-        printf("IntalVal%d\n", nums[0]);
+        printf("Max%d\n", nums[0]);
         return nums[0];
     }
     // Progama in here ----------------------//
@@ -99,6 +100,13 @@ int MaxSubArray(int *nums, int numSize)
         MaxVal = rightMaxVal;
     }
 
+    int numsIdx = 0;
+    for (numsIdx = 0; numsIdx < numSize; numsIdx++)
+    {
+        printf("%d, ", nums[numsIdx]);
+    }
+    printf("\n");
+    printf("this seqence max is %d\n", MaxVal);
 
 
     //--------------------------------------//
