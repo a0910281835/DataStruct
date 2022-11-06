@@ -6,6 +6,10 @@
 // { a[n] }
 // sum{k=i,k=j}{a[k]}
 
+
+
+// Target : Use Divid and Conquer with No recursive
+
 #define NUMSIZE 9
 int nums[NUMSIZE] = {-2, 1, -3, 4, -1, 2, 1, -5, 4};
 
