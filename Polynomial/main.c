@@ -160,7 +160,7 @@ polynomial AddPolynomial(polynomial head, polynomial head2)
 
 
 //nonzero_term 
-void ParserStr2Polynomial(char * str)
+void ParserStr2Polynomial(char *str)
 {
     //Descript :
     //Example : 2x^5+3x^3-2x^2+7x^0;
@@ -174,19 +174,15 @@ void ParserStr2Polynomial(char * str)
     }
     else
     {
-        printf("%s", str);
+        printf("%s,", str);
     }
 
 }
-#define ARB 2
+#define ARB 100
 int main(void)
 {
-    char str[ARB];
+    char str[ARB] = "5x^3+4x^2-7x^0";
     int idx = 0;
-    for (idx; idx < ARB; idx++)
-    {
-        str[idx] = '1';
-    }
     ParserStr2Polynomial(str);
 
     //PolyNode_T array;
