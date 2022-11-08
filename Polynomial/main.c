@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<limits.h>
+#include<string.h>
 
 
 typedef struct PolyNode_T *polynomial;
@@ -37,12 +38,11 @@ NONZERO_TERM polynomailSeq2[5] =
     {.coef = 5, .expon = 11},
     {.coef = 1, .expon = 8},
     {.coef = 5, .expon = 6},
-    {.coef = 100, .expon = 2},
-    {.coef = 20, .expon = 0},
+    {.coef = 100, .expon = 1},
+    {.coef = 20, .expon = -5},
 
 };
 
-nonzero_term MakePolynomialArray(char * str);
 
 
 
@@ -132,12 +132,7 @@ polynomial AddPolynomial(polynomial head, polynomial head2)
         }
     }
 
-    if (head != NULL)
-    {
-        ;
-
-    }
-    else
+    if (head2 != NULL)
     {
         head = head2;
     }
@@ -163,8 +158,36 @@ polynomial AddPolynomial(polynomial head, polynomial head2)
 
 }
 
+
+//nonzero_term 
+void ParserStr2Polynomial(char * str)
+{
+    //Descript :
+    //Example : 2x^5+3x^3-2x^2+7x^0;
+    char str1[50];
+    printf("enter your polynomial : ");
+    fgets(str1, 50, stdin);
+    printf("Output : %s", str1);
+    if (str == NULL)
+    {
+        printf("it's empty\n");
+    }
+    else
+    {
+        printf("%s", str);
+    }
+
+}
+#define ARB 2
 int main(void)
 {
+    char str[ARB];
+    int idx = 0;
+    for (idx; idx < ARB; idx++)
+    {
+        str[idx] = '1';
+    }
+    ParserStr2Polynomial(str);
 
     //PolyNode_T array;
     //PolyNode_T* head1 = malloc(sizeof(PolyNode_T));
@@ -180,6 +203,7 @@ int main(void)
     PrintfPolynomail(head4);
 
     free(head2);
+    free(head3);
 
     return 1;
 }
