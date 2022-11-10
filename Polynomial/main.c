@@ -159,6 +159,19 @@ polynomial AddPolynomial(polynomial head, polynomial head2)
 }
 
 
+int* parserTwoPart(char *str)
+{
+    int *array = malloc(sizeof(int)*2);
+    array[0] = 1;
+    array[1] = 2;
+
+    return array;
+
+}
+
+
+
+
 //nonzero_term
 void ParserStr2Polynomial(char *str)
 {
@@ -176,13 +189,22 @@ void ParserStr2Polynomial(char *str)
     {
         const char* pch = "^";
         char *ptch;
+
+        int totalNum = 0;
+        int idx = 0;
+        NONZERO_TERM array[100];
         ptch = strtok(str, pch);
         while (ptch != NULL)
         {
-            printf("%s\n", ptch);
+            idx = totalNum++;
+            printf("idx = %d\n", idx);
+            int *array = parserTwoPart(ptch);
+            printf("%d, %d\n", array[0], array[1]);
+
             ptch = strtok(NULL, pch);
 
         }
+
     }
 
 }
@@ -190,10 +212,12 @@ void ParserStr2Polynomial(char *str)
 int main(void)
 {
     char str[ARB] = "5x^3+4x^2-7x^0";
+    char strCp[ARB];
+    strncpy(strCp, str, ARB);
+    printf("orrigin string: %s\n", str);
 
     int idx = 0;
-    //ParserStr2Polynomial(str);
-    printf(":%s\n", str);
+    ParserStr2Polynomial(strCp);
 
     //PolyNode_T array;
     //PolyNode_T* head1 = malloc(sizeof(PolyNode_T));
