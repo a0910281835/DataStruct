@@ -159,7 +159,7 @@ polynomial AddPolynomial(polynomial head, polynomial head2)
 }
 
 
-//nonzero_term 
+//nonzero_term
 void ParserStr2Polynomial(char *str)
 {
     //Descript :
@@ -174,7 +174,15 @@ void ParserStr2Polynomial(char *str)
     }
     else
     {
-        printf("%s,", str);
+        const char* pch = "^";
+        char *ptch;
+        ptch = strtok(str, pch);
+        while (ptch != NULL)
+        {
+            printf("%s\n", ptch);
+            ptch = strtok(NULL, pch);
+
+        }
     }
 
 }
@@ -182,8 +190,10 @@ void ParserStr2Polynomial(char *str)
 int main(void)
 {
     char str[ARB] = "5x^3+4x^2-7x^0";
+
     int idx = 0;
-    ParserStr2Polynomial(str);
+    //ParserStr2Polynomial(str);
+    printf(":%s\n", str);
 
     //PolyNode_T array;
     //PolyNode_T* head1 = malloc(sizeof(PolyNode_T));
@@ -192,7 +202,7 @@ int main(void)
     head2 = PolyInital(polynomailSeq, 5);
     head3 = PolyInital(polynomailSeq2, 5);
 
-    printf("%dx^%d\n", (head2->term).coef, (head2->term).expon);
+    printf("\n%dx^%d\n", (head2->term).coef, (head2->term).expon);
     PrintfPolynomail(head2);
     PrintfPolynomail(head3);
     head4 = AddPolynomial(head2, head3);
