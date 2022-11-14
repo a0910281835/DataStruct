@@ -58,20 +58,17 @@ polynomial PolyInital(PolyArray *pPolynomialArray)
     int size = pPolynomialArray->totalTerm;
     polynomial head[size];
     int idx = 0;
-    for (idx = 0; idx < size; idx++)
+    polynomial tail = NULL;
+    for (idx = size - 1; idx >= 0; idx--)
     {
         head[idx] = malloc(sizeof(POLYNODE_T));
         (head[idx]->term).coef = pPolynomialArray->pPolyArray[idx].coef;
         (head[idx]->term).expon = pPolynomialArray->pPolyArray[idx].expon;
-
+        head[idx]->link = tail;
+        tail = head[idx];
     }
+    tail = NULL;
 
-    head[size-1]->link = NULL;
-
-    for (idx = size - 2; idx >= 0; idx--)
-    {
-        head[idx]->link = head[idx + 1];
-    }
     //headI
     return head[0];
 
