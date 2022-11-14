@@ -8,11 +8,17 @@ typedef struct PolyNode_T *polynomial;
 
 typedef struct NONZERO_TERM *nonzero_term;
 
-typedef struct
+typedef struct NONZERO_TERM
 {
     int coef;
     int expon;
 }NONZERO_TERM;
+
+typedef struct PolyArray
+{
+    int totalTerm;
+    nonzero_term pPolyArray;
+}PolyArray;
 
 typedef struct PolyNode_T
 {
@@ -47,21 +53,22 @@ NONZERO_TERM polynomailSeq2[5] =
 
 
 // Easy Make Polynomail
-polynomial PolyInital(NONZERO_TERM* pPolySeq, int Size)
+polynomial PolyInital(PolyArray *pPolynomialArray)
 {
-    polynomial head[Size];
+    int size = pPolynomialArray->totalTerm;
+    polynomial head[size];
     int idx = 0;
-    for (idx = 0; idx < Size; idx++)
+    for (idx = 0; idx < size; idx++)
     {
         head[idx] = malloc(sizeof(POLYNODE_T));
-        (head[idx]->term).coef = pPolySeq[idx].coef;
-        (head[idx]->term).expon = pPolySeq[idx].expon;
+        (head[idx]->term).coef = pPolynomialArray->pPolyArray[idx].coef;
+        (head[idx]->term).expon = pPolynomialArray->pPolyArray[idx].expon;
 
     }
 
-    head[Size-1]->link = NULL;
+    head[size-1]->link = NULL;
 
-    for (idx = Size - 2; idx >= 0; idx--)
+    for (idx = size - 2; idx >= 0; idx--)
     {
         head[idx]->link = head[idx + 1];
     }
@@ -88,6 +95,11 @@ void PrintfPolynomail(polynomial head)
         head = head->link;
     }
     printf("\n");
+
+}
+
+polynomial MulplePolynomial(polynomial head, polynomial head2)
+{
 
 }
 
@@ -124,7 +136,7 @@ polynomial AddPolynomial(polynomial head, polynomial head2)
         }
         else
         {
-            (current->term).coef = ((head->term).coef << 1);
+            (current->term).coef = ((head->term).coef + (head2->term).coef);
             (current->term).expon = compVal1;
             head = head->link;
             head2 = head2->link;
@@ -162,8 +174,48 @@ polynomial AddPolynomial(polynomial head, polynomial head2)
 int* parserTwoPart(char *str)
 {
     int *array = malloc(sizeof(int)*2);
-    array[0] = 1;
-    array[1] = 2;
+    array[0] = INT_MAX;
+    array[1] = INT_MAX;
+    int count[3] = {-1, -1, -2};
+    int totalLenth = (int)strlen(str);
+    int idx = 1;
+    int time = 0;
+
+    if (str[1] != '-')
+    {
+        count[0] = 1;
+        idx = 2;
+        time = 1;
+
+    }
+    // Record The first num and Second Num
+    while ('\0' != str[idx])
+    {
+        if (('+' == str[idx]) || ('-' == str[idx]))
+        {
+            count[time++] = idx;
+        }
+        idx++;
+    }
+    char strarray[100];
+    int cpyLength = 0;
+    idx = 0;
+    while (-1 < count[idx])
+    {
+        if (count[idx+1] - count[idx] < 0)
+        {
+            cpyLength = totalLenth - count[idx];
+        }
+        else
+        {
+            cpyLength = count[idx+1] - count[idx];
+        }
+        strncpy(strarray, str + count[idx], cpyLength);
+        array[idx] = atoi(strarray);
+
+        idx++;
+    }
+
 
     return array;
 
@@ -172,64 +224,101 @@ int* parserTwoPart(char *str)
 
 
 
-//nonzero_term
-void ParserStr2Polynomial(char *str)
+PolyArray* ParserStr2Polynomial(char *str)
 {
+    PolyArray* pPolynomialArray;
+    pPolynomialArray = malloc(sizeof(PolyArray));
+
+
     //Descript :
     //Example : 2x^5+3x^3-2x^2+7x^0;
-    char str1[50];
-    printf("enter your polynomial : ");
-    fgets(str1, 50, stdin);
-    printf("Output : %s", str1);
     if (str == NULL)
     {
         printf("it's empty\n");
     }
     else
     {
-        const char* pch = "^";
+        const char* pch = "x";
         char *ptch;
 
         int totalNum = 0;
         int idx = 0;
-        NONZERO_TERM array[100];
+        NONZERO_TERM arrayTerm[100];
         ptch = strtok(str, pch);
         while (ptch != NULL)
         {
             idx = totalNum++;
             printf("idx = %d\n", idx);
+            if (idx == 0)
+            {
+                printf("here is first\n");
+                char str[100];
+                strcpy(str, ptch);
+                int val = atoi(str);
+                printf("val %d\n", val);
+                ptch = strtok(NULL, pch);
+                arrayTerm[idx].coef = val;
+
+                continue;
+            }
             int *array = parserTwoPart(ptch);
-            printf("%d, %d\n", array[0], array[1]);
+            printf("%s\n", ptch);
+            printf("expon:%d, coef:%d\n", array[0], array[1]);
+            arrayTerm[idx].coef = array[1];
+            arrayTerm[idx-1].expon = array[0];
 
             ptch = strtok(NULL, pch);
+            //if( ptch == NULL)
+            //{
+            //    printf("this is last");
+            //}
 
+        }
+        //printf("totalcnt : %d\n", idx);
+        pPolynomialArray->totalTerm = idx;
+        pPolynomialArray->pPolyArray = malloc(sizeof(NONZERO_TERM) * idx);
+
+        for (idx = 0; idx < pPolynomialArray->totalTerm; idx++)
+        {
+            pPolynomialArray->pPolyArray[idx].coef  = arrayTerm[idx].coef;
+            pPolynomialArray->pPolyArray[idx].expon = arrayTerm[idx].expon;
+            //printf("idx:%d, coef:%d, expon:%d\n", idx, pPolynomialArray->pPolyArray[idx].coef, pPolynomialArray->pPolyArray[idx].expon);
         }
 
     }
 
+    return pPolynomialArray;
 }
 #define ARB 100
 int main(void)
 {
-    char str[ARB] = "5x^3+4x^2-7x^0";
+    char str[ARB] = "5x^10+4x^3-7x^2-5x^0+3x^-2-100x^-11";
+    char str2[ARB] = "27x^4+3x^2-6x^1+5x^0";
+    printf("orrigin string: %s\n", str);
+    printf("orrigin string: %s\n", str2);
     char strCp[ARB];
     strncpy(strCp, str, ARB);
-    printf("orrigin string: %s\n", str);
 
     int idx = 0;
-    ParserStr2Polynomial(strCp);
+    PolyArray * pPolynomialArray = ParserStr2Polynomial(strCp);
+    PolyArray * pPolynomialArray1 = ParserStr2Polynomial(str2);
 
     //PolyNode_T array;
     //PolyNode_T* head1 = malloc(sizeof(PolyNode_T));
     //head1->coef = 5;
     polynomial head2, head3, head4;
-    head2 = PolyInital(polynomailSeq, 5);
-    head3 = PolyInital(polynomailSeq2, 5);
+    head2 = PolyInital(pPolynomialArray);
+    head3 = PolyInital(pPolynomialArray1);
+    head4 = AddPolynomial(head2, head3);
+    printf("idx:%d, coef:%d, expon:%d\n", idx, pPolynomialArray->pPolyArray[idx].coef, pPolynomialArray->pPolyArray[idx].expon);
+    free(pPolynomialArray->pPolyArray);
+    free(pPolynomialArray1->pPolyArray);
+    printf("idx:%d, coef:%d, expon:%d\n", idx, pPolynomialArray->pPolyArray[idx].coef, pPolynomialArray->pPolyArray[idx].expon);
+    free(pPolynomialArray);
+    free(pPolynomialArray1);
 
-    printf("\n%dx^%d\n", (head2->term).coef, (head2->term).expon);
     PrintfPolynomail(head2);
     PrintfPolynomail(head3);
-    head4 = AddPolynomial(head2, head3);
     PrintfPolynomail(head4);
 
     free(head2);
