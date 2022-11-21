@@ -1,52 +1,98 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<limits.h>
+#include"stack_array.h"
 
 // Use array to make stack
-#define MAX_SIZE 1000
-#define EMPTY_SIZE -1
 
-typedef struct StackArray *PSTACK_ARRAY_T;
-typedef struct StackArray
+#define SIGN_NUM 6
+char sign[SIGN_NUM] = {'+', '-', '*', '/', '(', '^'};
+
+int findSignIdx(char signInput)
 {
-    int size;
-    int stackCell[MAX_SIZE];
+    int idx = 0;
+    int resultIdx = -1;
 
-}StackArray;
-
-PSTACK_ARRAY_T CreatStackArray(void)
-{
-    PSTACK_ARRAY_T pStackArray = (PSTACK_ARRAY_T) malloc(sizeof(StackArray));
-    pStackArray->size = -1;
+    for (idx = 0; idx < SIGN_NUM; idx++)
+    {
+        if (sign[idx] == signInput)
+        {
+            resultIdx = idx;
+        }
+    }
+    return resultIdx;
 }
 
-void PushStack(PSTACK_ARRAY_T pStackArray, int val)
+int compareSignPriority[6][6] =
 {
-    int *pSize = &(pStackArray->size);
-    if ((MAX_SIZE - 1) == *pSize)
-    {
-        printf("stack is full\n");
-    }
-    else
-    {
-        pStackArray->stackCell[++*(pSize)] = val;
-    }
-}
+    {1, 1, 0, 0, 0, 0},
+    {1, 1, 0, 0, 0, 0},
+    {1, 1, 1, 1, 0, 0},
+    {1, 1, 1, 1, 0, 0},
+    {0, 0, 0, 0, 0, 0},
+    {1, 1, 1, 1, 0, 1}
+};
 
-int PopStack(PSTACK_ARRAY_T pStackArray)
+PSTACK_ARRAY_T ParserStringInfix2RPN(char *stringInput)
 {
-    int *pSize = &(pStackArray->size);
-    if (EMPTY_SIZE == *pSize)
+    //example : 2*(9+6/3-5)+4 , Output:2963/+5-*4+
+    printf("Ha\n");
+    char *Ouptut = (char *) malloc(MAX_SIZE);
+    printf("%s\n", stringInput);
+    PSTACK_ARRAY_T pStackArrayALL = CreatStackArray();
+    PSTACK_ARRAY_T pSaveOperation = CreatStackArray();
+    int idx = 0;
+    char strCheck = stringInput[idx];
+    int firstNumIdx, lastNumIdx;
+    firstNumIdx = 0;
+    lastNumIdx = -1;
+    while (strCheck != '\0')
     {
-        printf("stack is empty\n");
-    }
-    else
-    {
-        int val = pStackArray->stackCell[(*pSize)--];
-        return val;
+        if ( (((int)'0') <=  ((int)strCheck)) && (((int)strCheck) <= ((int)'9') ))
+        {
+            lastNumIdx = idx;
+            strCheck = stringInput[++idx];
+            continue;
+        }
+        else
+        {
+            //Do sometghing but this time check
+            if (firstNumIdx <= lastNumIdx)
+            {
+                //Output value
+                printf("%d, %d\n", firstNumIdx, lastNumIdx);
+                firstNumIdx = lastNumIdx = -1;
+
+            }
+            firstNumIdx = ++idx;
+            strCheck = stringInput[idx];
+        }
+
+
 
     }
+    if (firstNumIdx != -1)
+    {
+                printf("%d, %d\n", firstNumIdx, lastNumIdx);
+    }
+
+    return pStackArrayALL;
 }
+/*
+//-------------------------------------------
+// Use Stack to finish expression for miditim
+
+void ParserStringToInfixNotaion(char *string)
+{
+    //example :  (3+4*5+2+1)*5^4-2
+    //string conatain
+    // number : 1,2,...9,0
+    // Operation:
+
+}
+*/
+
+/* Pointer-------------------------------------------------------
 typedef int ELEMENT_T;
 typedef struct StackNode *STACKNODE_PT;
 
@@ -58,11 +104,6 @@ typedef enum
 
 }TYPE;
 
-typedef enum
-{
-    EMPTY,
-    SUCC
-}CELL_SIZE;
 
 typedef struct StackNode
 {
@@ -72,11 +113,6 @@ typedef struct StackNode
 
 }StackNode;
 
-typedef struct RETURN
-{
-    ELEMENT_T val;
-    CELL_SIZE result;
-}RETURN;
 
 STACKNODE_PT CreatePtrStack(void)
 {
@@ -116,32 +152,67 @@ RETURN PopStackPointer(STACKNODE_PT head)
         free(pNode);
         pNode = NULL;
         ret.result = SUCC;
-        return ret;
     }
+    return ret;
 }
+
+PointerEnd---------------------------------------*/
+
+
+//--------------------------------------------
+//
+//
 
 int main(void)
 {
-    STACKNODE_PT head = CreatePtrStack();
-    printf("Head Type:%d\n", (int)(head->type));
-    STACKNODE_PT pNode = head->pNext;
-    printf("TAIL Type:%d\n", pNode->type);
-    int idx = 0;
-    for (idx = 0; idx < 20; idx++)
-    {
-        PushStackPointer(head, idx);
-    }
-    RETURN ret;
-    do
-    {
-        ret = PopStackPointer(head);
-        printf("pop Val %d\n", ret.val);
+    ELEMENT_TYPE notaion;
+    notaion.tag = SIGN;
+    notaion.sign = 'c';
+    printf("%d, %c\n", notaion.tag, notaion.sign);
+    notaion.tag = NUM;
+    notaion.val = 12;
+    printf("%d, %d\n", notaion.tag, notaion.val);
+    printf("%d, %c\n", notaion.tag, notaion.sign);
 
-    }while(SUCC == ret.result);
+    printf("%c\n", 76);
+    //printf("%d\n", MAX_SIZE);
+    //
+    //STACKNODE_PT head = CreatePtrStack();
+    //printf("Head Type:%d\n", (int)(head->type));
+    //STACKNODE_PT pNode = head->pNext;
+    //printf("TAIL Type:%d\n", pNode->type);
+    //int idx = 0;
+    //for (idx = 0; idx < 20; idx++)
+    //{
+    //    PushStackPointer(head, idx+60);
+    //}
+    //RETURN ret;
+    //do
+    //{
+    //    ret = PopStackPointer(head);
+    //    printf("pop Val %c\n", ret.val);
 
-    //PSTACK_ARRAY_T pStackArray = CreatStackArray();
-    //printf("%d\n", pStackArray->size);
-    //PopStack(pStackArray);
+    //}while(SUCC == ret.result);
+
+    PSTACK_ARRAY_T pStackArray = CreatStackArray();
+    printf("%d\n", pStackArray->size);
+    RETURN ret = PopStack(pStackArray);
+    printf("%d\n", ret.ouput.val);
+    printf("%d\n", '0');
+    printf("%d\n", '1');
+    printf("%d\n", '9');
+
+    char *inputStr = "2*(9+6/3-5)+4";
+    ParserStringInfix2RPN(inputStr);
+   // char str1 = '-';
+   // int arrayIdx = findSignIdx(str1);
+   // printf("%d\n", arrayIdx);
+   // char str2 = '*';
+   // int arrayIdx2 = findSignIdx(str2);
+   // printf("%d\n", arrayIdx2);
+
+   // int comVal = compareSignPriority[arrayIdx][arrayIdx2];
+   // printf("ret : %d\n", comVal);
 
     //int idx = 0;
     //for (idx = -4; idx < 4; idx++)
@@ -156,6 +227,7 @@ int main(void)
     //    int val = PopStack(pStackArray);
     //    printf("pop stack order val : %d\n", val);
     //}
+
 
 
 
