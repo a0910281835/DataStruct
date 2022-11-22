@@ -6,12 +6,13 @@ typedef struct QueueArray* pQueueArray;
 typedef struct QueueArray
 {
     ELEMENT_T queueVal[MAX_SIZE];
-    int top_idx;
-    int tail_idx;
+    int first_idx;
+    int last_idx;
 
 }QueueArray;
 
 extern pQueueArray CreateQueueArray(void);
+extern RETURN PushQueueArray(pQueueArray pQueue, ELEMENT_T input);
 
 
 #endif
