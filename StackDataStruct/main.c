@@ -2,6 +2,7 @@
 #include<stdlib.h>
 #include<limits.h>
 #include"stack_array.h"
+#include<string.h>
 
 // Use array to make stack
 
@@ -57,11 +58,18 @@ PSTACK_ARRAY_T ParserStringInfix2RPN(char *stringInput)
         else
         {
             //Do sometghing but this time check
-            if (firstNumIdx <= lastNumIdx)
+            if ((firstNumIdx <= lastNumIdx) && (0 <= firstNumIdx))
             {
                 //Output value
+                ELEMENT_TYPE valType;
+                char cpStr[STR_NUM_MAX_SIZE] = "\0";
+                strncpy(cpStr, stringInput + firstNumIdx, lastNumIdx - firstNumIdx + 1);
                 printf("%d, %d\n", firstNumIdx, lastNumIdx);
+                printf("CP%s\n", cpStr);
                 firstNumIdx = lastNumIdx = -1;
+                //PushStack(pStackArrayALL,
+
+
 
             }
             firstNumIdx = ++idx;
@@ -74,6 +82,11 @@ PSTACK_ARRAY_T ParserStringInfix2RPN(char *stringInput)
     if (firstNumIdx != -1)
     {
                 printf("%d, %d\n", firstNumIdx, lastNumIdx);
+                int localIdx = 0;
+                for (localIdx = firstNumIdx; localIdx <= lastNumIdx; localIdx++)
+                {
+                    printf("%c", stringInput[localIdx]);
+                }
     }
 
     return pStackArrayALL;
@@ -202,7 +215,7 @@ int main(void)
     printf("%d\n", '1');
     printf("%d\n", '9');
 
-    char *inputStr = "2*(9+6/3-5)+4";
+    char *inputStr = "2*(9+61/3-5)+4";
     ParserStringInfix2RPN(inputStr);
    // char str1 = '-';
    // int arrayIdx = findSignIdx(str1);

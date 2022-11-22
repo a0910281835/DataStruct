@@ -1,9 +1,11 @@
 #ifndef _H_BASIC
 #define _H_BASIC
-#include"config.h"
-
+//#include"config.h"
+#define _ELEMENT_TYPE_UNION
 #define MAX_SIZE 1000
 #define EMPTY_SIZE -1
+#define STR_NUM_MAX_SIZE 30
+
 
 # if defined(_ELEMENT_TYPE_UNION) 
 typedef enum
