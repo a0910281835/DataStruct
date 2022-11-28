@@ -9,10 +9,10 @@
 #define SIGN_NUM 6
 char sign[SIGN_NUM] = {'+', '-', '*', '/', '(', '^'};
 
-int findSignIdx(char signInput)
+static int findSignIdx(char signInput)
 {
     int idx = 0;
-    int resultIdx = -1;
+    int resultIdx = 6;//ex : 'EMPTY' or ')'
 
     for (idx = 0; idx < SIGN_NUM; idx++)
     {
@@ -24,24 +24,34 @@ int findSignIdx(char signInput)
     return resultIdx;
 }
 
-int compareSignPriority[6][6] =
+// [a][b] mean sign[a] compare sign[b] and result 1 mean sign[a] >= sign[b], result 0 sign[a] < sign[b]
+int compareSignPriority[7][7] =
 {
-    {1, 1, 0, 0, 0, 0},
-    {1, 1, 0, 0, 0, 0},
-    {1, 1, 1, 1, 0, 0},
-    {1, 1, 1, 1, 0, 0},
-    {0, 0, 0, 0, 0, 0},
-    {1, 1, 1, 1, 0, 1}
+    {1, 1, 0, 0, 0, 0,  1},
+    {1, 1, 0, 0, 0, 0,  1},
+    {1, 1, 1, 1, 0, 0,  1},
+    {1, 1, 1, 1, 0, 0,  1},
+    {0, 0, 0, 0, 0, 0, -1},
+    {1, 1, 1, 1, 0, 1,  1},
+    {0, 0, 0, 0, 0, 0,  1}
 };
+
+static int priorityString(char stackIn, char stackOut)
+{
+    int stackInIdx  = findSignIdx(stackIn);
+    int stackOutIdx = findSignIdx(stackOut);
+    int ret = compareSignPriority[stackInIdx][stackOutIdx];
+
+    return ret;
+
+}
 
 PSTACK_ARRAY_T ParserStringInfix2RPN(char *stringInput)
 {
     //example : 2*(9+6/3-5)+4 , Output:2963/+5-*4+
-    printf("Ha\n");
     char *Ouptut = (char *) malloc(MAX_SIZE);
-    printf("%s\n", stringInput);
-    PSTACK_ARRAY_T pStackArrayALL = CreatStackArray();
-    PSTACK_ARRAY_T pSaveOperation = CreatStackArray();
+    PSTACK_ARRAY_T pStackALL = CreatStackArray();
+    PSTACK_ARRAY_T pStackSaveSign = CreatStackArray();
     int idx = 0;
     char strCheck = stringInput[idx];
     int firstNumIdx, lastNumIdx;
@@ -57,21 +67,66 @@ PSTACK_ARRAY_T ParserStringInfix2RPN(char *stringInput)
         }
         else
         {
-            //Do sometghing but this time check
+            //Collection Number then push in Stack directily.
             if ((firstNumIdx <= lastNumIdx) && (0 <= firstNumIdx))
             {
                 //Output value
                 ELEMENT_TYPE valType;
                 char cpStr[STR_NUM_MAX_SIZE] = "\0";
+                int pushNum;
                 strncpy(cpStr, stringInput + firstNumIdx, lastNumIdx - firstNumIdx + 1);
-                printf("%d, %d\n", firstNumIdx, lastNumIdx);
-                printf("CP%s\n", cpStr);
+                pushNum = atoi(cpStr);
+                valType.tag = NUM;
+                valType.val = pushNum;
+                PushStack(pStackALL, valType);
                 firstNumIdx = lastNumIdx = -1;
-                //PushStack(pStackArrayALL,
-
-
 
             }
+
+
+            ELEMENT_TYPE signInStack, signOutStack;
+            signOutStack.tag = SIGN;
+            signOutStack.sign = strCheck;
+            int comCondtion;
+            do
+            {
+
+                RETURN topElement = StackTop(pStackSaveSign);
+                signInStack.tag = SIGN;
+                signInStack.sign = topElement.output.sign;
+
+                printf("Stackin %c\n", signInStack.sign);
+                printf("StackOut %c\n", signOutStack.sign);
+
+                comCondtion = priorityString(signInStack.sign, signOutStack.sign);
+                printf("condtion = %d\n", comCondtion);
+
+                RETURN willPushStack;
+                switch ( comCondtion )
+                {
+                    //      <
+                    case LESS_THAN :
+                        PushStack(pStackSaveSign, signOutStack);
+                        break;
+                    //      >=
+                    case GREATHER_THAN_OR_EQUAL :
+                        willPushStack = PopStack(pStackSaveSign);
+                        if (EMPTY == willPushStack.result)
+                            printf("Input Format is error\n");
+                        else
+                        {
+                            PushStack(pStackALL, willPushStack.output);
+                        }
+                        break;
+                    //  '(' encouter ')'
+                    case DISCARD :
+                        willPushStack = PopStack(pStackSaveSign);
+                        break;
+
+                }
+
+            } while(GREATHER_THAN_OR_EQUAL == comCondtion);
+
             firstNumIdx = ++idx;
             strCheck = stringInput[idx];
         }
@@ -81,15 +136,26 @@ PSTACK_ARRAY_T ParserStringInfix2RPN(char *stringInput)
     }
     if (firstNumIdx != -1)
     {
-                printf("%d, %d\n", firstNumIdx, lastNumIdx);
-                int localIdx = 0;
-                for (localIdx = firstNumIdx; localIdx <= lastNumIdx; localIdx++)
-                {
-                    printf("%c", stringInput[localIdx]);
-                }
+                ELEMENT_TYPE valType;
+                char cpStr[STR_NUM_MAX_SIZE] = "\0";
+                int pushNum;
+                strncpy(cpStr, stringInput + firstNumIdx, lastNumIdx - firstNumIdx + 1);
+                pushNum = atoi(cpStr);
+                valType.tag = NUM;
+                valType.val = pushNum;
+                PushStack(pStackALL, valType);
     }
 
-    return pStackArrayALL;
+    // the lsat Sign in StackSing will push to StackAll
+   RETURN willPushStack = PopStack(pStackSaveSign);
+
+   while (EMPTY != willPushStack.result)
+   {
+       PushStack(pStackALL, willPushStack.output);
+       willPushStack = PopStack(pStackSaveSign);
+   }
+
+    return pStackALL;
 }
 /*
 //-------------------------------------------
@@ -178,16 +244,6 @@ PointerEnd---------------------------------------*/
 
 int main(void)
 {
-    ELEMENT_TYPE notaion;
-    notaion.tag = SIGN;
-    notaion.sign = 'c';
-    printf("%d, %c\n", notaion.tag, notaion.sign);
-    notaion.tag = NUM;
-    notaion.val = 12;
-    printf("%d, %d\n", notaion.tag, notaion.val);
-    printf("%d, %c\n", notaion.tag, notaion.sign);
-
-    printf("%c\n", 76);
     //printf("%d\n", MAX_SIZE);
     //
     //STACKNODE_PT head = CreatePtrStack();
@@ -207,16 +263,32 @@ int main(void)
 
     //}while(SUCC == ret.result);
 
-    PSTACK_ARRAY_T pStackArray = CreatStackArray();
-    printf("%d\n", pStackArray->size);
-    RETURN ret = PopStack(pStackArray);
-    printf("%d\n", ret.ouput.val);
-    printf("%d\n", '0');
-    printf("%d\n", '1');
-    printf("%d\n", '9');
 
-    char *inputStr = "2*(9+61/3-5)+4";
-    ParserStringInfix2RPN(inputStr);
+    char *inputStr = "2*(9+61*4/3-5)+4";
+    PSTACK_ARRAY_T pStackArray = ParserStringInfix2RPN(inputStr);
+    printf("%s\n", inputStr);
+
+
+
+    RETURN popElement = PopStack(pStackArray);
+
+    while (EMPTY != popElement.result)
+    {
+        if (SIGN == popElement.output.tag)
+        {
+            printf("%c", popElement.output.sign);
+
+        }
+        else if (NUM == popElement.output.tag)
+        {
+            printf("%d", popElement.output.val);
+        }
+
+        popElement = PopStack(pStackArray);
+
+
+    }
+
    // char str1 = '-';
    // int arrayIdx = findSignIdx(str1);
    // printf("%d\n", arrayIdx);

@@ -7,12 +7,19 @@
 #define STR_NUM_MAX_SIZE 30
 
 
-# if defined(_ELEMENT_TYPE_UNION) 
+# if defined(_ELEMENT_TYPE_UNION)
 typedef enum
 {
     SIGN,
     NUM
 }TAG_TYPE;
+
+enum
+{
+    DISCARD   = -1,// '(' enocuter ')'
+    LESS_THAN = 0,
+    GREATHER_THAN_OR_EQUAL = 1
+};
 typedef struct ELEMENT_TYPE
 {
     union
@@ -36,7 +43,7 @@ typedef enum
 
 typedef struct RETURN
 {
-    ELEMENT_TYPE ouput;
+    ELEMENT_TYPE output;
     CELL_SIZE result;
 }RETURN;
 

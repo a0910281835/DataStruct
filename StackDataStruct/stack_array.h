@@ -15,6 +15,7 @@ typedef struct StackArray
 extern PSTACK_ARRAY_T CreatStackArray(void);
 extern void PushStack(PSTACK_ARRAY_T pStackArray, ELEMENT_TYPE input);
 extern RETURN PopStack(PSTACK_ARRAY_T pStackArray);
+extern RETURN StackTop(PSTACK_ARRAY_T pStackArray);
 
 
 #endif

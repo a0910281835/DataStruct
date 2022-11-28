@@ -21,10 +21,41 @@ void PushStack(PSTACK_ARRAY_T pStackArray, ELEMENT_TYPE input)
 #if defined(_ELEMENT_TYPE_INT)
         pStackArray->stackCell[++*(pSize)] = input;
 #elif defined(_ELEMENT_TYPE_UNION)
-        (pStackArray->stackCell[*(pSize)]).sign = input.sign;
-        (pStackArray->stackCell[++*(pSize)]).val = input.val;
+        if (SIGN == input.tag)
+        {
+            printf("THIS is SIGN\n");
+            (pStackArray->stackCell[++(*pSize)]).sign = input.sign;
+            (pStackArray->stackCell[(*pSize)]).tag = input.tag;
+
+        }
+        else if (NUM == input.tag)
+        {
+            printf("THIS is NUM\n");
+            (pStackArray->stackCell[++*(pSize)]).val = input.val;
+            (pStackArray->stackCell[(*pSize)]).tag = input.tag;
+        }
 #endif
     }
+}
+
+RETURN StackTop(PSTACK_ARRAY_T pStackArray)
+{
+    int *pSize = &(pStackArray->size);
+
+    RETURN ret;
+    if (EMPTY_SIZE == *pSize)
+    {
+        ret.result = EMPTY;
+        ret.output.sign = 'c';
+    }
+    else
+    {
+        ret.result = SUCC;
+        ret.output = pStackArray->stackCell[*pSize];
+    }
+
+    return ret;
+
 }
 
 RETURN PopStack(PSTACK_ARRAY_T pStackArray)
@@ -42,8 +73,17 @@ RETURN PopStack(PSTACK_ARRAY_T pStackArray)
 #if defined(_ELEMENT_TYPE_INT)
         ret.val = pStackArray->stackCell[(*pSize)--];
 #elif defined(_ELEMENT_TYPE_UNION)
-        ret.ouput.sign = (pStackArray->stackCell[*(pSize)]).sign;
-        ret.ouput.val  = (pStackArray->stackCell[(*pSize)--]).val;
+        if (SIGN == (pStackArray->stackCell[*(pSize)]).tag)
+        {
+            ret.output.tag = SIGN;
+            ret.output.sign = (pStackArray->stackCell[(*pSize)--]).sign;
+
+        }
+        else if (NUM == (pStackArray->stackCell[*(pSize)]).tag)
+        {
+            ret.output.tag = NUM;
+            ret.output.val = (pStackArray->stackCell[(*pSize)--]).val;
+        }
 #endif
     }
         return ret;
