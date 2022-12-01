@@ -8,9 +8,10 @@ int main(void)
     pQueueArray pQueue = CreateQueueArray();
     printf("%d, %d\n", pQueue->first_idx, pQueue->last_idx);
     int idx = 0;
+    RETURN ret;
     for (idx = 0; idx < 102; idx++)
     {
-        RETURN ret = PushQueueArray(pQueue, idx);
+         ret = PushQueueArray(pQueue, idx);
         if (SUCC == ret.size_cond)
         {
             printf("PushVal:%d\n", ret.output);
@@ -20,6 +21,21 @@ int main(void)
             printf("FULL\n");
         }
     }
+
+
+    do
+    {
+        ret = PopQueueArray(pQueue);
+        if (EMPTY == ret.size_cond)
+        {
+            printf("Queue is empty\n");
+        }
+        else
+        {
+            printf("PopVal : %d\n", ret.output);
+        }
+
+    } while(ret.size_cond);
 
     return 1;
 }
