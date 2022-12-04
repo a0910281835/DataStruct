@@ -1,6 +1,4 @@
 #include"stack_array.h"
-#include<stdio.h>
-#include<stdlib.h>
 
 PSTACK_ARRAY_T CreatStackArray(void)
 {
