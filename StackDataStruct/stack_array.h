@@ -1,5 +1,5 @@
-#ifndef   _H_STACK_ARRAY
-#define  _H_STACK_ARRAY
+#ifndef _H_STACK_ARRAY
+#define _H_STACK_ARRAY
 #include "basic.h"
 
 

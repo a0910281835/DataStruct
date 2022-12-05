@@ -41,7 +41,8 @@ typedef  int ELEMENT_TYPE;
 typedef enum
 {
     EMPTY,
-    SUCC
+    SUCC,
+    FULL_CYCLE_ARRAY = (MAX_SIZE -1)
 }CELL_SIZE;
 
 typedef struct RETURN
