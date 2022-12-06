@@ -1,6 +1,15 @@
 #include"paser_infix_and_cal.h"
 
-static char sign[SIGN_NUM] = {'+', '-', '*', '/', '(', '^'};
+enum
+{
+    UNKNOW  = -1,
+    UNARY   =  1,
+    BINARY  =  2,
+    TERNARY =  3
+};
+
+static char sign[SIGN_NUM]       = {'+', '-', '*', '/', '(', '^'};
+static char operandNum[SIGN_NUM] = {2, 2, 2, 2, -1, 2};
 
 static int findSignIdx(char signInput)
 {
@@ -15,6 +24,12 @@ static int findSignIdx(char signInput)
         }
     }
     return resultIdx;
+}
+
+
+static int findOperandNum(char singInput)
+{
+
 }
 
 // [a][b] mean sign[a] compare sign[b] and result 1 mean sign[a] >= sign[b], result 0 sign[a] < sign[b]
@@ -150,4 +165,38 @@ PQUEUE_ARRAY_T ParserStringInfix2RPN(char *stringInput)
    }
 
     return pQueueNotation;
+}
+
+
+
+
+int CalRPN(PQUEUE_ARRAY_T pRPNQueue)
+{
+    int calVal = 0;
+    PSTACK_ARRAY_T pStackNum = CreatStackArray();
+
+    RETURN retPopQueue = PopQueueArray(pRPNQueue);
+
+    while (SUCC == retPopQueue.result)
+    {
+
+        TAG_TYPE tag = (retPopQueue.output).tag;
+
+        switch (tag)
+        {
+            case NUM :
+                PushStack(pStackNum, retPopQueue.output);
+                break;
+            case SIGN :
+                // Sign
+
+                break;
+
+        }
+    }
+
+
+
+
+
 }
