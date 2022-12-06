@@ -3,7 +3,7 @@
 #include"basic.h"
 
 
-typedef struct QueueArray* pQueueArray;
+typedef struct QueueArray* PQUEUE_ARRAY_T;
 typedef struct QueueArray
 {
     ELEMENT_TYPE queueVal[MAX_SIZE];
@@ -12,9 +12,9 @@ typedef struct QueueArray
 
 }QueueArray;
 
-extern pQueueArray CreateQueueArray(void);
-extern RETURN PushQueueArray(pQueueArray pQueue, ELEMENT_TYPE input);
-extern RETURN PopQueueArray(pQueueArray pQueue);
+extern PQUEUE_ARRAY_T CreateQueueArray(void);
+extern RETURN PushQueueArray(PQUEUE_ARRAY_T pQueue, ELEMENT_TYPE input);
+extern RETURN PopQueueArray(PQUEUE_ARRAY_T pQueue);
 
 
 #endif

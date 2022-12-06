@@ -20,7 +20,7 @@ static int findSignIdx(char signInput)
 // [a][b] mean sign[a] compare sign[b] and result 1 mean sign[a] >= sign[b], result 0 sign[a] < sign[b]
 static int CompareSignPriorityArray[7][7] =
 {
-             
+
     /* '+' */{1, 1, 0, 0, 0, 0,  1},
     /* '-' */{1, 1, 0, 0, 0, 0,  1},
     /* '*' */{1, 1, 1, 1, 0, 0,  1},
@@ -40,10 +40,10 @@ static int compareSignPriority(char stackIn, char stackOut)
 
 }
 
-PSTACK_ARRAY_T ParserStringInfix2RPN(char *stringInput)
+PQUEUE_ARRAY_T ParserStringInfix2RPN(char *stringInput)
 {
     //example : 2*(9+6/3-5)+4 , Output:2963/+5-*4+
-    PSTACK_ARRAY_T pStackALL = CreatStackArray();
+    PQUEUE_ARRAY_T pQueueNotation = CreateQueueArray();
     PSTACK_ARRAY_T pStackSaveSign = CreatStackArray();
     int idx = 0;
     char strCheck = stringInput[idx];
@@ -71,13 +71,13 @@ PSTACK_ARRAY_T ParserStringInfix2RPN(char *stringInput)
                 pushNum = atoi(cpStr);
                 valType.tag = NUM;
                 valType.val = pushNum;
-                PushStack(pStackALL, valType);
+                PushQueueArray(pQueueNotation, valType);
                 firstNumIdx = lastNumIdx = -1;
 
             }
 
 
-            // Loop compare Sign stack in and stack out 
+            // Loop compare Sign stack in and stack out
             ELEMENT_TYPE signInStack, signOutStack;
             signOutStack.tag = SIGN;
             signOutStack.sign = strCheck;
@@ -109,7 +109,7 @@ PSTACK_ARRAY_T ParserStringInfix2RPN(char *stringInput)
                             printf("Input Format is error\n");
                         else
                         {
-                            PushStack(pStackALL, willPushStack.output);
+                            PushQueueArray(pQueueNotation, willPushStack.output);
                         }
                         break;
                     //  '(' encouter ')'
@@ -137,7 +137,7 @@ PSTACK_ARRAY_T ParserStringInfix2RPN(char *stringInput)
                 pushNum = atoi(cpStr);
                 valType.tag = NUM;
                 valType.val = pushNum;
-                PushStack(pStackALL, valType);
+                PushQueueArray(pQueueNotation, valType);
     }
 
     // the lsat Sign in StackSing will push to StackAll
@@ -145,9 +145,9 @@ PSTACK_ARRAY_T ParserStringInfix2RPN(char *stringInput)
 
    while (EMPTY != willPushStack.result)
    {
-       PushStack(pStackALL, willPushStack.output);
+       PushQueueArray(pQueueNotation, willPushStack.output);
        willPushStack = PopStack(pStackSaveSign);
    }
 
-    return pStackALL;
+    return pQueueNotation;
 }

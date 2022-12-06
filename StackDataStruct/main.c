@@ -113,26 +113,26 @@ int main(void)
 
 
     char *inputStr = "2*(9+61*4/3-5)+4";
-    PSTACK_ARRAY_T pStackArray = ParserStringInfix2RPN(inputStr);
+    PQUEUE_ARRAY_T pQueue = ParserStringInfix2RPN(inputStr);
     printf("%s\n", inputStr);
 
 
 
-    RETURN popElement = PopStack(pStackArray);
+    RETURN popElement = PopQueueArray(pQueue);
 
     while (EMPTY != popElement.result)
     {
         if (SIGN == popElement.output.tag)
         {
-            printf("%c", popElement.output.sign);
+            printf("%c,", popElement.output.sign);
 
         }
         else if (NUM == popElement.output.tag)
         {
-            printf("%d", popElement.output.val);
+            printf("%d,", popElement.output.val);
         }
 
-        popElement = PopStack(pStackArray);
+        popElement = PopQueueArray(pQueue);
 
 
     }

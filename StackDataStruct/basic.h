@@ -17,12 +17,6 @@ typedef enum
     NUM
 }TAG_TYPE;
 
-enum
-{
-    DISCARD   = -1,// '(' enocuter ')'
-    LESS_THAN = 0,
-    GREATHER_THAN_OR_EQUAL = 1
-};
 typedef struct ELEMENT_TYPE
 {
     union
