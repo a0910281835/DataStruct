@@ -9,6 +9,7 @@ enum
 };
 
 static char sign[SIGN_NUM]       = {'+', '-', '*', '/', '(', '^'};
+
 static char operandNum[SIGN_NUM] = {2, 2, 2, 2, -1, 2};
 
 static int findSignIdx(char signInput)
@@ -25,13 +26,6 @@ static int findSignIdx(char signInput)
     }
     return resultIdx;
 }
-
-
-static int findOperandNum(char singInput)
-{
-
-}
-
 // [a][b] mean sign[a] compare sign[b] and result 1 mean sign[a] >= sign[b], result 0 sign[a] < sign[b]
 static int CompareSignPriorityArray[7][7] =
 {
@@ -45,6 +39,9 @@ static int CompareSignPriorityArray[7][7] =
     /* ''  */{0, 0, 0, 0, 0, 0,  1}
 };
 
+
+
+
 static int compareSignPriority(char stackIn, char stackOut)
 {
     int stackInIdx  = findSignIdx(stackIn);
@@ -52,6 +49,21 @@ static int compareSignPriority(char stackIn, char stackOut)
     int ret = CompareSignPriorityArray[stackInIdx][stackOutIdx];
 
     return ret;
+
+}
+
+static int findOperandNum(char signInput)
+{
+    int retOperandNum = 0;
+    int signIdx = findSignIdx(signInput);
+    retOperandNum = operandNum[signIdx];
+
+    return retOperandNum;
+}
+
+
+static int calNum(int * arrayNum, char sign, int retOperandNum)
+{
 
 }
 
@@ -189,6 +201,8 @@ int CalRPN(PQUEUE_ARRAY_T pRPNQueue)
                 break;
             case SIGN :
                 // Sign
+                PushStack(pStackNum, retPopQueue.output);
+
 
                 break;
 
