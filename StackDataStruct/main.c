@@ -112,30 +112,34 @@ int main(void)
     //}while(SUCC == ret.result);
 
 
-    char *inputStr = "2*(9+61*4/3-5)+4";
+    char *inputStr = "2*(9+61*4/2-5)^3+7";
+    int val = 0;
     PQUEUE_ARRAY_T pQueue = ParserStringInfix2RPN(inputStr);
     printf("%s\n", inputStr);
+    val = CalRPN(pQueue);
+    printf("result : %d\n", val);
 
 
 
-    RETURN popElement = PopQueueArray(pQueue);
 
-    while (EMPTY != popElement.result)
-    {
-        if (SIGN == popElement.output.tag)
-        {
-            printf("%c,", popElement.output.sign);
+    //RETURN popElement = PopQueueArray(pQueue);
 
-        }
-        else if (NUM == popElement.output.tag)
-        {
-            printf("%d,", popElement.output.val);
-        }
+    //while (EMPTY != popElement.result)
+    //{
+    //    if (SIGN == popElement.output.tag)
+    //    {
+    //        printf("%c,", popElement.output.sign);
 
-        popElement = PopQueueArray(pQueue);
+    //    }
+    //    else if (NUM == popElement.output.tag)
+    //    {
+    //        printf("%d,", popElement.output.val);
+    //    }
+
+    //    popElement = PopQueueArray(pQueue);
 
 
-    }
+    //}
 
 
     return 1;

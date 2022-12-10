@@ -8,7 +8,80 @@ enum
     TERNARY =  3
 };
 
-static char sign[SIGN_NUM]       = {'+', '-', '*', '/', '(', '^'};
+static char sign[SIGN_NUM] = {'+', '-', '*', '/', '(', '^'};
+
+
+const FP_OPERAND_T fp_Operand[] =
+{
+    AddOperand,
+    MinusOperand,
+    MutOperand,
+    DividOperand,
+    rightParOperand,
+    PowerOperand
+};
+
+
+int AddOperand(int *array)
+{
+    int ret = 0;
+
+    ret = array[0] + array[1];
+    printf(" %d + %d = %d\n ", array[0], array[1], ret);
+    return ret;
+}
+
+int MinusOperand(int *array)
+{
+    int ret = 0;
+
+    ret = array[0] - array[1];
+    printf(" %d - %d = %d\n ", array[0], array[1], ret);
+    return ret;
+}
+
+int MutOperand(int *array)
+{
+    int ret  = 0;
+
+    ret = array[0] * array[1];
+    printf(" %d * %d = %d\n ", array[0], array[1], ret);
+    return ret;
+}
+
+int DividOperand(int *array)
+{
+    int ret  = 0;
+
+    ret = array[0] / array[1];
+    printf(" %d / %d = %d\n ", array[0], array[1], ret);
+    return ret;
+}
+
+int rightParOperand(int *array)
+{
+    int ret  = 0;
+
+    printf("error\n");
+    return ret;
+}
+
+int PowerOperand(int *array)
+{
+    int ret  = 1;
+    int totalTime = array[1];
+    int idx = 0;
+
+    for (idx = 0; idx < totalTime; idx++)
+    {
+        ret *= array[0];
+    }
+    printf(" %d ^ %d = %d\n ", array[0], array[1], ret);
+
+    return ret;
+}
+
+
 
 static char operandNum[SIGN_NUM] = {2, 2, 2, 2, -1, 2};
 
@@ -62,8 +135,68 @@ static int findOperandNum(char signInput)
 }
 
 
-static int calNum(int * arrayNum, char sign, int retOperandNum)
+
+
+static int calNum(int * arrayNum, char sign)
 {
+    int operIdx = findSignIdx(sign);
+
+    int ret = (*fp_Operand[operIdx])(arrayNum);
+
+    return ret;
+
+}
+
+int CalRPN(PQUEUE_ARRAY_T pRPNQueue)
+{
+    int calVal = 0;
+    PSTACK_ARRAY_T pStackNum = CreatStackArray();
+
+    RETURN retPopQueue = PopQueueArray(pRPNQueue);
+    int operNum = 0;
+    char sign = 'a';
+    int* arrayOperand = (int*) malloc(sizeof(int) * 3);
+    RETURN retPopStack;
+
+    while (SUCC == retPopQueue.result)
+    {
+
+        TAG_TYPE tag = (retPopQueue.output).tag;
+
+        switch (tag)
+        {
+            case NUM :
+                PushStack(pStackNum, retPopQueue.output);
+                break;
+            case SIGN :
+                // sign and Calculate then save
+                sign = retPopQueue.output.sign;
+                operNum = findOperandNum(sign);
+                int idx = 0;
+                ELEMENT_TYPE fifoVal;
+
+                for (idx = operNum; idx > 0; idx--)
+                {
+                    retPopStack = PopStack(pStackNum);
+                    arrayOperand[idx - 1] = retPopStack.output.val;
+                }
+                fifoVal.val = calNum(arrayOperand, sign);
+                fifoVal.tag = NUM;
+                PushStack(pStackNum, fifoVal);
+                break;
+        }
+        retPopQueue = PopQueueArray(pRPNQueue);
+    }
+
+
+    // Make sure the stack only one element
+    retPopStack = PopStack(pStackNum);
+    calVal = retPopStack.output.val;
+
+    free(arrayOperand);
+    arrayOperand = NULL;
+
+    return calVal;
 
 }
 
@@ -182,35 +315,3 @@ PQUEUE_ARRAY_T ParserStringInfix2RPN(char *stringInput)
 
 
 
-int CalRPN(PQUEUE_ARRAY_T pRPNQueue)
-{
-    int calVal = 0;
-    PSTACK_ARRAY_T pStackNum = CreatStackArray();
-
-    RETURN retPopQueue = PopQueueArray(pRPNQueue);
-
-    while (SUCC == retPopQueue.result)
-    {
-
-        TAG_TYPE tag = (retPopQueue.output).tag;
-
-        switch (tag)
-        {
-            case NUM :
-                PushStack(pStackNum, retPopQueue.output);
-                break;
-            case SIGN :
-                // Sign
-                PushStack(pStackNum, retPopQueue.output);
-
-
-                break;
-
-        }
-    }
-
-
-
-
-
-}

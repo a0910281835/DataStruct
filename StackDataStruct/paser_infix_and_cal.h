@@ -12,6 +12,15 @@ enum
     GREATHER_THAN_OR_EQUAL = 1
 };
 
+typedef int (*FP_OPERAND_T)(int * arrayNum);
+
 extern PQUEUE_ARRAY_T ParserStringInfix2RPN(char *stringInput);
+extern int AddOperand(int* arrayNum);
+extern int MinusOperand(int* arrayNum);
+extern int MutOperand(int* arrayNum);
+extern int DividOperand(int* arrayNum);
+extern int rightParOperand(int* arrayNum);
+extern int PowerOperand(int* arrayNum);
+extern int CalRPN(PQUEUE_ARRAY_T pRPNQueue);
 
 #endif
