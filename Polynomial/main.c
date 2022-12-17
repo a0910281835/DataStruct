@@ -2,31 +2,9 @@
 #include<stdlib.h>
 #include<limits.h>
 #include<string.h>
+#include "polynomial_struct.h"
 
 
-typedef struct PolyNode_T *polynomial;
-
-typedef struct NONZERO_TERM *nonzero_term;
-
-typedef struct NONZERO_TERM
-{
-    int coef;
-    int expon;
-}NONZERO_TERM;
-
-typedef struct PolyArray
-{
-    int totalTerm;
-    nonzero_term pPolyArray;
-}PolyArray;
-
-typedef struct PolyNode_T
-{
-    polynomial link;
-    //int coef;
-    //int expon;
-    NONZERO_TERM term;
-}POLYNODE_T;
 
 
 
