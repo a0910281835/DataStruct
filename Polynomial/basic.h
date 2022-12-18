@@ -2,12 +2,13 @@
 #define _H_BASIC
 #include "config.h"
 
-typedef struct NONZERO_TERM *nonzero_term;
+// Polynomial basic term
+typedef struct NONZERO_TERM_T *P_NONZERO_TERM_T;
 
-typedef struct NONZERO_TERM
+typedef struct NONZERO_TERM_T
 {
     int coef;
     int expon;
-}NONZERO_TERM;
+}NONZERO_TERM_T;
 
 #endif

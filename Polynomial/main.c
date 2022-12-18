@@ -8,7 +8,7 @@
 
 
 
-NONZERO_TERM polynomailSeq[5] =
+NONZERO_TERM_T polynomailSeq[5] =
 {
     {.coef = 4, .expon = 10},
     {.coef = 2, .expon = 7},
@@ -17,7 +17,7 @@ NONZERO_TERM polynomailSeq[5] =
     {.coef = 20, .expon = 0},
 
 };
-NONZERO_TERM polynomailSeq2[5] =
+NONZERO_TERM_T polynomailSeq2[5] =
 {
     {.coef = 5, .expon = 11},
     {.coef = 1, .expon = 8},
@@ -31,7 +31,7 @@ NONZERO_TERM polynomailSeq2[5] =
 
 
 // Easy Make Polynomail
-polynomial PolyInital(PolyArray *pPolynomialArray)
+polynomial PolyInital(PolyArray_T *pPolynomialArray)
 {
     int size = pPolynomialArray->totalTerm;
     polynomial head[size];
@@ -40,8 +40,8 @@ polynomial PolyInital(PolyArray *pPolynomialArray)
     for (idx = size - 1; idx >= 0; idx--)
     {
         head[idx] = malloc(sizeof(POLYNODE_T));
-        (head[idx]->term).coef = pPolynomialArray->pPolyArray[idx].coef;
-        (head[idx]->term).expon = pPolynomialArray->pPolyArray[idx].expon;
+        (head[idx]->term).coef = pPolynomialArray->polyArray[idx].coef;
+        (head[idx]->term).expon = pPolynomialArray->polyArray[idx].expon;
         head[idx]->link = tail;
         tail = head[idx];
     }
@@ -199,10 +199,10 @@ int* parserTwoPart(char *str)
 
 
 
-PolyArray* ParserStr2Polynomial(char *str)
+PolyArray_T* ParserStr2Polynomial(char *str)
 {
-    PolyArray* pPolynomialArray;
-    pPolynomialArray = malloc(sizeof(PolyArray));
+    PolyArray_T* pPolynomialArray;
+    pPolynomialArray = malloc(sizeof(PolyArray_T));
 
 
     //Descript :
@@ -218,7 +218,7 @@ PolyArray* ParserStr2Polynomial(char *str)
 
         int totalNum = 0;
         int idx = 0;
-        NONZERO_TERM arrayTerm[100];
+        NONZERO_TERM_T arrayTerm[100];
         ptch = strtok(str, pch);
         while (ptch != NULL)
         {
@@ -251,13 +251,13 @@ PolyArray* ParserStr2Polynomial(char *str)
         }
         //printf("totalcnt : %d\n", idx);
         pPolynomialArray->totalTerm = idx;
-        pPolynomialArray->pPolyArray = malloc(sizeof(NONZERO_TERM) * idx);
+        pPolynomialArray->polyArray = malloc(sizeof(NONZERO_TERM_T) * idx);
 
         for (idx = 0; idx < pPolynomialArray->totalTerm; idx++)
         {
-            pPolynomialArray->pPolyArray[idx].coef  = arrayTerm[idx].coef;
-            pPolynomialArray->pPolyArray[idx].expon = arrayTerm[idx].expon;
-            //printf("idx:%d, coef:%d, expon:%d\n", idx, pPolynomialArray->pPolyArray[idx].coef, pPolynomialArray->pPolyArray[idx].expon);
+            pPolynomialArray->polyArray[idx].coef  = arrayTerm[idx].coef;
+            pPolynomialArray->polyArray[idx].expon = arrayTerm[idx].expon;
+            //printf("idx:%d, coef:%d, expon:%d\n", idx, pPolynomialArray->polyArray[idx].coef, pPolynomialArray->polyArray[idx].expon);
         }
 
     }
@@ -275,8 +275,8 @@ int main(void)
     strncpy(strCp, str, ARB);
 
     int idx = 0;
-    PolyArray * pPolynomialArray = ParserStr2Polynomial(strCp);
-    PolyArray * pPolynomialArray1 = ParserStr2Polynomial(str2);
+    PolyArray_T * pPolynomialArray = ParserStr2Polynomial(strCp);
+    PolyArray_T * pPolynomialArray1 = ParserStr2Polynomial(str2);
 
     //PolyNode_T array;
     //PolyNode_T* head1 = malloc(sizeof(PolyNode_T));
@@ -285,10 +285,10 @@ int main(void)
     head2 = PolyInital(pPolynomialArray);
     head3 = PolyInital(pPolynomialArray1);
     head4 = AddPolynomial(head2, head3);
-    printf("idx:%d, coef:%d, expon:%d\n", idx, pPolynomialArray->pPolyArray[idx].coef, pPolynomialArray->pPolyArray[idx].expon);
-    free(pPolynomialArray->pPolyArray);
-    free(pPolynomialArray1->pPolyArray);
-    printf("idx:%d, coef:%d, expon:%d\n", idx, pPolynomialArray->pPolyArray[idx].coef, pPolynomialArray->pPolyArray[idx].expon);
+    printf("idx:%d, coef:%d, expon:%d\n", idx, pPolynomialArray->polyArray[idx].coef, pPolynomialArray->polyArray[idx].expon);
+    free(pPolynomialArray->polyArray);
+    free(pPolynomialArray1->polyArray);
+    printf("idx:%d, coef:%d, expon:%d\n", idx, pPolynomialArray->polyArray[idx].coef, pPolynomialArray->polyArray[idx].expon);
     free(pPolynomialArray);
     free(pPolynomialArray1);
 
