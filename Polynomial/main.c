@@ -31,15 +31,19 @@ NONZERO_TERM_T polynomailSeq2[5] =
 
 
 // Easy Make Polynomail
-polynomial PolyInital(PolyArray_T *pPolynomialArray)
+POLY_LINK_HEAD PolyInital(PolyArray_T *pPolynomialArray)
 {
     int size = pPolynomialArray->totalTerm;
-    polynomial head[size];
     int idx = 0;
+
+    POLY_LINK_HEAD pLinkHead = NULL;
+    POLYNODE_T * pPolynode[size];
+
+    polynomial head[size];
     polynomial tail = NULL;
     for (idx = size - 1; idx >= 0; idx--)
     {
-        head[idx] = malloc(sizeof(POLYNODE_T));
+        pPolynode[idx] = malloc(sizeof(POLYNODE_T));
         (head[idx]->term).coef = pPolynomialArray->polyArray[idx].coef;
         (head[idx]->term).expon = pPolynomialArray->polyArray[idx].expon;
         head[idx]->link = tail;
