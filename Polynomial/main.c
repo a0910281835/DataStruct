@@ -30,8 +30,7 @@ NONZERO_TERM_T polynomailSeq2[5] =
 
 
 
-// Easy Make Polynomail
-POLY_LINK_HEAD PolyInital(PolyArray_T *pPolynomialArray)
+POLY_LINK_HEAD PolayArrayTransPolayLink(PolyArray_T *pPolynomialArray)
 {
     int size = pPolynomialArray->totalTerm;
     int idx = 0;
@@ -39,20 +38,20 @@ POLY_LINK_HEAD PolyInital(PolyArray_T *pPolynomialArray)
     POLY_LINK_HEAD pLinkHead = NULL;
     POLYNODE_T * pPolynode[size];
 
-    polynomial head[size];
-    polynomial tail = NULL;
+    POLYNODE_T* lastTerm = NULL;
+    //Create Polynomial from small term to max term
     for (idx = size - 1; idx >= 0; idx--)
     {
         pPolynode[idx] = malloc(sizeof(POLYNODE_T));
-        (head[idx]->term).coef = pPolynomialArray->polyArray[idx].coef;
-        (head[idx]->term).expon = pPolynomialArray->polyArray[idx].expon;
-        head[idx]->link = tail;
-        tail = head[idx];
+        (pPolynode[idx]->term).coef = pPolynomialArray->polyArray[idx].coef;
+        (pPolynode[idx]->term).expon = pPolynomialArray->polyArray[idx].expon;
+        pPolynode[idx]->link = lastTerm;
+        lastTerm = pPolynode[idx];
     }
-    tail = NULL;
+    lastTerm = NULL;
+    pLinkHead = pPolynode[0];
 
-    //headI
-    return head[0];
+    return pLinkHead;
 
 }
 
@@ -286,8 +285,8 @@ int main(void)
     //PolyNode_T* head1 = malloc(sizeof(PolyNode_T));
     //head1->coef = 5;
     polynomial head2, head3, head4;
-    head2 = PolyInital(pPolynomialArray);
-    head3 = PolyInital(pPolynomialArray1);
+    head2 = PolayArrayTransPolayLink(pPolynomialArray);
+    head3 = PolayArrayTransPolayLink(pPolynomialArray1);
     head4 = AddPolynomial(head2, head3);
     printf("idx:%d, coef:%d, expon:%d\n", idx, pPolynomialArray->polyArray[idx].coef, pPolynomialArray->polyArray[idx].expon);
     free(pPolynomialArray->polyArray);
