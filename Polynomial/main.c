@@ -55,25 +55,63 @@ POLY_LINK_HEAD PolayArrayTransPolayLink(PolyArray_T *pPolynomialArray)
 
 }
 
-void PrintfPolynomail(polynomial head)
+
+#ifdef _POLYNOMAIL_LINK
+static void printfPolyUseLink(polynomial pLinkHead)
 {
-    if (head == NULL)
+    if (pLinkHead == NULL)
     {
         printf("This polynomial is empty\n");
     }
     else
     {
-        printf("%dx^%d ", (head->term).coef, (head->term).expon);
-        head = head->link;
+        printf("%dx^%d ", (pLinkHead->term).coef, (pLinkHead->term).expon);
+        pLinkHead = pLinkHead->link;
     }
 
-    while (head != NULL)
+    while (pLinkHead != NULL)
     {
-        printf("+ %dx^%d ", (head->term).coef, (head->term).expon);
-        head = head->link;
+        printf("+ %dx^%d ", (pLinkHead->term).coef, (pLinkHead->term).expon);
+        pLinkHead = pLinkHead->link;
     }
     printf("\n");
+}
+#endif
 
+# if defined( _POLYNOMAIL_ARRAY) && !defined(_POLYNOMAIL_LINK)
+static void printfPolyUseArray(polynomial pArray)
+{
+#define ZERO 0
+    int size = pArray->totalTerm;
+    int idx = 0;
+    if (ZERO == size)
+    {
+        printf("This polynomial is empty\n");
+    }
+    else
+    {
+        printf(" %dx^%d ", pArray->polyArray[idx].coef, pArray->polyArray[idx].expon);
+        for (idx = 1; idx < size; idx++)
+        {
+            printf(" + %dx^%d ", pArray->polyArray[idx].coef, pArray->polyArray[idx].expon);
+        }
+        printf("\n");
+
+    }
+
+}
+# endif
+
+
+
+void PrintfPolynomail(polynomial head)
+{
+#ifdef _POLYNOMAIL_LINK
+    printfPolyUseLink(head);
+#endif
+# if defined( _POLYNOMAIL_ARRAY) && !defined(_POLYNOMAIL_LINK)
+    printfPolyUseArray(head);
+# endif
 }
 
 polynomial MulplePolynomial(polynomial head, polynomial head2)
