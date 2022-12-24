@@ -3,6 +3,7 @@
 #include<limits.h>
 #include<string.h>
 #include "polynomial_struct.h"
+#define ZERO 0
 
 
 
@@ -81,7 +82,6 @@ static void printfPolyUseLink(polynomial pLinkHead)
 # if defined( _POLYNOMAIL_ARRAY) && !defined(_POLYNOMAIL_LINK)
 static void printfPolyUseArray(polynomial pArray)
 {
-#define ZERO 0
     int size = pArray->totalTerm;
     int idx = 0;
     if (ZERO == size)
@@ -114,73 +114,107 @@ void PrintfPolynomail(polynomial head)
 # endif
 }
 
-polynomial MulplePolynomial(polynomial head, polynomial head2)
+int PolynomailTotalTerm(polynomial head)
 {
+    int size = 0;
+    P_POLYNODE_T node;
+
+    if (NULL != head)
+    {
+        node = head;
+        while (node != NULL)
+        {
+            size++;
+            node = node->link;
+        }
+
+    }
+    return size;
 
 }
 
-polynomial AddPolynomial(polynomial head, polynomial head2)
+polynomial MulplePolynomial(polynomial head, polynomial head2)
 {
-    polynomial head3;
+
+
+
+}
+
+// Use Link to practice
+polynomial AddPolynomialByLink(polynomial pLinkHead, polynomial pLinkHead2)
+{
+    polynomial pLinkHead3;
     polynomial last, current;
     last = malloc(sizeof(POLYNODE_T));
     (last->term).coef = 0;
     (last->term).expon = INT_MAX;
-    head3 = last;
+    pLinkHead3 = last;
 
     // Compare two order sequence
-    while (head != NULL && head2 != NULL)
+    while (pLinkHead != NULL && pLinkHead2 != NULL)
     {
         int compVal1, compVal2;
-        compVal1 = (head->term).expon;
-        compVal2 = (head2->term).expon;
+        compVal1 = (pLinkHead->term).expon;
+        compVal2 = (pLinkHead2->term).expon;
         current = malloc(sizeof(POLYNODE_T));
         last->link = current;
-        last = current;
 
         if (compVal1 > compVal2)
         {
-            (current->term).coef = (head->term).coef;
+            (current->term).coef = (pLinkHead->term).coef;
             (current->term).expon = compVal1;
-            head = head->link;
+            pLinkHead = pLinkHead->link;
         }
         else if (compVal2 > compVal1)
         {
-            (current->term).coef = (head2->term).coef;
+            (current->term).coef = (pLinkHead2->term).coef;
             (current->term).expon = compVal2;
-            head2 = head2->link;
+            pLinkHead2 = pLinkHead2->link;
         }
         else
         {
-            (current->term).coef = ((head->term).coef + (head2->term).coef);
-            (current->term).expon = compVal1;
-            head = head->link;
-            head2 = head2->link;
+            (current->term).coef = ((pLinkHead->term).coef + (pLinkHead2->term).coef);
+            pLinkHead = pLinkHead->link;
+            pLinkHead2 = pLinkHead2->link;
+
+            if (ZERO == (current->term).coef)
+            {
+                free(current);
+                current = NULL;
+                continue;
+            }
+            else
+            {
+                (current->term).expon = compVal1;
+            }
+
 
         }
+
+        last = current;
     }
 
-    if (head2 != NULL)
+    if (pLinkHead2 != NULL)
     {
-        head = head2;
+        pLinkHead = pLinkHead2;
     }
 
-    while (head != NULL)
+    while (pLinkHead != NULL)
     {
         current = malloc(sizeof(POLYNODE_T));
         last->link = current;
         last = current;
-        (current->term).coef = (head->term).coef;
-        (current->term).expon = (head->term).expon;
-        head = head->link;
+        (current->term).coef = (pLinkHead->term).coef;
+        (current->term).expon = (pLinkHead->term).expon;
+        pLinkHead = pLinkHead->link;
     }
 
     current->link = NULL;
-    last = head3;
-    head3 = head3 ->link;
+    last = pLinkHead3;
+    pLinkHead3 = pLinkHead3 ->link;
     last->link = NULL;
     free(last);
-    return head3;
+    return pLinkHead3;
 
 
 
@@ -325,7 +359,9 @@ int main(void)
     polynomial head2, head3, head4;
     head2 = PolayArrayTransPolayLink(pPolynomialArray);
     head3 = PolayArrayTransPolayLink(pPolynomialArray1);
-    head4 = AddPolynomial(head2, head3);
+    head4 = AddPolynomialByLink(head2, head3);
+    int size = PolynomailTotalTerm(head4);
+    printf("total term : %d\n", size);
     printf("idx:%d, coef:%d, expon:%d\n", idx, pPolynomialArray->polyArray[idx].coef, pPolynomialArray->polyArray[idx].expon);
     free(pPolynomialArray->polyArray);
     free(pPolynomialArray1->polyArray);
