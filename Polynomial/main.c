@@ -135,6 +135,23 @@ int PolynomailTotalTerm(polynomial head)
 
 polynomial MulplePolynomial(polynomial head, polynomial head2)
 {
+    int size1 = PolynomailTotalTerm(head);
+    int size2 = PolynomailTotalTerm(head2);
+
+    //multiplier is less term
+    polynomial multiplier, multiplicand;
+
+    if (size1 < size2)
+    {
+        multiplier = head;
+        multiplicand = head2;
+    }
+    else
+    {
+        multiplier = head2;
+        multiplicand = head;
+    }
+
 
 
 
