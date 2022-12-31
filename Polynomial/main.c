@@ -40,12 +40,15 @@ POLY_LINK_HEAD PolayArrayTransPolayLink(PolyArray_T *pPolynomialArray)
     POLYNODE_T * pPolynode[size];
 
     POLYNODE_T* lastTerm = NULL;
+    P_NONZERO_TERM_T pTerm = (pPolynomialArray->polyArray + size - 1);
+
     //Create Polynomial from small term to max term
     for (idx = size - 1; idx >= 0; idx--)
     {
         pPolynode[idx] = malloc(sizeof(POLYNODE_T));
-        (pPolynode[idx]->term).coef = pPolynomialArray->polyArray[idx].coef;
-        (pPolynode[idx]->term).expon = pPolynomialArray->polyArray[idx].expon;
+        (pPolynode[idx]->term).coef = (*pTerm).coef;
+        (pPolynode[idx]->term).expon = (*pTerm).expon;
+        pTerm--;
         pPolynode[idx]->link = lastTerm;
         lastTerm = pPolynode[idx];
     }
@@ -133,27 +136,60 @@ int PolynomailTotalTerm(polynomial head)
 
 }
 
-polynomial MulplePolynomial(polynomial head, polynomial head2)
+
+//Use PolyArray As input to Fast Calculate Every Term. and change Array to LinkList to merge 2 order seqence.
+
+polynomial MulplePolynomial(PolyArray_T *pPolynomialArray1, PolyArray_T *pPolynomialArray2)
 {
-    int size1 = PolynomailTotalTerm(head);
-    int size2 = PolynomailTotalTerm(head2);
+#define COEF  0
+#define EXPON 1
+    int size1 = pPolynomialArray1->totalTerm;
+    int size2 = pPolynomialArray2->totalTerm;
 
     //multiplier is less term
-    polynomial multiplier, multiplicand;
+    PolyArray_T *multiplier;
+    PolyArray_T *multiplicand;
 
     if (size1 < size2)
     {
-        multiplier = head;
-        multiplicand = head2;
+        multiplier   = pPolynomialArray1;
+        multiplicand = pPolynomialArray2;
     }
     else
     {
-        multiplier = head2;
-        multiplicand = head;
+        multiplier   = pPolynomialArray2;
+        multiplicand = pPolynomialArray1;
+        size2 = size1;
     }
 
+    polynomial oldPoly = NULL;
+    int idx = 0;
+    PolyArray_T beAddPolyArray;
+    beAddPolyArray.totalTerm = size2;
+    beAddPolyArray.polyArray = malloc(sizeof(NONZERO_TERM_T) * size2);
+
+    P_NONZERO_TERM_T beAddTerm =  beAddPolyArray.polyArray ;
+    P_NONZERO_TERM_T multiplicandTerm = multiplicand->polyArray;
+    for (idx = 0; idx < size2; idx++)
+    {
+        beAddTerm->coef = multiplicandTerm->coef;
+        beAddTerm->expon = multiplicandTerm->expon;
+        printf("Multiple : %d, %d \n", beAddTerm->coef, beAddTerm->expon);
+        beAddTerm++;
+        multiplicandTerm++;
+    }
+    //Remember Multiplicand Term
+    //do
+    //{
 
 
+    //} while(1);
+
+
+
+
+
+    return oldPoly;
 
 }
 
