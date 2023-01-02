@@ -42,7 +42,7 @@ POLY_LINK_HEAD PolayArrayTransPolayLink(PolyArray_T *pPolynomialArray)
     POLYNODE_T* lastTerm = NULL;
     P_NONZERO_TERM_T pTerm = (pPolynomialArray->polyArray + size - 1);
 
-    //Create Polynomial from small term to max term
+    //Create Polynomial Link from exponition of small term to max term
     for (idx = size - 1; idx >= 0; idx--)
     {
         pPolynode[idx] = malloc(sizeof(POLYNODE_T));
@@ -137,62 +137,6 @@ int PolynomailTotalTerm(polynomial head)
 }
 
 
-//Use PolyArray As input to Fast Calculate Every Term. and change Array to LinkList to merge 2 order seqence.
-
-polynomial MulplePolynomial(PolyArray_T *pPolynomialArray1, PolyArray_T *pPolynomialArray2)
-{
-#define COEF  0
-#define EXPON 1
-    int size1 = pPolynomialArray1->totalTerm;
-    int size2 = pPolynomialArray2->totalTerm;
-
-    //multiplier is less term
-    PolyArray_T *multiplier;
-    PolyArray_T *multiplicand;
-
-    if (size1 < size2)
-    {
-        multiplier   = pPolynomialArray1;
-        multiplicand = pPolynomialArray2;
-    }
-    else
-    {
-        multiplier   = pPolynomialArray2;
-        multiplicand = pPolynomialArray1;
-        size2 = size1;
-    }
-
-    polynomial oldPoly = NULL;
-    int idx = 0;
-    PolyArray_T beAddPolyArray;
-    beAddPolyArray.totalTerm = size2;
-    beAddPolyArray.polyArray = malloc(sizeof(NONZERO_TERM_T) * size2);
-
-    P_NONZERO_TERM_T beAddTerm =  beAddPolyArray.polyArray ;
-    P_NONZERO_TERM_T multiplicandTerm = multiplicand->polyArray;
-    for (idx = 0; idx < size2; idx++)
-    {
-        beAddTerm->coef = multiplicandTerm->coef;
-        beAddTerm->expon = multiplicandTerm->expon;
-        printf("Multiple : %d, %d \n", beAddTerm->coef, beAddTerm->expon);
-        beAddTerm++;
-        multiplicandTerm++;
-    }
-    //Remember Multiplicand Term
-    //do
-    //{
-
-
-    //} while(1);
-
-
-
-
-
-    return oldPoly;
-
-}
-
 // Use Link to practice
 polynomial AddPolynomialByLink(polynomial pLinkHead, polynomial pLinkHead2)
 {
@@ -272,6 +216,82 @@ polynomial AddPolynomialByLink(polynomial pLinkHead, polynomial pLinkHead2)
 
 
 }
+
+//Use PolyArray As input to Fast Calculate Every Term. and change Array to LinkList to merge 2 order seqence.
+
+polynomial MulplePolynomial(PolyArray_T *pPolynomialArray1, PolyArray_T *pPolynomialArray2)
+{
+#define COEF  0
+#define EXPON 1
+    int size1 = pPolynomialArray1->totalTerm;
+    int size2 = pPolynomialArray2->totalTerm;
+
+    //, mutipleicand num term is more than muliplier
+    PolyArray_T *multiplier;
+    PolyArray_T *multiplicand;
+
+    if (size1 < size2)
+    {
+        multiplier   = pPolynomialArray1;
+        multiplicand = pPolynomialArray2;
+    }
+    else
+    {
+        multiplier   = pPolynomialArray2;
+        multiplicand = pPolynomialArray1;
+        size2 = size1;
+    }
+
+
+    polynomial oldPolyHead = NULL;
+    polynomial currentPolyHead = NULL;
+    int idx = 0;
+    int idx2 = 0;
+
+    PolyArray_T beAddPolyArray;
+    beAddPolyArray.totalTerm = size2;
+    beAddPolyArray.polyArray = malloc(sizeof(NONZERO_TERM_T) * size2);
+
+    P_NONZERO_TERM_T beAddTerm =  beAddPolyArray.polyArray;
+    P_NONZERO_TERM_T multiplTerm = multiplicand->polyArray;
+    for (idx = 0; idx < size2; idx++)
+    {
+        beAddTerm->coef  = multiplTerm->coef;
+        beAddTerm->expon = multiplTerm->expon;
+        beAddTerm++;
+        multiplTerm++;
+    }
+
+    //Remember Multiplicand Term
+    int oldCoef = 1, oldExpon = 0;
+    multiplTerm = multiplier->polyArray;
+    beAddTerm =  beAddPolyArray.polyArray;
+    size1 = multiplier->totalTerm;
+
+    for (idx2 = 0; idx2 < size1; idx2++)
+    {
+        beAddTerm =  beAddPolyArray.polyArray;
+        // Construct Every Mutiple
+        for (idx = 0; idx < size2; idx++)
+        {
+            beAddTerm->coef  = (beAddTerm->coef / oldCoef)   * (multiplTerm->coef);
+            beAddTerm->expon = (beAddTerm->expon - oldExpon) + (multiplTerm->expon);
+            beAddTerm++;
+        }
+
+        currentPolyHead = PolayArrayTransPolayLink(&beAddPolyArray);
+        PrintfPolynomail(currentPolyHead);
+        oldPolyHead = AddPolynomialByLink(oldPolyHead, currentPolyHead);
+        oldCoef  = multiplTerm->coef;
+        oldExpon = multiplTerm->expon;
+        multiplTerm++;
+
+    }
+
+    return oldPolyHead;
+
+}
+
 
 
 int* parserTwoPart(char *str)
@@ -416,16 +436,21 @@ int main(void)
     int size = PolynomailTotalTerm(head4);
     printf("total term : %d\n", size);
     printf("idx:%d, coef:%d, expon:%d\n", idx, pPolynomialArray->polyArray[idx].coef, pPolynomialArray->polyArray[idx].expon);
-    free(pPolynomialArray->polyArray);
-    free(pPolynomialArray1->polyArray);
     printf("idx:%d, coef:%d, expon:%d\n", idx, pPolynomialArray->polyArray[idx].coef, pPolynomialArray->polyArray[idx].expon);
-    free(pPolynomialArray);
-    free(pPolynomialArray1);
+
 
     PrintfPolynomail(head2);
     PrintfPolynomail(head3);
     PrintfPolynomail(head4);
+    printf("-------Practice----------\n");
+    head4 = MulplePolynomial(pPolynomialArray, pPolynomialArray1);
+    printf("-------Practice--End--------\n");
+    PrintfPolynomail(head4);
 
+    free(pPolynomialArray->polyArray);
+    free(pPolynomialArray1->polyArray);
+    free(pPolynomialArray);
+    free(pPolynomialArray1);
     free(head2);
     free(head3);
 
