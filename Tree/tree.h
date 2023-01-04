@@ -11,4 +11,7 @@ typedef struct BINNODE_T
     P_BINNODE_T left;
 
 }BINNODE_T;
+
+
+extern P_BINNODE_T InsertValBinNode(P_BINNODE_T pBinNode, ELEMENT_TYPE val);
 #endif
