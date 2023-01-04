@@ -3,22 +3,27 @@
 
 char *(array[2]) = {"FAIL", "SUCC" };
 
-#define InsertSelf(A,v) { (A) = InsertValBinNode((A),(v)) ;}
+
 
 int main(void)
 {
 
-    BINTREE_HEAD pHead;
-    P_BINNODE_T current;
+    BINTREE_HEAD pHead  = NULL;
+    P_BINNODE_T current = NULL;
 
 
-    pHead = InsertValBinNode(pHead, 5);
-    pHead->left = InsertValBinNode(pHead->left, 6);
-    InsertSelf(pHead->left, 9);
-    pHead->right = InsertValBinNode(pHead->right, 7);
-
-
+    InsertValBinNode(pHead, 5);
+    InsertValBinNode(pHead->left, 6);
+    InsertValBinNode(pHead->left, 9);
+    InsertValBinNode(pHead->right, 7);
     printf("val: %d, %d, %d\n", pHead->val, (pHead->left)->val, (pHead->right)->val);
+    current = pHead->right;
+    InsertValBinNode(current->right, 10);
+    //printf("val: %d, %d, %d\n", pHead->val, (pHead->left)->val, (pHead->right)->val);
+    printf("val: %d, %d, %d %d\n", pHead->val, (pHead->left)->val, (pHead->right)->val, ((pHead->right)->right)->val);
+
+
+
 
     return 1;
 }

@@ -13,5 +13,6 @@ typedef struct BINNODE_T
 }BINNODE_T;
 
 
-extern P_BINNODE_T InsertValBinNode(P_BINNODE_T pBinNode, ELEMENT_TYPE val);
+extern P_BINNODE_T insertValBinNode(P_BINNODE_T pBinNode, ELEMENT_TYPE val);
+#define InsertValBinNode(A,v) ((A) = insertValBinNode((A),(v)))
 #endif
