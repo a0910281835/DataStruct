@@ -16,6 +16,13 @@ P_BINNODE_T insertValBinNode(P_BINNODE_T pBinNode, ELEMENT_TYPE val)
     }
 
     return pBinNode;
+}
+
+
+//Use function Pointer to Construct
+void TravelBinTree(BINTREE_HEAD pBinHead, TRAVERSAL_MODE mode)
+{
+
 
 
 }

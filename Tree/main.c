@@ -19,8 +19,9 @@ int main(void)
     printf("val: %d, %d, %d\n", pHead->val, (pHead->left)->val, (pHead->right)->val);
     current = pHead->right;
     InsertValBinNode(current->right, 10);
+    InsertValBinNode(current->left, 3);
     //printf("val: %d, %d, %d\n", pHead->val, (pHead->left)->val, (pHead->right)->val);
-    printf("val: %d, %d, %d %d\n", pHead->val, (pHead->left)->val, (pHead->right)->val, ((pHead->right)->right)->val);
+    printf("val: %d, %d, %d %d %d\n", pHead->val, (pHead->left)->val, (pHead->right)->val, ((pHead->right)->right)->val, ((pHead->right)->left)->val);
 
 
 

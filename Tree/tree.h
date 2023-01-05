@@ -12,6 +12,17 @@ typedef struct BINNODE_T
 
 }BINNODE_T;
 
+typedef enum
+{
+    PRE_ORDER,
+    IN_ORDER,
+    POST_ORDER,
+    BREADTH_ORDER
+
+}TRAVERSAL_MODE;
+
+
+typedef void (*FP_TREVALSAL_T)(P_BINNODE_T pBinNode);
 
 extern P_BINNODE_T insertValBinNode(P_BINNODE_T pBinNode, ELEMENT_TYPE val);
 #define InsertValBinNode(A,v) ((A) = insertValBinNode((A),(v)))
