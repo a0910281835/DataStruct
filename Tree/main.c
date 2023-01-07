@@ -13,7 +13,6 @@ int main(void)
 
 
     InsertValBinNode(pHead, 5);
-    InsertValBinNode(pHead->left, 6);
     InsertValBinNode(pHead->left, 9);
     InsertValBinNode(pHead->right, 7);
     printf("val: %d, %d, %d\n", pHead->val, (pHead->left)->val, (pHead->right)->val);
@@ -22,6 +21,10 @@ int main(void)
     InsertValBinNode(current->left, 3);
     //printf("val: %d, %d, %d\n", pHead->val, (pHead->left)->val, (pHead->right)->val);
     printf("val: %d, %d, %d %d %d\n", pHead->val, (pHead->left)->val, (pHead->right)->val, ((pHead->right)->right)->val, ((pHead->right)->left)->val);
+
+
+    printf("--------------------\n");
+    TravelBinTree(pHead, IN_ORDER);
 
 
 

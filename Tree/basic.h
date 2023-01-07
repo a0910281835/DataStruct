@@ -1,7 +1,8 @@
-#ifndef _H_CONFIG
-#define _H_CONFIG
-#include "stdio.h"
-#include "stdlib.h"
+#ifndef _H_BASIC
+#define _H_BASIC
+#include"stdio.h"
+#include"stdlib.h"
+#include"config.h"
 
 typedef int ELEMENT_TYPE;
 
