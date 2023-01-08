@@ -1,7 +1,8 @@
 #include "tree.h"
+#include "stack_array.h"
 
 
-char *(array[2]) = {"FAIL", "SUCC" };
+char *(array[2]) = {"NO", "YES" };
 
 
 
@@ -27,7 +28,13 @@ int main(void)
     TravelBinTree(pHead, IN_ORDER);
 
 
+    PSTACK_ARRAY_T pStack = CreatStackArray();
+    DECIDE_T decideIdx = IsEmptyStack(pStack);
+    printf("stack is empty : %s\n", (array[decideIdx]));
+    PushStack(pStack, 5);
+    NUM_T num = SizeStack(pStack);
+    printf("Stack size %d\n", num);
 
 
     return 1;
-}
+} 

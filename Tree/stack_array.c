@@ -1,5 +1,10 @@
 #include"stack_array.h"
 
+NUM_T SizeStack(PSTACK_ARRAY_T pStackArray)
+{
+    return pStackArray->size;
+}
+
 PSTACK_ARRAY_T CreatStackArray(void)
 {
     PSTACK_ARRAY_T pStackArray = (PSTACK_ARRAY_T) malloc(sizeof(StackArray));
@@ -7,82 +12,70 @@ PSTACK_ARRAY_T CreatStackArray(void)
     return pStackArray;
 }
 
-void PushStack(PSTACK_ARRAY_T pStackArray, SPECIFY_OBJECT_TYPE input)
+void PushStack(PSTACK_ARRAY_T pStackArray, SPECIFY_OBJECT_TYPE inputObj)
 {
     int *pSize = &(pStackArray->size);
-    if ((MAX_SIZE - 1) == *pSize)
+    if ((MAX_SIZE) == *pSize)
     {
-        printf("stack is full\n");
+        printf("Warn! Stack is full\n");
     }
     else
     {
-#if defined(_SPECIFY_OBJECT_TYPE_INT)
-        pStackArray->stackCell[++*(pSize)] = input;
-#elif defined(_SPECIFY_OBJECT_TYPE_UNION)
-        if (SIGN == input.tag)
-        {
-            printf("THIS is SIGN\n");
-            (pStackArray->stackCell[++(*pSize)]).sign = input.sign;
-            (pStackArray->stackCell[(*pSize)]).tag = input.tag;
-
-        }
-        else if (NUM == input.tag)
-        {
-            printf("THIS is NUM\n");
-            (pStackArray->stackCell[++*(pSize)]).val = input.val;
-            (pStackArray->stackCell[(*pSize)]).tag = input.tag;
-        }
-#endif
+        pStackArray->stackCell[(*pSize)++] = inputObj;
     }
 }
 
-RETURN StackTop(PSTACK_ARRAY_T pStackArray)
+SPECIFY_OBJECT_TYPE StackTop(PSTACK_ARRAY_T pStackArray)
 {
-    int *pSize = &(pStackArray->size);
 
-    RETURN ret;
-    if (EMPTY_SIZE == *pSize)
-    {
-        ret.result = EMPTY;
-        ret.output.sign = 'c';
-    }
-    else
-    {
-        ret.result = SUCC;
-        ret.output = pStackArray->stackCell[*pSize];
-    }
+    int idx = (pStackArray->size) - 1;
+    SPECIFY_OBJECT_TYPE outputObj = pStackArray->stackCell[idx];
 
-    return ret;
+    return outputObj;
 
 }
 
-RETURN PopStack(PSTACK_ARRAY_T pStackArray)
+SPECIFY_OBJECT_TYPE PopStack(PSTACK_ARRAY_T pStackArray)
 {
+    // Pointer may be not release in array, 
+    SPECIFY_OBJECT_TYPE outputObj;
     int *pSize = &(pStackArray->size);
-    RETURN ret;
-    if (EMPTY_SIZE == *pSize)
+    if ((EMPTY_SIZE) == *pSize)
     {
-        ret.result = EMPTY;
-        printf("stack is empty\n");
+        printf("Warn! Stack is empty, can't use\n");
     }
     else
     {
-        ret.result = SUCC;
-#if defined(_SPECIFY_OBJECT_TYPE_INT)
-        ret.val = pStackArray->stackCell[(*pSize)--];
-#elif defined(_SPECIFY_OBJECT_TYPE_UNION)
-        if (SIGN == (pStackArray->stackCell[*(pSize)]).tag)
-        {
-            ret.output.tag = SIGN;
-            ret.output.sign = (pStackArray->stackCell[(*pSize)--]).sign;
-
-        }
-        else if (NUM == (pStackArray->stackCell[*(pSize)]).tag)
-        {
-            ret.output.tag = NUM;
-            ret.output.val = (pStackArray->stackCell[(*pSize)--]).val;
-        }
-#endif
+        outputObj = pStackArray->stackCell[--(*pSize)];
     }
-        return ret;
+
+        return outputObj;
+}
+
+
+static DECIDE_T isStateStack(PSTACK_ARRAY_T pStackArray, SIZE_STATE_T sizeState)
+{
+    DECIDE_T decide = NO;
+
+    if (sizeState == pStackArray->size)
+    {
+        decide = YES;
+    }
+
+    return decide;
+}
+
+DECIDE_T IsEmptyStack(PSTACK_ARRAY_T pStackArray)
+{
+    DECIDE_T decide = isStateStack(pStackArray, EMPTY_SIZE);
+
+    return decide;
+}
+
+
+DECIDE_T IsFullStack(PSTACK_ARRAY_T pStackArray)
+{
+    DECIDE_T decide = isStateStack(pStackArray, MAX_SIZE);
+
+    return decide;
 }

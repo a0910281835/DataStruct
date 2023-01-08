@@ -3,5 +3,6 @@
 
 #define _RECURSIVE_TRAVESAL
 
+//#define _TRAVSAL_USE_STACK
 
 #endif
