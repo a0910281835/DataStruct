@@ -1,5 +1,5 @@
-#ifndef _TREE_H
-#define _TREE_H
+#ifndef _H_TREE
+#define _H_TREE
 #include"basic.h"
 
 typedef struct BINNODE_T * BINTREE_HEAD;
