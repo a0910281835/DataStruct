@@ -24,17 +24,37 @@ int main(void)
     printf("val: %d, %d, %d %d %d\n", pHead->val, (pHead->left)->val, (pHead->right)->val, ((pHead->right)->right)->val, ((pHead->right)->left)->val);
 
 
-    printf("--------------------\n");
-    TravelBinTree(pHead, IN_ORDER);
+    printf("--------Travel Start----------\n");
+    TravelBinTree(pHead, PRE_ORDER);
+    printf("--------Travel End------------\n");
 
 
+    /*
     PSTACK_ARRAY_T pStack = CreatStackArray();
     DECIDE_T decideIdx = IsEmptyStack(pStack);
     printf("stack is empty : %s\n", (array[decideIdx]));
     PushStack(pStack, 5);
     NUM_T num = SizeStack(pStack);
     printf("Stack size %d\n", num);
+    PushStack(pStack, 6);
+    num = SizeStack(pStack);
+    printf("Stack size %d\n", num);
+    int output = StackTop(pStack);
+    printf("Seek Stack Element : %d\n", output);
+    num = SizeStack(pStack);
+    printf("Stack size %d\n", num);
+    output = PopStack(pStack);
+    printf("Pop Stack Element : %d\n", output);
+    num = SizeStack(pStack);
+    printf("Stack size %d\n", num);
+    output = PopStack(pStack);
+    printf("Pop Stack Element : %d\n", output);
+    num = SizeStack(pStack);
+    printf("Stack size %d\n", num);
+    decideIdx = IsEmptyStack(pStack);
+    printf("stack is empty : %s\n", (array[decideIdx]));
+*/
 
 
     return 1;
-} 
+}

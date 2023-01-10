@@ -8,7 +8,7 @@
 #define STR_NUM_MAX_SIZE 30
 
 // Basic Operation can put basic.c
-typedef  int ELEMENT_TYPE;
+typedef int CUSTOM_ELEMENT_TYPE;
 
 
 typedef enum
@@ -23,6 +23,9 @@ typedef enum
     MAX_SIZE = 1000
 }SIZE_STATE_T;
 
-#define NUM_T int 
+#define NUM_T int
 
+extern void PrintfCustomElement(CUSTOM_ELEMENT_TYPE element);
+// In order to easly, this can be ignore
+extern void MemcpyCustomElement(void *cpy, void *beCpy, size_t num);
 #endif

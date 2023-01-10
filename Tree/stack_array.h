@@ -1,12 +1,19 @@
 #ifndef _H_STACK_ARRAY
 #define _H_STACK_ARRAY
 #include "basic.h"
+#if defined(_TRAVSAL_USE_STACK)
+#include "tree.h"
+#endif
 
+
+#if defined(_TRAVSAL_USE_STACK)
+#define SPECIFY_OBJECT_TYPE P_BINNODE_T
+#else
 // Condtion By You use!
 //--------------------------------
 #define SPECIFY_OBJECT_TYPE int
 //-------------------------------
-
+#endif
 
 typedef struct StackArray *PSTACK_ARRAY_T;
 

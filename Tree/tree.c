@@ -1,11 +1,12 @@
 #include"config.h"
 #include"tree.h"
+#include"stack_array.h"
 
-P_BINNODE_T insertValBinNode(P_BINNODE_T pBinNode, ELEMENT_TYPE val)
+P_BINNODE_T insertValBinNode(P_BINNODE_T pBinNode, CUSTOM_ELEMENT_TYPE val)
 {
     if (pBinNode != NULL)
     {
-        ELEMENT_TYPE temp = pBinNode->val;
+        CUSTOM_ELEMENT_TYPE temp = pBinNode->val;
         pBinNode->val = val;
         printf("This val be change %d -> %d\n", temp, val);
     }
@@ -19,6 +20,8 @@ P_BINNODE_T insertValBinNode(P_BINNODE_T pBinNode, ELEMENT_TYPE val)
     return pBinNode;
 }
 
+
+// Function Pointer reduce Cache Miss 
 const FP_TREVALSAL_T fp_Traversal[] = 
 {
    PreOrderTravsl,
@@ -60,12 +63,57 @@ void PostOrderTravsl(P_BINNODE_T pBinNode)
     }
 }
 
+#elif defined(_TRAVSAL_USE_STACK)
+void PreOrderTravsl(P_BINNODE_T pBinNode)
+{
+    PSTACK_ARRAY_T pStackVisitedNode = CreatStackArray();
+    DECIDE_T decide;
+
+    do
+    {
+        while(NULL != pBinNode)
+        {
+            PrintfCustomElement(pBinNode->val);
+            PushStack(pStackVisitedNode, pBinNode);
+            pBinNode = pBinNode->left;
+        }
+
+        decide = IsEmptyStack(pStackVisitedNode);
+
+        if (decide == NO) 
+        {
+            pBinNode = PopStack(pStackVisitedNode);
+            pBinNode = pBinNode->right;
+        }
+
+    } while(NO == decide);
+}
+
+void InOrderTravsl(P_BINNODE_T pBinNode)
+{
+    if (pBinNode != NULL)
+    {
+        InOrderTravsl(pBinNode->left);
+        printf("%d\n", pBinNode->val);
+        InOrderTravsl(pBinNode->right);
+    }
+}
+
+void PostOrderTravsl(P_BINNODE_T pBinNode)
+{
+    if (pBinNode != NULL)
+    {
+        PostOrderTravsl(pBinNode->left);
+        PostOrderTravsl(pBinNode->right);
+        printf("%d\n", pBinNode->val);
+    }
+}
+
+#endif
 void BreadthOrderTravsl(P_BINNODE_T pBinNode)
 {
 
 }
-#elif defined(_TRAVSAL_USE_STACK)
-#endif
 
 
 //Use function Pointer to Construct
