@@ -91,12 +91,27 @@ void PreOrderTravsl(P_BINNODE_T pBinNode)
 
 void InOrderTravsl(P_BINNODE_T pBinNode)
 {
-    if (pBinNode != NULL)
+    PSTACK_ARRAY_T pStackVisitedNode = CreatStackArray();
+    DECIDE_T decide;
+
+    do
     {
-        InOrderTravsl(pBinNode->left);
-        printf("%d\n", pBinNode->val);
-        InOrderTravsl(pBinNode->right);
-    }
+        while(NULL != pBinNode)
+        {
+            PushStack(pStackVisitedNode, pBinNode);
+            pBinNode = pBinNode->left;
+        }
+
+        decide = IsEmptyStack(pStackVisitedNode);
+
+        if (decide == NO) 
+        {
+            pBinNode = PopStack(pStackVisitedNode);
+            PrintfCustomElement(pBinNode->val);
+            pBinNode = pBinNode->right;
+        }
+
+    } while(NO == decide);
 }
 
 void PostOrderTravsl(P_BINNODE_T pBinNode)

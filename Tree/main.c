@@ -25,7 +25,7 @@ int main(void)
 
 
     printf("--------Travel Start----------\n");
-    TravelBinTree(pHead, PRE_ORDER);
+    TravelBinTree(pHead, IN_ORDER);
     printf("--------Travel End------------\n");
 
 
