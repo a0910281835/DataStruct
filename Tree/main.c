@@ -29,8 +29,13 @@ int main(void)
     printf("--------Travel End------------\n");
 
 
+    PSTACK_ARRAY_T pStack = CreatStackArray(sizeof(char));
+    printf("stack size = %d, %d %d\n", pStack->size, (int)sizeof(char), (int)sizeof(int));
+    int a =1001;
+
+    InsertStackElement(pStack, sizeof(char), 3, &a);
+    printf("%d", *((char*)pStack->pStackCell + 3));
     /*
-    PSTACK_ARRAY_T pStack = CreatStackArray();
     DECIDE_T decideIdx = IsEmptyStack(pStack);
     printf("stack is empty : %s\n", (array[decideIdx]));
     PushStack(pStack, 5);

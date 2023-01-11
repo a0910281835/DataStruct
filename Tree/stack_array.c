@@ -1,15 +1,24 @@
 #include"stack_array.h"
 
+
+PSTACK_ARRAY_T CreatStackArray(size_t sizeofSpecialObj)
+{
+    PSTACK_ARRAY_T pStackArray = (PSTACK_ARRAY_T) malloc(sizeof(STACK_ARRAY_T));
+    pStackArray->size = EMPTY_SIZE;
+    pStackArray->pStackCell = malloc(MAX_SIZE * sizeofSpecialObj);
+
+    return pStackArray;
+}
+
+void InsertStackElement(PSTACK_ARRAY_T pStackArray,size_t sizeofSpecialObj, int idx, void *pCpy)
+{
+    *((char *)pStackArray->pStackCell + (idx * sizeofSpecialObj)) = *((char *)pCpy);
+}
+
+/*
 NUM_T SizeStack(PSTACK_ARRAY_T pStackArray)
 {
     return pStackArray->size;
-}
-
-PSTACK_ARRAY_T CreatStackArray(void)
-{
-    PSTACK_ARRAY_T pStackArray = (PSTACK_ARRAY_T) malloc(sizeof(StackArray));
-    pStackArray->size = EMPTY_SIZE;
-    return pStackArray;
 }
 
 void PushStack(PSTACK_ARRAY_T pStackArray, SPECIFY_OBJECT_TYPE inputObj)
@@ -79,3 +88,4 @@ DECIDE_T IsFullStack(PSTACK_ARRAY_T pStackArray)
 
     return decide;
 }
+*/
