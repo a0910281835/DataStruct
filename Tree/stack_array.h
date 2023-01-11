@@ -6,10 +6,10 @@
 #endif
 
 
+// Condtion By You use!
 #if defined(_TRAVSAL_USE_STACK)
 #define SPECIFY_OBJECT_TYPE P_BINNODE_T
 #else
-// Condtion By You use!
 //--------------------------------
 #define SPECIFY_OBJECT_TYPE int
 //-------------------------------

@@ -21,8 +21,8 @@ P_BINNODE_T insertValBinNode(P_BINNODE_T pBinNode, CUSTOM_ELEMENT_TYPE val)
 }
 
 
-// Function Pointer reduce Cache Miss 
-const FP_TREVALSAL_T fp_Traversal[] = 
+// Function Pointer reduce Cache Miss
+const FP_TREVALSAL_T fp_Traversal[] =
 {
    PreOrderTravsl,
    InOrderTravsl,
@@ -80,7 +80,7 @@ void PreOrderTravsl(P_BINNODE_T pBinNode)
 
         decide = IsEmptyStack(pStackVisitedNode);
 
-        if (decide == NO) 
+        if (decide == NO)
         {
             pBinNode = PopStack(pStackVisitedNode);
             pBinNode = pBinNode->right;
@@ -104,7 +104,7 @@ void InOrderTravsl(P_BINNODE_T pBinNode)
 
         decide = IsEmptyStack(pStackVisitedNode);
 
-        if (decide == NO) 
+        if (decide == NO)
         {
             pBinNode = PopStack(pStackVisitedNode);
             PrintfCustomElement(pBinNode->val);

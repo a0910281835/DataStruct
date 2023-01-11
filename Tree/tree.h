@@ -21,6 +21,15 @@ typedef enum
 
 }TRAVERSAL_MODE;
 
+#if defined(_TRAVSAL_USE_STACK)
+typedef struct BINNODE_EXPERIENT_T
+{
+    P_BINNODE_T pNode;
+    NUM_T num_exp;
+
+}BINNODE_EXPERIENT_T;
+#endif
+
 
 typedef void (*FP_TREVALSAL_T)(P_BINNODE_T pBinNode);
 extern void PreOrderTravsl(P_BINNODE_T pBinNode);
