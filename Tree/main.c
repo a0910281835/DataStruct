@@ -30,11 +30,12 @@ int main(void)
 
 
     PSTACK_ARRAY_T pStack = CreatStackArray(sizeof(char));
-    printf("stack size = %d, %d %d\n", pStack->size, (int)sizeof(char), (int)sizeof(int));
-    int a =1001;
+    printf("stack size = %d, %d %d\n", pStack->current_num, (int)sizeof(char), (int)sizeof(int));
+    int a =0x12345678;
 
-    InsertStackElement(pStack, sizeof(char), 3, &a);
-    printf("%d", *((char*)pStack->pStackCell + 3));
+    memcpyInStack(pStack, &a, 3, sizeof(char));
+    printf("%2x\n", *((char*)pStack->pStackBox + 3));
+    printf("%1x\n", *((char*)pStack->pStackBox + 4));
     /*
     DECIDE_T decideIdx = IsEmptyStack(pStack);
     printf("stack is empty : %s\n", (array[decideIdx]));

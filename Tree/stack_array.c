@@ -4,15 +4,15 @@
 PSTACK_ARRAY_T CreatStackArray(size_t sizeofSpecialObj)
 {
     PSTACK_ARRAY_T pStackArray = (PSTACK_ARRAY_T) malloc(sizeof(STACK_ARRAY_T));
-    pStackArray->size = EMPTY_SIZE;
-    pStackArray->pStackCell = malloc(MAX_SIZE * sizeofSpecialObj);
+    pStackArray->current_num = EMPTY_SIZE;
+    pStackArray->pStackBox = malloc(MAX_SIZE * sizeofSpecialObj);
 
     return pStackArray;
 }
 
-void InsertStackElement(PSTACK_ARRAY_T pStackArray,size_t sizeofSpecialObj, int idx, void *pCpy)
+void memcpyInStack(PSTACK_ARRAY_T pStackArray, void *cpyAdd, int arrayIdx, size_t sizeofSpecialObj)
 {
-    *((char *)pStackArray->pStackCell + (idx * sizeofSpecialObj)) = *((char *)pCpy);
+    *((char *)pStackArray->pStackBox + (arrayIdx * sizeofSpecialObj)) = *((char *)cpyAdd);
 }
 
 /*
