@@ -29,13 +29,17 @@ int main(void)
     printf("--------Travel End------------\n");
 
 
-    PSTACK_ARRAY_T pStack = CreatStackArray(sizeof(char));
-    printf("stack size = %d, %d %d\n", pStack->current_num, (int)sizeof(char), (int)sizeof(int));
+    PSTACK_ARRAY_T pStack = CreatStackArray(sizeof(int));
+    printf("stack size = %d, %d  %d %d\n", SizeStack(pStack), (int)sizeof(char), (int)sizeof(short),  (int)sizeof(int));
     int a =0x12345678;
 
-    memcpyInStack(pStack, &a, 3, sizeof(char));
-    printf("%2x\n", *((char*)pStack->pStackBox + 3));
-    printf("%1x\n", *((char*)pStack->pStackBox + 4));
+    memcpyInStack(pStack, &a, 3, sizeof(int));
+    PushStack(pStack, &a, sizeof(int));
+    printf("stack size = %d, %d  %d %d\n", SizeStack(pStack), (int)sizeof(char), (int)sizeof(short),  (int)sizeof(int));
+
+    printf("%2x\n", *((char*)pStack->pStackBox + 12));
+    printf("%1x\n", *((char*)pStack->pStackBox + 13));
+    printf("%1x\n", *((char*)pStack->pStackBox + 14));
     /*
     DECIDE_T decideIdx = IsEmptyStack(pStack);
     printf("stack is empty : %s\n", (array[decideIdx]));

@@ -5,34 +5,44 @@ PSTACK_ARRAY_T CreatStackArray(size_t sizeofSpecialObj)
 {
     PSTACK_ARRAY_T pStackArray = (PSTACK_ARRAY_T) malloc(sizeof(STACK_ARRAY_T));
     pStackArray->current_num = EMPTY_SIZE;
+    pStackArray->sizeofObj = sizeofSpecialObj;
     pStackArray->pStackBox = malloc(MAX_SIZE * sizeofSpecialObj);
 
     return pStackArray;
 }
 
-void memcpyInStack(PSTACK_ARRAY_T pStackArray, void *cpyAdd, int arrayIdx, size_t sizeofSpecialObj)
+void memcpyInStack(PSTACK_ARRAY_T pStackArray, void *beCpyAddr, int arrayIdx, size_t sizeofSpecialObj)
 {
-    *((char *)pStackArray->pStackBox + (arrayIdx * sizeofSpecialObj)) = *((char *)cpyAdd);
+    int cpyByte = sizeofSpecialObj;
+    int idx = 0;
+    char *cpyAddr = (((char *)pStackArray->pStackBox) + (arrayIdx * sizeofSpecialObj));
+
+    for (idx = 0; idx < cpyByte; idx++)
+    {
+        *(cpyAddr++) = *((char *)beCpyAddr++);
+    }
 }
 
-/*
 NUM_T SizeStack(PSTACK_ARRAY_T pStackArray)
 {
-    return pStackArray->size;
+    return pStackArray->current_num;
 }
 
-void PushStack(PSTACK_ARRAY_T pStackArray, SPECIFY_OBJECT_TYPE inputObj)
+void PushStack(PSTACK_ARRAY_T pStackArray, void *pInputObj, size_t sizeofSpecialObj)
 {
-    int *pSize = &(pStackArray->size);
+    int *pSize = &(pStackArray->current_num);
     if ((MAX_SIZE) == *pSize)
     {
+        // To do extend the size
         printf("Warn! Stack is full\n");
     }
     else
     {
-        pStackArray->stackCell[(*pSize)++] = inputObj;
+        memcpyInStack(pStackArray, pInputObj, *pSize, sizeofSpecialObj);
+        (*pSize)++;
     }
 }
+/*
 
 SPECIFY_OBJECT_TYPE StackTop(PSTACK_ARRAY_T pStackArray)
 {
