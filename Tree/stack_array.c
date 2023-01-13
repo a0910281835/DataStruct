@@ -10,17 +10,30 @@ PSTACK_ARRAY_T CreatStackArray(size_t sizeofSpecialObj)
 
     return pStackArray;
 }
-
-void memcpyInStack(PSTACK_ARRAY_T pStackArray, void *beCpyAddr, int arrayIdx, size_t sizeofSpecialObj)
+// Further more, you can determine cpyBytes is even or odd. which can be divid by 8 or 4 or 2
+static void memcpyMySelf(void *cpyAddr, void *beCpyAddr, size_t cpyByteNum)
 {
-    int cpyByte = sizeofSpecialObj;
-    int idx = 0;
-    char *cpyAddr = (((char *)pStackArray->pStackBox) + (arrayIdx * sizeofSpecialObj));
+    int idx  = 0;
 
-    for (idx = 0; idx < cpyByte; idx++)
+    for (idx = 0; idx < cpyByteNum; idx++)
     {
-        *(cpyAddr++) = *((char *)beCpyAddr++);
+        *((char *)cpyAddr++) = *((char *)beCpyAddr++);
     }
+}
+
+void memcpyInStack(PSTACK_ARRAY_T pStackArray, void *Addr, int arrayIdx, CPY_MODE_T cpyMode)
+{
+    int cpyByteNum = pStackArray->sizeofObj;
+    void *srcAddr = (((char *)pStackArray->pStackBox) + (arrayIdx * cpyByteNum));
+    if (INPUT_CPY_TO_STACK == cpyMode)
+    {
+        memcpyMySelf(srcAddr, Addr, cpyByteNum);
+    }
+    else if (STACK_CPY_TO_OUTPUT == cpyMode)
+    {
+        memcpyMySelf(Addr, srcAddr, cpyByteNum);
+    }
+
 }
 
 NUM_T SizeStack(PSTACK_ARRAY_T pStackArray)
@@ -28,48 +41,46 @@ NUM_T SizeStack(PSTACK_ARRAY_T pStackArray)
     return pStackArray->current_num;
 }
 
-void PushStack(PSTACK_ARRAY_T pStackArray, void *pInputObj, size_t sizeofSpecialObj)
+void PushStack(PSTACK_ARRAY_T pStackArray, void *pInputObjAddr)
 {
     int *pSize = &(pStackArray->current_num);
     if ((MAX_SIZE) == *pSize)
     {
-        // To do extend the size
+        // TODO: extend the size
         printf("Warn! Stack is full\n");
     }
     else
     {
-        memcpyInStack(pStackArray, pInputObj, *pSize, sizeofSpecialObj);
+        memcpyInStack(pStackArray, pInputObjAddr, *pSize, INPUT_CPY_TO_STACK);
         (*pSize)++;
     }
 }
-/*
 
-SPECIFY_OBJECT_TYPE StackTop(PSTACK_ARRAY_T pStackArray)
+
+void PopStack(PSTACK_ARRAY_T pStackArray, void *pOutputObjAddr)
 {
-
-    int idx = (pStackArray->size) - 1;
-    SPECIFY_OBJECT_TYPE outputObj = pStackArray->stackCell[idx];
-
-    return outputObj;
-
-}
-
-SPECIFY_OBJECT_TYPE PopStack(PSTACK_ARRAY_T pStackArray)
-{
-    // Pointer may be not release in array, 
-    SPECIFY_OBJECT_TYPE outputObj;
-    int *pSize = &(pStackArray->size);
+    // Pointer may be not release in array,
+    int *pSize = &(pStackArray->current_num);
     if ((EMPTY_SIZE) == *pSize)
     {
         printf("Warn! Stack is empty, can't use\n");
     }
     else
     {
-        outputObj = pStackArray->stackCell[--(*pSize)];
+        (*pSize)--;
+        memcpyInStack(pStackArray, pOutputObjAddr, *pSize, STACK_CPY_TO_OUTPUT);
     }
 
-        return outputObj;
 }
+void StackTop(PSTACK_ARRAY_T pStackArray, void *pOutputObjAddr)
+{
+
+    int idx = (pStackArray->current_num) - 1;
+    memcpyInStack(pStackArray, pOutputObjAddr, idx, STACK_CPY_TO_OUTPUT);
+}
+/*
+
+
 
 
 static DECIDE_T isStateStack(PSTACK_ARRAY_T pStackArray, SIZE_STATE_T sizeState)

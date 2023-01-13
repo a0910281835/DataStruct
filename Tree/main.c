@@ -31,15 +31,28 @@ int main(void)
 
     PSTACK_ARRAY_T pStack = CreatStackArray(sizeof(int));
     printf("stack size = %d, %d  %d %d\n", SizeStack(pStack), (int)sizeof(char), (int)sizeof(short),  (int)sizeof(int));
-    int a =0x12345678;
+    int a = 0x12345678;
+    int b = 0;
 
-    memcpyInStack(pStack, &a, 3, sizeof(int));
-    PushStack(pStack, &a, sizeof(int));
+    memcpyInStack(pStack, &a, 3, INPUT_CPY_TO_STACK);
+    PushStack(pStack, &a);
     printf("stack size = %d, %d  %d %d\n", SizeStack(pStack), (int)sizeof(char), (int)sizeof(short),  (int)sizeof(int));
 
     printf("%2x\n", *((char*)pStack->pStackBox + 12));
     printf("%1x\n", *((char*)pStack->pStackBox + 13));
     printf("%1x\n", *((char*)pStack->pStackBox + 14));
+    printf("%2x\n", *((char*)pStack->pStackBox + 0));
+    printf("%1x\n", *((char*)pStack->pStackBox + 1));
+    printf("%1x\n", *((char*)pStack->pStackBox + 2));
+    StackTop(pStack, &b);
+    printf("stack size = %d, %d  %d %d\n", SizeStack(pStack), (int)sizeof(char), (int)sizeof(short),  (int)sizeof(int));
+    printf("b = %8x\n", b);
+    b = 223;
+    printf("b = %8x\n", b);
+    PopStack(pStack, &b);
+    printf("stack size = %d, %d  %d %d\n", SizeStack(pStack), (int)sizeof(char), (int)sizeof(short),  (int)sizeof(int));
+    printf("b = %8x\n", b);
+
     /*
     DECIDE_T decideIdx = IsEmptyStack(pStack);
     printf("stack is empty : %s\n", (array[decideIdx]));
