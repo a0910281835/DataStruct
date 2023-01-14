@@ -25,10 +25,11 @@ int main(void)
 
 
     printf("--------Travel Start----------\n");
-    TravelBinTree(pHead, IN_ORDER);
+    TravelBinTree(pHead, POST_ORDER);
     printf("--------Travel End------------\n");
 
 
+    /*
     PSTACK_ARRAY_T pStack = CreatStackArray(sizeof(int));
     printf("stack size = %d, %d  %d %d\n", SizeStack(pStack), (int)sizeof(char), (int)sizeof(short),  (int)sizeof(int));
     int a = 0x12345678;
@@ -52,8 +53,9 @@ int main(void)
     PopStack(pStack, &b);
     printf("stack size = %d, %d  %d %d\n", SizeStack(pStack), (int)sizeof(char), (int)sizeof(short),  (int)sizeof(int));
     printf("b = %8x\n", b);
+    printf("sizeofObj = %d\n", (int)sizeof(P_BINNODE_T));
+    printf("sizeofObj = %d\n", (int)sizeof(int *));
 
-    /*
     DECIDE_T decideIdx = IsEmptyStack(pStack);
     printf("stack is empty : %s\n", (array[decideIdx]));
     PushStack(pStack, 5);

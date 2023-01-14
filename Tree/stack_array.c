@@ -78,16 +78,12 @@ void StackTop(PSTACK_ARRAY_T pStackArray, void *pOutputObjAddr)
     int idx = (pStackArray->current_num) - 1;
     memcpyInStack(pStackArray, pOutputObjAddr, idx, STACK_CPY_TO_OUTPUT);
 }
-/*
-
-
-
 
 static DECIDE_T isStateStack(PSTACK_ARRAY_T pStackArray, SIZE_STATE_T sizeState)
 {
     DECIDE_T decide = NO;
 
-    if (sizeState == pStackArray->size)
+    if (sizeState == pStackArray->current_num)
     {
         decide = YES;
     }
@@ -101,12 +97,11 @@ DECIDE_T IsEmptyStack(PSTACK_ARRAY_T pStackArray)
 
     return decide;
 }
-
-
 DECIDE_T IsFullStack(PSTACK_ARRAY_T pStackArray)
 {
     DECIDE_T decide = isStateStack(pStackArray, MAX_SIZE);
 
     return decide;
 }
-*/
+
+

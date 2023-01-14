@@ -64,9 +64,11 @@ void PostOrderTravsl(P_BINNODE_T pBinNode)
 }
 
 #elif defined(_TRAVSAL_USE_STACK)
+// the keypoint is what save in stack for Travsal by stack
+
 void PreOrderTravsl(P_BINNODE_T pBinNode)
 {
-    PSTACK_ARRAY_T pStackVisitedNode = CreatStackArray();
+    PSTACK_ARRAY_T pStackVisitedNode = CreatStackArray(sizeof(P_BINNODE_T));
     DECIDE_T decide;
 
     do
@@ -74,7 +76,7 @@ void PreOrderTravsl(P_BINNODE_T pBinNode)
         while(NULL != pBinNode)
         {
             PrintfCustomElement(pBinNode->val);
-            PushStack(pStackVisitedNode, pBinNode);
+            PushStack(pStackVisitedNode, &pBinNode);
             pBinNode = pBinNode->left;
         }
 
@@ -82,7 +84,7 @@ void PreOrderTravsl(P_BINNODE_T pBinNode)
 
         if (decide == NO)
         {
-            pBinNode = PopStack(pStackVisitedNode);
+            PopStack(pStackVisitedNode, &pBinNode);
             pBinNode = pBinNode->right;
         }
 
@@ -91,14 +93,14 @@ void PreOrderTravsl(P_BINNODE_T pBinNode)
 
 void InOrderTravsl(P_BINNODE_T pBinNode)
 {
-    PSTACK_ARRAY_T pStackVisitedNode = CreatStackArray();
+    PSTACK_ARRAY_T pStackVisitedNode = CreatStackArray(sizeof(P_BINNODE_T));
     DECIDE_T decide;
 
     do
     {
         while(NULL != pBinNode)
         {
-            PushStack(pStackVisitedNode, pBinNode);
+            PushStack(pStackVisitedNode, &pBinNode);
             pBinNode = pBinNode->left;
         }
 
@@ -106,7 +108,7 @@ void InOrderTravsl(P_BINNODE_T pBinNode)
 
         if (decide == NO)
         {
-            pBinNode = PopStack(pStackVisitedNode);
+            PopStack(pStackVisitedNode, &pBinNode);
             PrintfCustomElement(pBinNode->val);
             pBinNode = pBinNode->right;
         }
@@ -116,12 +118,52 @@ void InOrderTravsl(P_BINNODE_T pBinNode)
 
 void PostOrderTravsl(P_BINNODE_T pBinNode)
 {
-    if (pBinNode != NULL)
+#define NOT_HAVE_BEEN 0
+#define HAVE_BEEN_ONE_TIME 1
+    PSTACK_ARRAY_T pStackVisitedNode = CreatStackArray(sizeof(BINNODE_EXPERIENT_T));
+    BINNODE_EXPERIENT_T binNodeWithExp;
+    DECIDE_T decide;
+    binNodeWithExp.pNode = pBinNode;
+    binNodeWithExp.num_exp = 0;
+
+    do
     {
-        PostOrderTravsl(pBinNode->left);
-        PostOrderTravsl(pBinNode->right);
-        printf("%d\n", pBinNode->val);
-    }
+        while(NULL != binNodeWithExp.pNode)
+        {
+            PushStack(pStackVisitedNode, &binNodeWithExp);
+            binNodeWithExp.pNode = binNodeWithExp.pNode->left;
+            binNodeWithExp.num_exp = NOT_HAVE_BEEN;
+        }
+
+        decide = IsEmptyStack(pStackVisitedNode);
+
+        if (NO == decide)
+        {
+            // check this Node experient time
+
+            PopStack(pStackVisitedNode, &binNodeWithExp);
+            if (NOT_HAVE_BEEN == binNodeWithExp.num_exp)
+            {
+
+                // Push Stack Again
+                binNodeWithExp.num_exp = HAVE_BEEN_ONE_TIME;
+                PushStack(pStackVisitedNode, &binNodeWithExp);
+
+                binNodeWithExp.pNode = binNodeWithExp.pNode->right;
+                binNodeWithExp.num_exp = NOT_HAVE_BEEN;
+
+
+            }
+            else if (HAVE_BEEN_ONE_TIME == binNodeWithExp.num_exp)
+            {
+                // right subtree have been visited
+                PrintfCustomElement(binNodeWithExp.pNode->val);
+                binNodeWithExp.pNode = NULL;
+                binNodeWithExp.num_exp = NOT_HAVE_BEEN;
+            }
+        }
+
+    } while(NO == decide);
 }
 
 #endif

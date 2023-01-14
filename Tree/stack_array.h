@@ -30,16 +30,13 @@ typedef enum
 }CPY_MODE_T;
 
 // It's Important to use those operation in your flow. Don't Add other Function. Push always Push. it doesn't check full or not. if you are afraid , you need to use IsFullStack to check.
-extern PSTACK_ARRAY_T CreatStackArray(size_t sizeofSpecialObj);
 extern void memcpyInStack(PSTACK_ARRAY_T pStackArray, void *Addr, int arrayIdx, CPY_MODE_T cpyMode);
-extern NUM_T SizeStack(PSTACK_ARRAY_T pStackArray);
+extern PSTACK_ARRAY_T CreatStackArray(size_t sizeofSpecialObj);
 extern void PushStack(PSTACK_ARRAY_T pStackArray, void *pInputObj);
 extern void PopStack(PSTACK_ARRAY_T pStackArray, void *pOutputObjAddr);
 extern void StackTop(PSTACK_ARRAY_T pStackArray, void *pOutputObjAddr);
-/*
-extern SPECIFY_OBJECT_TYPE StackTop(PSTACK_ARRAY_T pStackArray);
+extern NUM_T SizeStack(PSTACK_ARRAY_T pStackArray);
 extern DECIDE_T IsEmptyStack(PSTACK_ARRAY_T pStackArray);
 extern DECIDE_T IsFullStack(PSTACK_ARRAY_T pStackArray);
-*/
 
 #endif
