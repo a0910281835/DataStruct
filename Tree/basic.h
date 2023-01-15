@@ -20,12 +20,17 @@ typedef enum
 typedef enum
 {
     EMPTY_SIZE = 0,
-    MAX_SIZE = 1000
+    MAX_SIZE = 1024 // 2^10
 }SIZE_STATE_T;
+
+typedef enum
+{
+    INPUT_CPY_TO_STACK,
+    STACK_CPY_TO_OUTPUT
+}CPY_MODE_T;
 
 #define NUM_T int
 
 extern void PrintfCustomElement(CUSTOM_ELEMENT_TYPE element);
-// In order to easly, this can be ignore
-extern void MemcpyCustomElement(void *cpy, void *beCpy, size_t num);
+extern void memcpyMySelf(void *cpyAddr, void *beCpyAddr, size_t cpyByteNum);
 #endif

@@ -10,16 +10,6 @@ PSTACK_ARRAY_T CreatStackArray(size_t sizeofSpecialObj)
 
     return pStackArray;
 }
-// Further more, you can determine cpyBytes is even or odd. which can be divid by 8 or 4 or 2
-static void memcpyMySelf(void *cpyAddr, void *beCpyAddr, size_t cpyByteNum)
-{
-    int idx  = 0;
-
-    for (idx = 0; idx < cpyByteNum; idx++)
-    {
-        *((char *)cpyAddr++) = *((char *)beCpyAddr++);
-    }
-}
 
 void memcpyInStack(PSTACK_ARRAY_T pStackArray, void *Addr, int arrayIdx, CPY_MODE_T cpyMode)
 {

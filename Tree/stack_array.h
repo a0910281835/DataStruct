@@ -23,11 +23,6 @@ typedef struct STACK_ARRAY_T
     void   *pStackBox;
 }STACK_ARRAY_T;
 
-typedef enum
-{
-    INPUT_CPY_TO_STACK,
-    STACK_CPY_TO_OUTPUT
-}CPY_MODE_T;
 
 // It's Important to use those operation in your flow. Don't Add other Function. Push always Push. it doesn't check full or not. if you are afraid , you need to use IsFullStack to check.
 extern void memcpyInStack(PSTACK_ARRAY_T pStackArray, void *Addr, int arrayIdx, CPY_MODE_T cpyMode);
