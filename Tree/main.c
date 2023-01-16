@@ -1,5 +1,6 @@
 #include "tree.h"
 #include "stack_array.h"
+#include "queue_array.h"
 
 
 char *(array[2]) = {"NO", "YES" };
@@ -29,6 +30,27 @@ int main(void)
     printf("--------Travel End------------\n");
 
 
+
+    char *d = malloc(sizeof(char));
+    P_QUEUE_ARRAY_T pQueue = CreatQueueArray(sizeof(char));
+    char a = 7;
+    char b = 11;
+    char c = 13;
+    printf("Size = %d\n", (int) pQueue->sizeofObj);
+    PushQueue(pQueue, &a);
+    PushQueue(pQueue, &b);
+    PopQueue(pQueue, d);
+    printf("%d\n", *d);
+    PushQueue(pQueue, &a);
+    PushQueue(pQueue, &c);
+    PopQueue(pQueue, d);
+    printf("%d\n", *d);
+    PopQueue(pQueue, d);
+    printf("%d\n", *d);
+    PopQueue(pQueue, d);
+    printf("%d\n", *d);
+    PopQueue(pQueue, d);
+    printf("%d\n", *d);
     /*
     PSTACK_ARRAY_T pStack = CreatStackArray(sizeof(int));
     printf("stack size = %d, %d  %d %d\n", SizeStack(pStack), (int)sizeof(char), (int)sizeof(short),  (int)sizeof(int));
