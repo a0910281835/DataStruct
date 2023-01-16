@@ -1,6 +1,7 @@
 #include"config.h"
 #include"tree.h"
 #include"stack_array.h"
+#include "queue_array.h"
 
 P_BINNODE_T insertValBinNode(P_BINNODE_T pBinNode, CUSTOM_ELEMENT_TYPE val)
 {
@@ -169,6 +170,24 @@ void PostOrderTravsl(P_BINNODE_T pBinNode)
 #endif
 void BreadthOrderTravsl(P_BINNODE_T pBinNode)
 {
+    P_QUEUE_ARRAY_T pQueue = CreatQueueArray(sizeof(P_BINNODE_T));
+    DECIDE_T decide = YES;
+    while (NULL != pBinNode)
+    {
+        PrintfCustomElement(pBinNode->val);
+        if (NULL != pBinNode->left)  PushQueue(pQueue, &(pBinNode->left));
+        if (NULL != pBinNode->right) PushQueue(pQueue, &(pBinNode->right));
+        
+        decide = IsEmptyQueue(pQueue);
+        if (NO == decide) 
+        {
+            PopQueue(pQueue, &pBinNode);
+        }
+        else
+        {
+            pBinNode = NULL;
+        }
+    }
 
 }
 

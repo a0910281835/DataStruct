@@ -26,19 +26,24 @@ int main(void)
 
 
     printf("--------Travel Start----------\n");
-    TravelBinTree(pHead, POST_ORDER);
+    TravelBinTree(pHead, BREADTH_ORDER);
     printf("--------Travel End------------\n");
 
 
 
+    /*
     char *d = malloc(sizeof(char));
     P_QUEUE_ARRAY_T pQueue = CreatQueueArray(sizeof(char));
     char a = 7;
     char b = 11;
     char c = 13;
+    DECIDE_T decide = IsEmptyQueue(pQueue);
+    printf("IS empty : %s\n", array[decide]);
     printf("Size = %d\n", (int) pQueue->sizeofObj);
     PushQueue(pQueue, &a);
     PushQueue(pQueue, &b);
+    decide = IsEmptyQueue(pQueue);
+    printf("IS empty : %s\n", array[decide]);
     PopQueue(pQueue, d);
     printf("%d\n", *d);
     PushQueue(pQueue, &a);
@@ -51,7 +56,6 @@ int main(void)
     printf("%d\n", *d);
     PopQueue(pQueue, d);
     printf("%d\n", *d);
-    /*
     PSTACK_ARRAY_T pStack = CreatStackArray(sizeof(int));
     printf("stack size = %d, %d  %d %d\n", SizeStack(pStack), (int)sizeof(char), (int)sizeof(short),  (int)sizeof(int));
     int a = 0x12345678;
