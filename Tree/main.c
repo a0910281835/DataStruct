@@ -1,4 +1,5 @@
 #include "tree.h"
+#include "tree_application.h"
 #include "stack_array.h"
 #include "queue_array.h"
 
@@ -29,6 +30,8 @@ int main(void)
     TravelBinTree(pHead, BREADTH_ORDER);
     printf("--------Travel End------------\n");
 
+    TRAVSAL_T preorder ;
+    preorder.travlMode = PRE_ORDER;
 
 
     /*
