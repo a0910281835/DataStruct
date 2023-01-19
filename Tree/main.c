@@ -27,12 +27,45 @@ int main(void)
 
 
     printf("--------Travel Start----------\n");
-    TravelBinTree(pHead, BREADTH_ORDER);
+    TravelBinTree(pHead, IN_ORDER);
+    TravelBinTree(pHead, PRE_ORDER);
     printf("--------Travel End------------\n");
 
-    TRAVSAL_T preorder ;
+    TRAVSAL_T preorder, inorder ;
     preorder.travlMode = PRE_ORDER;
+    preorder.length = 5;
+    preorder.elementArray = malloc(sizeof(CUSTOM_ELEMENT_TYPE) * 5);
+    CUSTOM_ELEMENT_TYPE *pElement = preorder.elementArray;
+    pElement[0] = 5;
+    pElement[1] = 9;
+    pElement[2] = 7;
+    pElement[3] = 3;
+    pElement[4] = 10;
 
+    inorder.travlMode = IN_ORDER;
+    inorder.length = 5;
+    inorder.elementArray = malloc(sizeof(CUSTOM_ELEMENT_TYPE) * 5);
+    pElement = inorder.elementArray;
+    pElement[0] = 9;
+    pElement[1] = 5;
+    pElement[2] = 3;
+    pElement[3] = 7;
+    pElement[4] = 10;
+
+
+    pElement = preorder.elementArray;
+    int idx = 0;
+    for (idx = 0; idx < 5; idx++)
+    {
+        printf("%2d ", *(pElement + idx));
+
+    }
+
+    BINTREE_HEAD pHead2 = CreateTree(&preorder, &inorder);
+    printf("--------Travel Start----------\n");
+    TravelBinTree(pHead2, IN_ORDER);
+    TravelBinTree(pHead2, PRE_ORDER);
+    printf("--------Travel End------------\n");
 
     /*
     char *d = malloc(sizeof(char));
