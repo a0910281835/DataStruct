@@ -11,6 +11,10 @@ typedef struct TRAVSAL_T
 }TRAVSAL_T;
 
 
+typedef struct BST_T P_BST_T;
+
+
+
 extern BINTREE_HEAD CreateTree(P_TRAVSAL_T orderSeq, P_TRAVSAL_T inorderSeq);
 #endif
 

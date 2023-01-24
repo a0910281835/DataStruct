@@ -36,7 +36,7 @@ int main(void)
     preorder.length = 5;
     preorder.elementArray = malloc(sizeof(CUSTOM_ELEMENT_TYPE) * 5);
     CUSTOM_ELEMENT_TYPE *pElement = preorder.elementArray;
-    pElement[0] = 5;
+    pElement[0] = 4;
     pElement[1] = 9;
     pElement[2] = 7;
     pElement[3] = 3;
@@ -47,7 +47,7 @@ int main(void)
     inorder.elementArray = malloc(sizeof(CUSTOM_ELEMENT_TYPE) * 5);
     pElement = inorder.elementArray;
     pElement[0] = 9;
-    pElement[1] = 5;
+    pElement[1] = 4;
     pElement[2] = 3;
     pElement[3] = 7;
     pElement[4] = 10;
