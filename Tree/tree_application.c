@@ -206,6 +206,7 @@ P_BST_HEAD_T DeleteElementInBST(P_BST_HEAD_T pHead, CUSTOM_ELEMENT_TYPE element)
         }
     }
 
+
     // this element eixst in BST
     if ((NULL != pHead) && (NULL != pNode))
     {
@@ -252,12 +253,14 @@ P_BST_HEAD_T DeleteElementInBST(P_BST_HEAD_T pHead, CUSTOM_ELEMENT_TYPE element)
                 // Case 3.1 if the min is subtree head. don't put the sun to grapa
                 if (NULL != pMinParentInSubBST)
                 {
-                    P_BST_NODE_T pMinInSubBST = pMinParentInSubBST->left;
+                    pMinInSubBST = pMinParentInSubBST->left;
                     pMinParentInSubBST->left = pMinInSubBST->right;
                     pMinInSubBST->right = NULL;
                 }
                 else pMinInSubBST = pNode->right;
 
+                printf("Show the value, you find %2d\n", pNode->val);
+                printf("Show the min value, you find %2d\n", pMinInSubBST->val);
 
                 //step2
                 pMinInSubBST->right = pNode->right;

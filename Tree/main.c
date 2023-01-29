@@ -14,7 +14,11 @@ int main(void)
     BINTREE_HEAD pHead  = NULL;
     P_BINNODE_T current = NULL;
 
-
+    //       5
+    //     2   15
+    //        10  19
+    //       6   17 23
+    //        9   18
     InsertValBinNode(pHead, 5);
     InsertValBinNode(pHead->left, 2);
     InsertValBinNode(pHead->right, 15);
@@ -74,11 +78,23 @@ int main(void)
     current = TakeMaxInBST(pHead);
     printf("check : %2d\n", current->val);
     P_BST_HEAD_T pHead3 = InsertElementInBST(pHead, 17);
+    pHead3 = InsertElementInBST(pHead3, 23);
+    pHead3 = InsertElementInBST(pHead3, 6);
+    pHead3 = InsertElementInBST(pHead3, 9);
+    pHead3 = InsertElementInBST(pHead3, 18);
     printf("--------Travel BST Start----------\n");
+    printf("Inorder:\n");
     TravelBinTree(pHead3, IN_ORDER);
+    printf("Preorder:\n");
     TravelBinTree(pHead3, PRE_ORDER);
+    printf("Breathorder:\n");
+    TravelBinTree(pHead3, BREADTH_ORDER);
     printf("--------Travel BST End------------\n");
 
+    printf("Delete 15\n");
+    DeleteElementInBST(pHead3, 15);
+    printf("Breathorder:\n");
+    TravelBinTree(pHead3, BREADTH_ORDER);
     /*
     char *d = malloc(sizeof(char));
     P_QUEUE_ARRAY_T pQueue = CreatQueueArray(sizeof(char));
