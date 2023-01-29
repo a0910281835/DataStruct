@@ -37,7 +37,7 @@ static BINTREE_HEAD recuresiveXXAndInorder(CUSTOM_ELEMENT_TYPE* pXOrderAddr, CUS
 
         // Pre   [ 1 | n | m ]
         // In    [ n | 1 | m ]
-        // Post  [ n | m | 1 ] 
+        // Post  [ n | m | 1 ]
 
         int xleftSubtreeIdx, xrightSubtreeIdx;
 
@@ -57,9 +57,6 @@ static BINTREE_HEAD recuresiveXXAndInorder(CUSTOM_ELEMENT_TYPE* pXOrderAddr, CUS
 
 
     return pSubTreeHead;
-
-
-
 }
 
 
@@ -75,4 +72,195 @@ BINTREE_HEAD CreateTree(P_TRAVSAL_T orderSeq, P_TRAVSAL_T inorderSeq)
 
 
 
-//--------Binary Search Tree 
+//--------Binary Search Tree
+P_BST_NODE_T FindElementInBST(P_BST_HEAD_T pHead, CUSTOM_ELEMENT_TYPE element)
+{
+    P_BST_NODE_T pNode = pHead;
+    while (NULL != pNode)
+    {
+        if (pNode->val == element) break;// TODO : CUSTOM_ELEMENT_TYPE compare function
+        else
+        {
+            pNode = (pNode->val > element) ? (pNode->left) : (pNode->right);
+        }
+
+
+    }
+
+    return pNode;
+}
+
+static P_BST_NODE_T takeMaxParentInBST(P_BST_HEAD_T pHead)
+{
+    // if ouput is Null, then tree has only one node or is empty
+    P_BST_NODE_T pNode = pHead;
+
+    if ((NULL == pNode) || (NULL == (pNode->right))) return NULL;
+    while (NULL != ((pNode->right)->right))
+    {
+        pNode = pNode->right;
+    }
+
+    return pNode;
+}
+
+
+P_BST_NODE_T TakeMaxInBST(P_BST_HEAD_T pHead)
+{
+    P_BST_NODE_T pNode = takeMaxParentInBST(pHead);
+
+    if (NULL == pNode)
+    {
+        if (NULL != pHead) return pHead;
+    }
+    else
+    {
+        pNode = pNode->right;
+    }
+
+    return pNode;
+}
+
+static P_BST_NODE_T takeMinParentInBST(P_BST_HEAD_T pHead)
+{
+    // if ouput is Null, then tree has only one node or is empty
+    P_BST_NODE_T pNode = pHead;
+
+    if ((NULL == pNode) || (NULL == (pNode->left))) return NULL;
+    while (NULL != ((pNode->left)->left))
+    {
+        pNode = pNode->left;
+    }
+
+    return pNode;
+
+}
+
+P_BST_NODE_T TakeMinInBST(P_BST_HEAD_T pHead)
+{
+    P_BST_NODE_T pNode = takeMinParentInBST(pHead);
+
+    if (NULL == pNode)
+    {
+        if (NULL != pHead) return pHead;
+    }
+    else
+    {
+        pNode = pNode->left;
+    }
+
+    return pNode;
+}
+
+
+// the important is insert always in leaf if element not exist in BST
+P_BST_HEAD_T InsertElementInBST(P_BST_HEAD_T pHead, CUSTOM_ELEMENT_TYPE element)
+{
+    // Implement method don't use recursive and didn't change find the funtion.
+    P_BST_NODE_T pNode = pHead;
+    P_BST_NODE_T pParNode = NULL;
+    while (NULL != pNode)
+    {
+        if (pNode->val == element) return pHead; //This element has been exist in BST.
+        else
+        {
+            pParNode = pNode;
+            pNode = (pNode->val > element) ? (pNode->left) : (pNode->right);
+        }
+    }
+
+    pNode = (P_BST_NODE_T) malloc(sizeof(BST_NODE_T));
+    pNode->val = element;
+    pNode->right = NULL;
+    pNode->left  = NULL;
+    if (NULL != pHead)
+    {
+        if (pParNode->val > element)
+            pParNode->left  = pNode;
+        else
+            pParNode->right = pNode;
+
+    }
+    else
+    {
+        pHead = pNode;
+    }
+
+
+    return pHead;
+}
+
+// Delete element may be occur in leaf(easy) and branch(complex)
+P_BST_HEAD_T DeleteElementInBST(P_BST_HEAD_T pHead, CUSTOM_ELEMENT_TYPE element)
+{
+    // Implement method don't use recursive and didn't change find the funtion.
+    P_BST_NODE_T pNode = pHead;
+    P_BST_NODE_T pParNode = NULL;
+    while (NULL != pNode)
+    {
+        if (pNode->val == element) break; //This element has been exist in BST.
+        else
+        {
+            pParNode = pNode;
+            pNode = (pNode->val > element) ? (pNode->left) : (pNode->right);
+        }
+    }
+
+    // this element eixst in BST
+    if ((NULL != pHead) && (NULL != pNode))
+    {
+        //case 1 : the element in leaf
+        if ((NULL == (pNode->left)) && (NULL == (pNode->right)))
+        {
+            if ((pParNode->val) > element)
+                (pParNode->left)  = NULL;
+            else
+                (pParNode->right) = NULL;
+        }
+        else
+        {
+            // TODO : Can decide the subtree length by left and right , let the subtree is blance
+            //
+            // case 2 : right subtree find the min
+            // step1 :  find the parent of min, and put left subtree of min to parent's left pointer.
+            // step2 :  Repleace D with Min and Reconect right siubtree of D with Min
+            //
+            //           D                  Min
+            //         /   \               /   \
+            //        1     5             1     5
+            //            /   \               /   \
+            //          P.Min      ==>      P.Min
+            //          /   \               /   \
+            //         Min   2             3     2
+            //           \  /   \              /   \
+            //            3
+            if (NULL != pNode->right)
+            {
+                //step 1
+                P_BST_NODE_T pMinParentInSubBST = takeMinParentInBST(pNode->right);
+                // Case 2.1 if the min is subtree head. do nothing
+                if (NULL != pMinParentInSubBST)
+                {
+                    P_BST_NODE_T pMinInSubBST = pMinParentInSubBST->left;
+                    pMinParentInSubBST->left = pMinInSubBST->right;
+                    pMinInSubBST->right = NULL;
+                }
+
+                //step2
+
+
+
+
+
+            }
+
+        }
+
+        //free the element
+
+    }
+
+
+    return pHead;
+}
+//Determine IsBSTTree

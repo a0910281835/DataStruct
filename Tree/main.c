@@ -16,19 +16,18 @@ int main(void)
 
 
     InsertValBinNode(pHead, 5);
-    InsertValBinNode(pHead->left, 9);
-    InsertValBinNode(pHead->right, 7);
+    InsertValBinNode(pHead->left, 2);
+    InsertValBinNode(pHead->right, 15);
     printf("val: %d, %d, %d\n", pHead->val, (pHead->left)->val, (pHead->right)->val);
     current = pHead->right;
-    InsertValBinNode(current->right, 10);
-    InsertValBinNode(current->left, 3);
+    InsertValBinNode(current->right, 19);
+    InsertValBinNode(current->left, 10);
     //printf("val: %d, %d, %d\n", pHead->val, (pHead->left)->val, (pHead->right)->val);
-    printf("val: %d, %d, %d %d %d\n", pHead->val, (pHead->left)->val, (pHead->right)->val, ((pHead->right)->right)->val, ((pHead->right)->left)->val);
 
 
     printf("--------Travel Start----------\n");
     TravelBinTree(pHead, IN_ORDER);
-    TravelBinTree(pHead, PRE_ORDER);
+    //TravelBinTree(pHead, PRE_ORDER);
     printf("--------Travel End------------\n");
 
     TRAVSAL_T preorder, inorder ;
@@ -66,6 +65,19 @@ int main(void)
     TravelBinTree(pHead2, IN_ORDER);
     TravelBinTree(pHead2, PRE_ORDER);
     printf("--------Travel End------------\n");
+
+
+
+
+    current = FindElementInBST(pHead, 15);
+    printf("check : %2d\n", current->val);
+    current = TakeMaxInBST(pHead);
+    printf("check : %2d\n", current->val);
+    P_BST_HEAD_T pHead3 = InsertElementInBST(pHead, 17);
+    printf("--------Travel BST Start----------\n");
+    TravelBinTree(pHead3, IN_ORDER);
+    TravelBinTree(pHead3, PRE_ORDER);
+    printf("--------Travel BST End------------\n");
 
     /*
     char *d = malloc(sizeof(char));
