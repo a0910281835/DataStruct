@@ -219,12 +219,22 @@ P_BST_HEAD_T DeleteElementInBST(P_BST_HEAD_T pHead, CUSTOM_ELEMENT_TYPE element)
         }
         else
         {
+
+            // case 2 : this element only have one subtree.
+            if ((NULL != (pNode->right)) ^ (NULL != (pNode->left)))
+            {
+
+                // Two People
+                
+            }
             // TODO : Can decide the subtree length by left and right , let the subtree is blance
             //
-            // case 2 : right subtree find the min
+            // case 3 : Choice right subtree and find the min
             // step1 :  find the parent of min, and put left subtree of min to parent's left pointer.
-            // step2 :  Repleace D with Min and Reconect right siubtree of D with Min
-            //
+            // step2 :  Repleace D with Min and Reconect right and left subtree of D with Min and farther of D connect to Min
+            //          
+            //          P.D                 P.D
+            //           |                   |
             //           D                  Min
             //         /   \               /   \
             //        1     5             1     5
@@ -234,29 +244,39 @@ P_BST_HEAD_T DeleteElementInBST(P_BST_HEAD_T pHead, CUSTOM_ELEMENT_TYPE element)
             //         Min   2             3     2
             //           \  /   \              /   \
             //            3
-            if (NULL != pNode->right)
+            else if (NULL != pNode->right)
             {
                 //step 1
                 P_BST_NODE_T pMinParentInSubBST = takeMinParentInBST(pNode->right);
-                // Case 2.1 if the min is subtree head. do nothing
+                P_BST_NODE_T pMinInSubBST = NULL;
+                // Case 3.1 if the min is subtree head. don't put the sun to grapa
                 if (NULL != pMinParentInSubBST)
                 {
                     P_BST_NODE_T pMinInSubBST = pMinParentInSubBST->left;
                     pMinParentInSubBST->left = pMinInSubBST->right;
                     pMinInSubBST->right = NULL;
                 }
+                else pMinInSubBST = pNode->right;
+
 
                 //step2
+                pMinInSubBST->right = pNode->right;
+                pMinInSubBST->left  = pNode->left;
+                
+                if ((pParNode->val) > element)
+                    (pParNode->left)  = pMinInSubBST;
+                else
+                    (pParNode->right) = pMinInSubBST;
 
-
-
-
+                pNode->right = NULL;
+                pNode->left  = NULL;
 
             }
 
         }
 
         //free the element
+            free(pNode);
 
     }
 
