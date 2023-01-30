@@ -91,8 +91,8 @@ int main(void)
     TravelBinTree(pHead3, BREADTH_ORDER);
     printf("--------Travel BST End------------\n");
 
-    printf("Delete 15\n");
-    DeleteElementInBST(pHead3, 15);
+    printf("Delete 10\n");
+    DeleteElementInBST(pHead3, 10);
     printf("Breathorder:\n");
     TravelBinTree(pHead3, BREADTH_ORDER);
     /*

@@ -168,6 +168,9 @@ void PostOrderTravsl(P_BINNODE_T pBinNode)
 }
 
 #endif
+
+
+
 void BreadthOrderTravsl(P_BINNODE_T pBinNode)
 {
     P_QUEUE_ARRAY_T pQueue = CreatQueueArray(sizeof(P_BINNODE_T));

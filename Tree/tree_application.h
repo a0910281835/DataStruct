@@ -21,7 +21,7 @@ typedef enum
 }EXTREMUM_EVENT_T;
 
 
-// here is BST struct and function
+// BST struct and function
 typedef struct BINNODE_T BST_NODE_T;
 typedef struct BINNODE_T *P_BST_HEAD_T;
 typedef struct BINNODE_T *P_BST_NODE_T;

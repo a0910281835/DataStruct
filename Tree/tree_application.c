@@ -222,18 +222,25 @@ P_BST_HEAD_T DeleteElementInBST(P_BST_HEAD_T pHead, CUSTOM_ELEMENT_TYPE element)
         {
 
             // case 2 : this element only have one subtree.
+            // Only to do is grapa become father.
+            // the reason is the Delete element in subtree is Max or Min
+            // XXX : Max and Min Delete in tree is easy, you can write function to do this
             if ((NULL != (pNode->right)) ^ (NULL != (pNode->left)))
             {
+                printf("this element has only subtree");
+                P_BST_NODE_T pGrandSonNode = (NULL != pNode->left) ? pNode->left : pNode->right;
+                if ((pParNode->val) > element)
+                    (pParNode->left)  = pGrandSonNode;
+                else
+                    (pParNode->right) = pGrandSonNode;
 
-                // Two People
-                
             }
             // TODO : Can decide the subtree length by left and right , let the subtree is blance
             //
             // case 3 : Choice right subtree and find the min
             // step1 :  find the parent of min, and put left subtree of min to parent's left pointer.
             // step2 :  Repleace D with Min and Reconect right and left subtree of D with Min and farther of D connect to Min
-            //          
+            //
             //          P.D                 P.D
             //           |                   |
             //           D                  Min
@@ -265,7 +272,7 @@ P_BST_HEAD_T DeleteElementInBST(P_BST_HEAD_T pHead, CUSTOM_ELEMENT_TYPE element)
                 //step2
                 pMinInSubBST->right = pNode->right;
                 pMinInSubBST->left  = pNode->left;
-                
+
                 if ((pParNode->val) > element)
                     (pParNode->left)  = pMinInSubBST;
                 else
@@ -280,10 +287,16 @@ P_BST_HEAD_T DeleteElementInBST(P_BST_HEAD_T pHead, CUSTOM_ELEMENT_TYPE element)
 
         //free the element
             free(pNode);
-
     }
-
 
     return pHead;
 }
-//Determine IsBSTTree
+
+DECIDE_T IsBSTTree(P_BST_HEAD_T pHead)
+{
+    DECIDE_T decide = NO;
+
+    return decide;
+
+}
+
