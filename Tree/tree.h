@@ -30,6 +30,16 @@ typedef struct BINNODE_EXPERIENT_T
 }BINNODE_EXPERIENT_T;
 #endif
 
+//Purpose : Used to check IS BST
+//Output struct array with size
+//
+typedef struct CUSTOM_ARRAY_T
+{
+    CUSTOM_ELEMENT_TYPE* array;
+    NUM_T size;
+}CUSTOM_ARRAY_T;
+
+
 
 typedef void (*FP_TREVALSAL_T)(P_BINNODE_T pBinNode);
 extern void PreOrderTravsl(P_BINNODE_T pBinNode);
