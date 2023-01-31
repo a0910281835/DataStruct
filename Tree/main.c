@@ -95,6 +95,10 @@ int main(void)
     DeleteElementInBST(pHead3, 10);
     printf("Breathorder:\n");
     TravelBinTree(pHead3, BREADTH_ORDER);
+
+
+   CUSTOM_ARRAY_T* output =  BreadthOrderAndOuputArray(pHead3);
+   printf("Size = %2d\n", output->current_num);
     /*
     char *d = malloc(sizeof(char));
     P_QUEUE_ARRAY_T pQueue = CreatQueueArray(sizeof(char));

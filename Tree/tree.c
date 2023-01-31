@@ -169,14 +169,15 @@ void PostOrderTravsl(P_BINNODE_T pBinNode)
 
 #endif
 
-static CUSTOM_ARRAY_T breadthOrderAndOuput(P_BINNODE_T pBinNode, OUTPUT_FORMAT_T outType)
+//In order to reuse this funciton.
+static CUSTOM_ARRAY_T* breadthOrderAndOuput(P_BINNODE_T pBinNode, OUTPUT_FORMAT_T outType)
 {
     CUSTOM_ARRAY_T *out = malloc(sizeof(CUSTOM_ARRAY_T));
     out->size = 10;
     out->current_num = 0;
     out->array = (CUSTOM_ELEMENT_TYPE*) malloc(sizeof(CUSTOM_ELEMENT_TYPE) * (out->size));
 
-    
+
     P_QUEUE_ARRAY_T pQueue = CreatQueueArray(sizeof(P_BINNODE_T));
     DECIDE_T decide = YES;
     while (NULL != pBinNode)
@@ -191,19 +192,37 @@ static CUSTOM_ARRAY_T breadthOrderAndOuput(P_BINNODE_T pBinNode, OUTPUT_FORMAT_T
             // Is FULL Now, Need to extend
             if (out->current_num == out->size)
             {
-                CUSTOM_ARRAY_T *pTemp = malloc(sizeof(CUSTOM_ARRAY_T));
+                //Copy term and extend Double space
+                CUSTOM_ARRAY_T *pCpy = malloc(sizeof(CUSTOM_ARRAY_T));
+                pCpy->size = ((out->size) << 1);
+                pCpy->array = (CUSTOM_ELEMENT_TYPE*) malloc(sizeof(CUSTOM_ELEMENT_TYPE) * (pCpy->size));
 
+
+                // copy data in full cell to new cell which has double space.
+                memcpyMySelf((char*)(pCpy->array), (char*)(out->array), sizeof(CUSTOM_ELEMENT_TYPE) * (out->size));
+                pCpy->current_num = out->size;
+
+
+                // release the old Data and let Purpose pointer to cpy pointer
+                free(out->array);
+                out->array = NULL;
+                free(out);
+                out = NULL;
+                out = pCpy;
+                pCpy = NULL;
 
             }
 
-
+            //Add a new term to array
+            memcpyMySelf( ((char*)(out->array) + (out->current_num) * sizeof(CUSTOM_ELEMENT_TYPE)) , &(pBinNode->val), sizeof(CUSTOM_ELEMENT_TYPE));
+            out->current_num++;
 
         }
         if (NULL != pBinNode->left)  PushQueue(pQueue, &(pBinNode->left));
         if (NULL != pBinNode->right) PushQueue(pQueue, &(pBinNode->right));
-        
+
         decide = IsEmptyQueue(pQueue);
-        if (NO == decide) 
+        if (NO == decide)
         {
             PopQueue(pQueue, &pBinNode);
         }
@@ -213,8 +232,17 @@ static CUSTOM_ARRAY_T breadthOrderAndOuput(P_BINNODE_T pBinNode, OUTPUT_FORMAT_T
         }
     }
 
+    return out;
 }
 
+CUSTOM_ARRAY_T* BreadthOrderAndOuputArray(P_BINNODE_T pBinNode)
+{
+    OUTPUT_FORMAT_T outType = ARRAY;
+
+    CUSTOM_ARRAY_T* output = breadthOrderAndOuput(pBinNode, outType);
+
+    return output;
+}
 
 void BreadthOrderTravsl(P_BINNODE_T pBinNode)
 {
@@ -225,9 +253,9 @@ void BreadthOrderTravsl(P_BINNODE_T pBinNode)
         PrintfCustomElement(pBinNode->val);
         if (NULL != pBinNode->left)  PushQueue(pQueue, &(pBinNode->left));
         if (NULL != pBinNode->right) PushQueue(pQueue, &(pBinNode->right));
-        
+
         decide = IsEmptyQueue(pQueue);
-        if (NO == decide) 
+        if (NO == decide)
         {
             PopQueue(pQueue, &pBinNode);
         }
@@ -241,6 +269,7 @@ void BreadthOrderTravsl(P_BINNODE_T pBinNode)
 
 
 //Use function Pointer to Construct
+//Here we use another skill to envolpe those function
 void TravelBinTree(BINTREE_HEAD pBinHead, TRAVERSAL_MODE mode)
 {
     fp_Traversal[mode](pBinHead);

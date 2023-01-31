@@ -30,7 +30,8 @@ typedef struct BINNODE_EXPERIENT_T
 }BINNODE_EXPERIENT_T;
 #endif
 
-//Purpose : Used to check IS BST
+
+//Purpose : Used to check Is this tree BST
 //Output struct array with size
 typedef struct CUSTOM_ARRAY_T
 {
@@ -44,6 +45,8 @@ typedef enum
     PRINTF = 0,
     ARRAY  = 1
 }OUTPUT_FORMAT_T;
+extern CUSTOM_ARRAY_T* BreadthOrderAndOuputArray(P_BINNODE_T pBinNode);
+//Purpose : end
 
 
 
