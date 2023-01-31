@@ -32,12 +32,18 @@ typedef struct BINNODE_EXPERIENT_T
 
 //Purpose : Used to check IS BST
 //Output struct array with size
-//
 typedef struct CUSTOM_ARRAY_T
 {
     CUSTOM_ELEMENT_TYPE* array;
     NUM_T size;
+    NUM_T current_num;
 }CUSTOM_ARRAY_T;
+
+typedef enum
+{
+    PRINTF = 0,
+    ARRAY  = 1
+}OUTPUT_FORMAT_T;
 
 
 

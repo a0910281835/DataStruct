@@ -169,6 +169,51 @@ void PostOrderTravsl(P_BINNODE_T pBinNode)
 
 #endif
 
+static CUSTOM_ARRAY_T breadthOrderAndOuput(P_BINNODE_T pBinNode, OUTPUT_FORMAT_T outType)
+{
+    CUSTOM_ARRAY_T *out = malloc(sizeof(CUSTOM_ARRAY_T));
+    out->size = 10;
+    out->current_num = 0;
+    out->array = (CUSTOM_ELEMENT_TYPE*) malloc(sizeof(CUSTOM_ELEMENT_TYPE) * (out->size));
+
+    
+    P_QUEUE_ARRAY_T pQueue = CreatQueueArray(sizeof(P_BINNODE_T));
+    DECIDE_T decide = YES;
+    while (NULL != pBinNode)
+    {
+
+        if (PRINTF == outType)
+        {
+            PrintfCustomElement(pBinNode->val);
+        }
+        else if (ARRAY == outType)
+        {
+            // Is FULL Now, Need to extend
+            if (out->current_num == out->size)
+            {
+                CUSTOM_ARRAY_T *pTemp = malloc(sizeof(CUSTOM_ARRAY_T));
+
+
+            }
+
+
+
+        }
+        if (NULL != pBinNode->left)  PushQueue(pQueue, &(pBinNode->left));
+        if (NULL != pBinNode->right) PushQueue(pQueue, &(pBinNode->right));
+        
+        decide = IsEmptyQueue(pQueue);
+        if (NO == decide) 
+        {
+            PopQueue(pQueue, &pBinNode);
+        }
+        else
+        {
+            pBinNode = NULL;
+        }
+    }
+
+}
 
 
 void BreadthOrderTravsl(P_BINNODE_T pBinNode)
