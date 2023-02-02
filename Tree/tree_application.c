@@ -297,7 +297,7 @@ P_BST_HEAD_T DeleteElementInBST(P_BST_HEAD_T pHead, CUSTOM_ELEMENT_TYPE element)
 //
 //A valid BST is defined as follows:
 //
-//The left 
+//The left
 //subtree
 // of a node contains only nodes with keys less than the node's key.
 // The right subtree of a node contains only nodes with keys greater than the node's key.
@@ -306,10 +306,16 @@ P_BST_HEAD_T DeleteElementInBST(P_BST_HEAD_T pHead, CUSTOM_ELEMENT_TYPE element)
 
 DECIDE_T IsBSTTreeByRecursive(P_BST_HEAD_T pHead)
 {
-    DECIDE_T decide = NO;
 
-    DECIDE_T decideLeftSubTree = IsBSTTreeByRecursive(pHead->left);
-    
+    //Inital Condtion
+    //
+
+
+    DECIDE_T decide = IsBSTTreeByRecursive(pHead->left);
+    P_BST_NODE_T leftSubTreeMax = TakeMaxInBST(pHead->left);
+
+
+
 
 }
 DECIDE_T IsBSTTree(P_BST_HEAD_T pHead)
@@ -321,7 +327,7 @@ DECIDE_T IsBSTTree(P_BST_HEAD_T pHead)
     // TODO : Construct Struct Order function
     // Check Is this OrderSequecne. Beacuse BST Breadth order is order sequence
     int idx = 0;
-    
+
     if (output->current_num > 1)
     {
         CUSTOM_ELEMENT_TYPE lastVal = output->array[0];
