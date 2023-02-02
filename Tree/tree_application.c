@@ -292,11 +292,56 @@ P_BST_HEAD_T DeleteElementInBST(P_BST_HEAD_T pHead, CUSTOM_ELEMENT_TYPE element)
     return pHead;
 }
 
-DECIDE_T IsBSTTree(P_BST_HEAD_T pHead)
+//98. Validate Binary Search Tree
+//Given the root of a binary tree, determine if it is a valid binary search tree (BST).
+//
+//A valid BST is defined as follows:
+//
+//The left 
+//subtree
+// of a node contains only nodes with keys less than the node's key.
+// The right subtree of a node contains only nodes with keys greater than the node's key.
+// Both the left and right subtrees must also be binary search trees.
+
+
+DECIDE_T IsBSTTreeByRecursive(P_BST_HEAD_T pHead)
 {
     DECIDE_T decide = NO;
 
-    return decide;
+    DECIDE_T decideLeftSubTree = IsBSTTreeByRecursive(pHead->left);
+    
 
+}
+DECIDE_T IsBSTTree(P_BST_HEAD_T pHead)
+{
+    DECIDE_T decide = YES;
+
+    CUSTOM_ARRAY_T* output =  InOrderAndOuputArray(pHead);
+
+    // TODO : Construct Struct Order function
+    // Check Is this OrderSequecne. Beacuse BST Breadth order is order sequence
+    int idx = 0;
+    
+    if (output->current_num > 1)
+    {
+        CUSTOM_ELEMENT_TYPE lastVal = output->array[0];
+
+        for (idx = 1; idx < (output->current_num); idx++)
+        {
+            if (lastVal <= (output->array[idx]))
+            {
+                lastVal = (output->array[idx]);
+            }
+            else
+            {
+                decide = NO;
+                return decide;
+            }
+
+        }
+
+    }
+
+    return decide;
 }
 

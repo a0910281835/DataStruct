@@ -34,6 +34,12 @@ const FP_TREVALSAL_T fp_Traversal[] =
 
 #if defined(_RECURSIVE_TRAVESAL)
 // Recursive method
+//
+// Concept : Whatever recursive or Stack
+// The important is "PreOrderTravsl(pBinNode->left)"
+// you directly this point information but when you back
+// "PreOrderTravsl(pBinNode->right)" you need to try again use this point information
+// that is why you need to use stack.
 void PreOrderTravsl(P_BINNODE_T pBinNode)
 {
     if (pBinNode != NULL)
@@ -65,38 +71,112 @@ void PostOrderTravsl(P_BINNODE_T pBinNode)
 }
 
 #elif defined(_TRAVSAL_USE_STACK)
-// the keypoint is what save in stack for Travsal by stack
+// post order keypoint is what be saved in stack
+
+static CUSTOM_ARRAY_T* preOrderAndOuput(P_BINNODE_T pBinNode, OUTPUT_FORMAT_T outType)
+{
+    CUSTOM_ARRAY_T *out = malloc(sizeof(CUSTOM_ARRAY_T));
+    if (ARRAY == outType)
+    {
+        out->size = 2;
+        out->current_num = 0;
+        out->array = (CUSTOM_ELEMENT_TYPE*) malloc(sizeof(CUSTOM_ELEMENT_TYPE) * (out->size));
+    }
+
+
+    PSTACK_ARRAY_T pStackVisitedNode = CreatStackArray(sizeof(P_BINNODE_T));
+    DECIDE_T decide;
+    do
+    {
+        while(NULL != pBinNode)
+        {
+            if (PRINTF == outType)
+            {
+                PrintfCustomElement(pBinNode->val);
+            }
+            else if (ARRAY == outType)
+            {
+                // Is FULL Now, Need to extend
+                if (out->current_num == out->size)
+                {
+                    //Copy term and extend Double space
+                    CUSTOM_ARRAY_T *pCpy = malloc(sizeof(CUSTOM_ARRAY_T));
+                    pCpy->size = ((out->size) << 1);
+                    pCpy->array = (CUSTOM_ELEMENT_TYPE*) malloc(sizeof(CUSTOM_ELEMENT_TYPE) * (pCpy->size));
+
+
+                    // copy data in full cell to new cell which has double space.
+                    memcpyMySelf((char*)(pCpy->array), (char*)(out->array), sizeof(CUSTOM_ELEMENT_TYPE) * (out->size));
+                    pCpy->current_num = out->size;
+
+
+                    // release the old Data and let Purpose pointer to cpy pointer
+                    free(out->array);
+                    out->array = NULL;
+                    free(out);
+                    out = NULL;
+                    out = pCpy;
+                    pCpy = NULL;
+
+                    //printf("extend experience : %2d -> %2d\n", out
+
+                }
+
+                //Add a new term to array
+                memcpyMySelf( ((char*)(out->array) + (out->current_num) * sizeof(CUSTOM_ELEMENT_TYPE)) , &(pBinNode->val), sizeof(CUSTOM_ELEMENT_TYPE));
+                out->current_num++;
+
+            }
+            PushStack(pStackVisitedNode, &pBinNode);
+            pBinNode = pBinNode->left;
+        }
+
+        decide = IsEmptyStack(pStackVisitedNode);
+
+        if (decide == NO)
+        {
+            PopStack(pStackVisitedNode, &pBinNode);
+            pBinNode = pBinNode->right;
+        }
+
+    } while(NO == decide);
+
+
+    if (PRINTF == outType)
+    {
+        free(out);
+    }
+
+    return out;
+}
+
+CUSTOM_ARRAY_T* PreOrderAndOuputArray(P_BINNODE_T pBinNode)
+{
+    OUTPUT_FORMAT_T outType = ARRAY;
+
+    CUSTOM_ARRAY_T* output = preOrderAndOuput(pBinNode, outType);
+
+    return output;
+}
 
 void PreOrderTravsl(P_BINNODE_T pBinNode)
 {
-    PSTACK_ARRAY_T pStackVisitedNode = CreatStackArray(sizeof(P_BINNODE_T));
-    DECIDE_T decide;
+    OUTPUT_FORMAT_T outType = PRINTF;
 
-    do
-    {
-        while(NULL != pBinNode)
-        {
-            PrintfCustomElement(pBinNode->val);
-            PushStack(pStackVisitedNode, &pBinNode);
-            pBinNode = pBinNode->left;
-        }
-
-        decide = IsEmptyStack(pStackVisitedNode);
-
-        if (decide == NO)
-        {
-            PopStack(pStackVisitedNode, &pBinNode);
-            pBinNode = pBinNode->right;
-        }
-
-    } while(NO == decide);
+    preOrderAndOuput(pBinNode, outType);
 }
 
-void InOrderTravsl(P_BINNODE_T pBinNode)
+//DD_
+static CUSTOM_ARRAY_T* inOrderAndOuput(P_BINNODE_T pBinNode, OUTPUT_FORMAT_T outType)
 {
+    CUSTOM_ARRAY_T *out = malloc(sizeof(CUSTOM_ARRAY_T));
+    out->size = 2;
+    out->current_num = 0;
+    out->array = (CUSTOM_ELEMENT_TYPE*) malloc(sizeof(CUSTOM_ELEMENT_TYPE) * (out->size));
+
+
     PSTACK_ARRAY_T pStackVisitedNode = CreatStackArray(sizeof(P_BINNODE_T));
     DECIDE_T decide;
-
     do
     {
         while(NULL != pBinNode)
@@ -110,11 +190,72 @@ void InOrderTravsl(P_BINNODE_T pBinNode)
         if (decide == NO)
         {
             PopStack(pStackVisitedNode, &pBinNode);
-            PrintfCustomElement(pBinNode->val);
+
+            if (PRINTF == outType)
+            {
+                PrintfCustomElement(pBinNode->val);
+            }
+            else if (ARRAY == outType)
+            {
+                // Is FULL Now, Need to extend
+                if (out->current_num == out->size)
+                {
+                    //Copy term and extend Double space
+                    CUSTOM_ARRAY_T *pCpy = malloc(sizeof(CUSTOM_ARRAY_T));
+                    pCpy->size = ((out->size) << 1);
+                    pCpy->array = (CUSTOM_ELEMENT_TYPE*) malloc(sizeof(CUSTOM_ELEMENT_TYPE) * (pCpy->size));
+
+
+                    // copy data in full cell to new cell which has double space.
+                    memcpyMySelf((char*)(pCpy->array), (char*)(out->array), sizeof(CUSTOM_ELEMENT_TYPE) * (out->size));
+                    pCpy->current_num = out->size;
+
+
+                    // release the old Data and let Purpose pointer to cpy pointer
+                    free(out->array);
+                    out->array = NULL;
+                    free(out);
+                    out = NULL;
+                    out = pCpy;
+                    pCpy = NULL;
+
+                    //printf("extend experience : %2d -> %2d\n", out
+
+                }
+
+                //Add a new term to array
+                memcpyMySelf( ((char*)(out->array) + (out->current_num) * sizeof(CUSTOM_ELEMENT_TYPE)) , &(pBinNode->val), sizeof(CUSTOM_ELEMENT_TYPE));
+                out->current_num++;
+
+            }
+
             pBinNode = pBinNode->right;
         }
 
     } while(NO == decide);
+
+    if (PRINTF == outType)
+    {
+        free(out);
+    }
+
+    return out;
+}
+
+CUSTOM_ARRAY_T* InOrderAndOuputArray(P_BINNODE_T pBinNode)
+{
+    OUTPUT_FORMAT_T outType = ARRAY;
+
+    CUSTOM_ARRAY_T* output = inOrderAndOuput(pBinNode, outType);
+
+    return output;
+}
+//DD_
+void InOrderTravsl(P_BINNODE_T pBinNode)
+{
+    OUTPUT_FORMAT_T outType = PRINTF;
+
+    inOrderAndOuput(pBinNode, outType);
 }
 
 void PostOrderTravsl(P_BINNODE_T pBinNode)
@@ -173,7 +314,7 @@ void PostOrderTravsl(P_BINNODE_T pBinNode)
 static CUSTOM_ARRAY_T* breadthOrderAndOuput(P_BINNODE_T pBinNode, OUTPUT_FORMAT_T outType)
 {
     CUSTOM_ARRAY_T *out = malloc(sizeof(CUSTOM_ARRAY_T));
-    out->size = 10;
+    out->size = 2;
     out->current_num = 0;
     out->array = (CUSTOM_ELEMENT_TYPE*) malloc(sizeof(CUSTOM_ELEMENT_TYPE) * (out->size));
 
@@ -211,6 +352,8 @@ static CUSTOM_ARRAY_T* breadthOrderAndOuput(P_BINNODE_T pBinNode, OUTPUT_FORMAT_
                 out = pCpy;
                 pCpy = NULL;
 
+                //printf("extend experience : %2d -> %2d\n", out
+
             }
 
             //Add a new term to array
@@ -246,25 +389,9 @@ CUSTOM_ARRAY_T* BreadthOrderAndOuputArray(P_BINNODE_T pBinNode)
 
 void BreadthOrderTravsl(P_BINNODE_T pBinNode)
 {
-    P_QUEUE_ARRAY_T pQueue = CreatQueueArray(sizeof(P_BINNODE_T));
-    DECIDE_T decide = YES;
-    while (NULL != pBinNode)
-    {
-        PrintfCustomElement(pBinNode->val);
-        if (NULL != pBinNode->left)  PushQueue(pQueue, &(pBinNode->left));
-        if (NULL != pBinNode->right) PushQueue(pQueue, &(pBinNode->right));
+    OUTPUT_FORMAT_T outType = PRINTF;
 
-        decide = IsEmptyQueue(pQueue);
-        if (NO == decide)
-        {
-            PopQueue(pQueue, &pBinNode);
-        }
-        else
-        {
-            pBinNode = NULL;
-        }
-    }
-
+    breadthOrderAndOuput(pBinNode, outType);
 }
 
 

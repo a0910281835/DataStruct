@@ -14,7 +14,7 @@ typedef struct BINNODE_T
 
 typedef enum
 {
-    PRE_ORDER,
+    PRE_ORDER = 0,
     IN_ORDER,
     POST_ORDER,
     BREADTH_ORDER
@@ -46,6 +46,8 @@ typedef enum
     ARRAY  = 1
 }OUTPUT_FORMAT_T;
 extern CUSTOM_ARRAY_T* BreadthOrderAndOuputArray(P_BINNODE_T pBinNode);
+extern CUSTOM_ARRAY_T* PreOrderAndOuputArray(P_BINNODE_T pBinNode);
+extern CUSTOM_ARRAY_T* InOrderAndOuputArray(P_BINNODE_T pBinNode);
 //Purpose : end
 
 

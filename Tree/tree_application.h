@@ -26,13 +26,16 @@ typedef struct BINNODE_T BST_NODE_T;
 typedef struct BINNODE_T *P_BST_HEAD_T;
 typedef struct BINNODE_T *P_BST_NODE_T;
 
+//BST fundmetal function
 extern P_BST_NODE_T FindElementInBST(P_BST_HEAD_T pHead, CUSTOM_ELEMENT_TYPE element);
 extern P_BST_NODE_T TakeMaxInBST(P_BST_HEAD_T pHead);
 extern P_BST_NODE_T TakeMinInBST(P_BST_HEAD_T pHead);
 extern P_BST_HEAD_T InsertElementInBST(P_BST_HEAD_T pHead, CUSTOM_ELEMENT_TYPE element);
 extern P_BST_HEAD_T DeleteElementInBST(P_BST_HEAD_T pHead, CUSTOM_ELEMENT_TYPE element);
 
-
+//BST Special funtion
+//Leetcode 98
+extern DECIDE_T IsBSTTree(P_BST_HEAD_T pHead);
 
 
 

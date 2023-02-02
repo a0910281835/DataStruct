@@ -99,6 +99,13 @@ int main(void)
 
    CUSTOM_ARRAY_T* output =  BreadthOrderAndOuputArray(pHead3);
    printf("Size = %2d\n", output->current_num);
+
+   for (idx = 0; idx < (output->current_num); idx++)
+   {
+       printf("%2d\n", output->array[idx]);
+   }
+   DECIDE_T decide = IsBSTTree(pHead3);
+   printf("%s\n", array[decide]);
     /*
     char *d = malloc(sizeof(char));
     P_QUEUE_ARRAY_T pQueue = CreatQueueArray(sizeof(char));

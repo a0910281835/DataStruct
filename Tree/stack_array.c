@@ -3,6 +3,7 @@
 
 PSTACK_ARRAY_T CreatStackArray(size_t sizeofSpecialObj)
 {
+    //Here Limit the stack Size
     PSTACK_ARRAY_T pStackArray = (PSTACK_ARRAY_T) malloc(sizeof(STACK_ARRAY_T));
     pStackArray->current_num = EMPTY_SIZE;
     pStackArray->sizeofObj = sizeofSpecialObj;
