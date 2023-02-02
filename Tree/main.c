@@ -20,7 +20,7 @@ int main(void)
     //       6   17 23
     //        9   18
     InsertValBinNode(pHead, 5);
-    InsertValBinNode(pHead->left, 2);
+    InsertValBinNode(pHead->left, 100);
     InsertValBinNode(pHead->right, 15);
     printf("val: %d, %d, %d\n", pHead->val, (pHead->left)->val, (pHead->right)->val);
     current = pHead->right;
@@ -105,6 +105,7 @@ int main(void)
        printf("%2d\n", output->array[idx]);
    }
    DECIDE_T decide = IsBSTTree(pHead3);
+   decide = IsBSTTreeByRecursive(pHead3);
    printf("%s\n", array[decide]);
     /*
     char *d = malloc(sizeof(char));

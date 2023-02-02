@@ -36,6 +36,7 @@ extern P_BST_HEAD_T DeleteElementInBST(P_BST_HEAD_T pHead, CUSTOM_ELEMENT_TYPE e
 //BST Special funtion
 //Leetcode 98
 extern DECIDE_T IsBSTTree(P_BST_HEAD_T pHead);
+extern DECIDE_T IsBSTTreeByRecursive(P_BST_HEAD_T pHead);
 
 
 

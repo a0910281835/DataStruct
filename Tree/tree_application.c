@@ -304,18 +304,55 @@ P_BST_HEAD_T DeleteElementInBST(P_BST_HEAD_T pHead, CUSTOM_ELEMENT_TYPE element)
 // Both the left and right subtrees must also be binary search trees.
 
 
+
 DECIDE_T IsBSTTreeByRecursive(P_BST_HEAD_T pHead)
 {
 
     //Inital Condtion
-    //
+    if (NULL == pHead) return YES;
 
 
+    
     DECIDE_T decide = IsBSTTreeByRecursive(pHead->left);
     P_BST_NODE_T leftSubTreeMax = TakeMaxInBST(pHead->left);
+    CUSTOM_ELEMENT_TYPE compareVal;
 
+    if (NULL != leftSubTreeMax)
+    {
+        compareVal = leftSubTreeMax->val;
 
+        if (compareVal <= pHead->val)
+        {
+            decide &= YES;
+        }
+        else
+        {
+            decide &= NO;
+            //printf("not satisy by this value leftsubNode:%2d Node:%2d\n", compareVal, pHead->val);
+        }
 
+    }
+
+    decide &= IsBSTTreeByRecursive(pHead->right);
+    P_BST_NODE_T rightSubTreeMax = TakeMinInBST(pHead->right);
+
+    if (NULL != rightSubTreeMax)
+    {
+        compareVal = rightSubTreeMax->val;
+
+        if (pHead->val <= compareVal)
+        {
+            decide &= YES;
+        }
+        else
+        {
+            decide &= NO;
+            //printf("not satisy by this value Node:%2d rightNode:%2d\n", pHead->val, compareVal);
+        }
+
+    }
+
+    return decide;
 
 }
 DECIDE_T IsBSTTree(P_BST_HEAD_T pHead)
