@@ -20,7 +20,7 @@ int main(void)
     //       6   17 23
     //        9   18
     InsertValBinNode(pHead, 5);
-    InsertValBinNode(pHead->left, 100);
+    InsertValBinNode(pHead->left, 2);
     InsertValBinNode(pHead->right, 15);
     printf("val: %d, %d, %d\n", pHead->val, (pHead->left)->val, (pHead->right)->val);
     current = pHead->right;
@@ -91,8 +91,10 @@ int main(void)
     TravelBinTree(pHead3, BREADTH_ORDER);
     printf("--------Travel BST End------------\n");
 
-    printf("Delete 10\n");
-    DeleteElementInBST(pHead3, 10);
+    int val = 19;
+    printf("Delete %2d\n", val);
+    //DeleteElementInBST(pHead3, 10);
+    pHead3 = DeleteElementInBSTByRecursive(pHead3, val);
     printf("Breathorder:\n");
     TravelBinTree(pHead3, BREADTH_ORDER);
 

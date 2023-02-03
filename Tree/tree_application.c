@@ -292,6 +292,93 @@ P_BST_HEAD_T DeleteElementInBST(P_BST_HEAD_T pHead, CUSTOM_ELEMENT_TYPE element)
     return pHead;
 }
 
+
+// the quiz pratice my recursive method
+//Input:
+//pHead    : Current Tree's Head Node
+//element  : Delete Element
+//OutPut
+//          : After Delete, Reback Tree's Head Node
+P_BST_HEAD_T DeleteElementInBSTByRecursive(P_BST_HEAD_T pHead, CUSTOM_ELEMENT_TYPE element)
+{
+    // Inital Condition : This funtion directly find the delete val , so if it in here that means this value not exist.
+    if (NULL == pHead)
+    {
+        printf("this value : %2d not exist\n", element);
+        return NULL;
+    }
+    else
+    {
+        if (element < pHead->val)
+        {
+            pHead->left = DeleteElementInBSTByRecursive(pHead->left, element);
+            return pHead;
+        }
+        else if (pHead->val < element)
+        {
+            pHead->right = DeleteElementInBSTByRecursive(pHead->right, element);
+            return pHead;
+        }
+        else // pHead == val
+        {
+
+            P_BST_NODE_T pNode = NULL;
+            if ((NULL == pHead->left) && (NULL == pHead->right))
+            {
+                //the delete element in leaf
+                //Do nothing
+                free(pHead);
+                pHead = NULL;
+                return pHead;
+
+            }
+            else if ((NULL != pHead->left) ^ (NULL != pHead->right))
+            {
+                pNode = (NULL != (pHead->left)) ? (pHead->left) : (pHead->right);
+                pHead->left  = NULL;
+                pHead->right = NULL;
+                free(pHead);
+                pHead = pNode;
+                return pHead;
+            }
+            else // left and right are non-empty subtree.
+            {
+                // The Best method is to check subtree length
+                // taks left max
+
+                pNode = TakeMaxInBST(pHead->left);
+                //Memecpy pNode
+                P_BST_NODE_T pCpyNode = (P_BST_NODE_T) malloc(sizeof(BST_NODE_T));
+                pCpyNode->val   = pNode->val;
+                pCpyNode->left  = NULL;
+                pCpyNode->right = NULL;
+
+                pHead->left = DeleteElementInBSTByRecursive(pHead->left, pNode->val);
+
+                //This time pNode if be free.
+                pNode    = NULL;
+                pNode    = pCpyNode;
+                pCpyNode = NULL;
+                pNode->left  = pHead->left;
+                pNode->right = pHead->right;
+
+                free(pHead);
+                pHead = pNode;
+                return pHead;
+
+
+
+
+            }
+
+        }
+
+
+
+    }
+
+
+}
 //98. Validate Binary Search Tree
 //Given the root of a binary tree, determine if it is a valid binary search tree (BST).
 //
@@ -312,7 +399,7 @@ DECIDE_T IsBSTTreeByRecursive(P_BST_HEAD_T pHead)
     if (NULL == pHead) return YES;
 
 
-    
+
     DECIDE_T decide = IsBSTTreeByRecursive(pHead->left);
     P_BST_NODE_T leftSubTreeMax = TakeMaxInBST(pHead->left);
     CUSTOM_ELEMENT_TYPE compareVal;

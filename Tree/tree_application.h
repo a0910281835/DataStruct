@@ -32,6 +32,7 @@ extern P_BST_NODE_T TakeMaxInBST(P_BST_HEAD_T pHead);
 extern P_BST_NODE_T TakeMinInBST(P_BST_HEAD_T pHead);
 extern P_BST_HEAD_T InsertElementInBST(P_BST_HEAD_T pHead, CUSTOM_ELEMENT_TYPE element);
 extern P_BST_HEAD_T DeleteElementInBST(P_BST_HEAD_T pHead, CUSTOM_ELEMENT_TYPE element);
+extern P_BST_HEAD_T DeleteElementInBSTByRecursive(P_BST_HEAD_T pHead, CUSTOM_ELEMENT_TYPE element);
 
 //BST Special funtion
 //Leetcode 98
