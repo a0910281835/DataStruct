@@ -305,19 +305,16 @@ P_BST_HEAD_T DeleteElementInBSTByRecursive(P_BST_HEAD_T pHead, CUSTOM_ELEMENT_TY
     if (NULL == pHead)
     {
         printf("this value : %2d not exist\n", element);
-        return NULL;
     }
     else
     {
         if (element < pHead->val)
         {
             pHead->left = DeleteElementInBSTByRecursive(pHead->left, element);
-            return pHead;
         }
         else if (pHead->val < element)
         {
             pHead->right = DeleteElementInBSTByRecursive(pHead->right, element);
-            return pHead;
         }
         else // pHead == val
         {
@@ -329,7 +326,6 @@ P_BST_HEAD_T DeleteElementInBSTByRecursive(P_BST_HEAD_T pHead, CUSTOM_ELEMENT_TY
                 //Do nothing
                 free(pHead);
                 pHead = NULL;
-                return pHead;
 
             }
             else if ((NULL != pHead->left) ^ (NULL != pHead->right))
@@ -339,43 +335,32 @@ P_BST_HEAD_T DeleteElementInBSTByRecursive(P_BST_HEAD_T pHead, CUSTOM_ELEMENT_TY
                 pHead->right = NULL;
                 free(pHead);
                 pHead = pNode;
-                return pHead;
             }
             else // left and right are non-empty subtree.
             {
                 // The Best method is to check subtree length
-                // taks left max
+                // Here take left subtree max val
 
                 pNode = TakeMaxInBST(pHead->left);
-                //Memecpy pNode
-                P_BST_NODE_T pCpyNode = (P_BST_NODE_T) malloc(sizeof(BST_NODE_T));
-                pCpyNode->val   = pNode->val;
-                pCpyNode->left  = NULL;
-                pCpyNode->right = NULL;
+                //FIXME : assign a space to do Memecpy is not need
+                //P_BST_NODE_T pCpyNode = (P_BST_NODE_T) malloc(sizeof(BST_NODE_T));
+                //pCpyNode->val   = pNode->val;
+                //pCpyNode->left  = NULL;
+                //pCpyNode->right = NULL;
 
+                pHead->val = pNode->val;
                 pHead->left = DeleteElementInBSTByRecursive(pHead->left, pNode->val);
 
                 //This time pNode if be free.
-                pNode    = NULL;
-                pNode    = pCpyNode;
-                pCpyNode = NULL;
-                pNode->left  = pHead->left;
-                pNode->right = pHead->right;
-
-                free(pHead);
-                pHead = pNode;
-                return pHead;
-
-
-
+                pNode = NULL;
 
             }
 
         }
 
-
-
     }
+
+    return pHead;
 
 
 }
