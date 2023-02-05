@@ -38,6 +38,8 @@ extern P_BST_HEAD_T DeleteElementInBSTByRecursive(P_BST_HEAD_T pHead, CUSTOM_ELE
 //Leetcode 98
 extern DECIDE_T IsBSTTree(P_BST_HEAD_T pHead);
 extern DECIDE_T IsBSTTreeByRecursive(P_BST_HEAD_T pHead);
+//LeetCode 96
+extern int numTrees(int n);
 
 
 

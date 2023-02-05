@@ -468,5 +468,38 @@ DECIDE_T IsBSTTree(P_BST_HEAD_T pHead)
 
 int numTrees(int n)
 {
+    //Solution : 1 | 2 | 3 ..... | n
+    // Head is  1 => the right subtree is order 2, ... , n and left subtree is zero. and how do I calulate by  BST(n-1) * BST(0);
+    //Dynamic Progaming
+    int* storageBST = malloc(sizeof(int) * (n + 1));
+    //Inital Condiotn
+    storageBST[0] = storageBST[1] = 1;
+
+    int bstTotal = 2;
+
+    for (bstTotal = 2; bstTotal <= n; bstTotal++)
+    {
+        int recordThisVal = 0;
+
+        int headIdx;
+        for (headIdx = 1; headIdx <= bstTotal; headIdx++)
+        {
+            // Num
+            //     headIdx - 1  | headIdx | (bstTotal - headIdx)
+
+            recordThisVal += (storageBST[headIdx-1] * storageBST[bstTotal-headIdx]);
+        }
+
+        storageBST[bstTotal] = recordThisVal;
+    }
+
+
+    int lastVal = storageBST[n];
+    free(storageBST);
+
+
+
+    return lastVal;
+
 
 }
