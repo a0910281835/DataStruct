@@ -42,5 +42,11 @@ extern DECIDE_T IsBSTTreeByRecursive(P_BST_HEAD_T pHead);
 extern int numTrees(int n);
 extern int numTreesByRecursive(int n);
 
+
+
+
+// AVL Tree
+// Calulate the min size of Blance BST
+
 #endif
 
