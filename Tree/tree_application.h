@@ -40,11 +40,7 @@ extern DECIDE_T IsBSTTree(P_BST_HEAD_T pHead);
 extern DECIDE_T IsBSTTreeByRecursive(P_BST_HEAD_T pHead);
 //LeetCode 96
 extern int numTrees(int n);
-
-
-
-
-
+extern int numTreesByRecursive(int n);
 
 #endif
 

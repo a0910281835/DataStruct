@@ -500,6 +500,28 @@ int numTrees(int n)
 
 
     return lastVal;
+}
 
+int numTreesByRecursive(int n)
+{
+    //Inital Condtion
+    if ((0 == n) || (1 == n))
+    {
+        return 1;
+    }
+    else
+    {
+        //headIdx
+        // 1 | 2 | 3 | ...... | n
+        int headIdx;
+        int recordThisVal = 0;
+
+        for (headIdx = 1; headIdx <= n; headIdx++)
+        {
+            recordThisVal += (numTreesByRecursive(headIdx-1) * numTreesByRecursive(n-headIdx));
+        }
+
+        return recordThisVal;
+    }
 
 }
