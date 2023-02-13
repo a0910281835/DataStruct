@@ -42,6 +42,11 @@ extern DECIDE_T IsBSTTreeByRecursive(P_BST_HEAD_T pHead);
 extern int numTrees(int n);
 extern int numTreesByRecursive(int n);
 
+typedef struct TreeNode    TREE_NODE_T;
+typedef struct TreeNode*   P_TREE_NODE_T;
+typedef struct TreeNode*   P_TREE_HEAD_T;
+typedef struct TreeNode**  P_HEAD_COLLECT_T;
+
 typedef struct TreeNode
 {
     int val;

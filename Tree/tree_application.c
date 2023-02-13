@@ -537,6 +537,9 @@ int numTreesByRecursive(int n)
 // Input: n = 1
 // Output: [[1]]
 //
+//Constraints:
+//
+//1 <= n <= 8
 /**
  *  * Definition for a binary tree node.
  *   * struct TreeNode {
@@ -547,9 +550,66 @@ int numTreesByRecursive(int n)
  *        */
 /**
  *  * Note: The returned array must be malloced, assume caller calls free().
+ *
  *   */
+
+static P_HEAD_COLLECT_T generateTreesByRecursive(int n, int* returnSize)
+{
+    P_HEAD_COLLECT_T pHeadColl;
+    //Intial Condition
+    if ((n == 1) || (n == 0))
+    {
+        *returnSize = 1;
+        P_TREE_HEAD_T pHead = NULL;
+        if (n == 1)
+        {
+            pHead = malloc(sizeof(TREE_NODE_T));
+            pHead->val   = 1;
+            pHead->left  = NULL;
+            pHead->right = NULL;
+        }
+
+        pHeadColl = &(pHead);
+
+    }
+    else
+    {
+
+    }
+
+    return pHeadColl;
+}
+
+
 struct TreeNode** generateTrees(int n, int* returnSize)
 {
+    int *resultSize = malloc(sizeof(int));
+    TreeNode** nTreeHead = generateTreesByRecursive(n, resultSize);
+    return nTreeHead;
+    int* returnSize1;
+    int* returnSize2;
+
+    // Inital Condtion
+
+
+
+    int headIdx = 1;
+
+    for (headIdx = 1; headIdx <= n; headIdx++)
+    {
+        TreeNode** leftHeaad = generateTrees(headIdx-1, returnSize1);
+        TreeNode** rightHead = generateTrees(n-headIdx, returnSize2);
+
+        //Difficult : 1. How To connect
+        //            2. How To addtive;
+
+        //2. Addtive Finish Here
+        //
+        //
+        //1. Connect.
+
+    }
+
 
 }
 
