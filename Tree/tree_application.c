@@ -574,12 +574,87 @@ static P_HEAD_COLLECT_T generateTreesByRecursive(int n, int* returnSize)
     }
     else
     {
+        int headIdx = 1;
+        TreeNode ** collect[n];
+
+        for (headIdx = 1; headIdx <= n; headIdx++)
+        {
+            int headIdxAsHeadNum;
+            TreeNode** leftHeaad = generateTreesByRecursive(headIdx-1, returnSize);
+            int leftTreeNum = *returnSize;
+            TreeNode** rightHead = generateTreesByRecursive(n-headIdx, returnSize);
+            int rightTreeNum = *returnSize;
+            headIdxAsHeadNum = leftTreeNum * rightTreeNum;
+            TreeNode * headIdxHead[headIdxAsHeadNum];
+
+            int idx1 = 0;
+            
+            for (idx1 = 0; idx1 < headIdxAsHeadNum; idx1++)
+            {
+
+                headIdxHead[idx1] = malloc(sizeof(TreeNode));
+
+            }
+
+
+
+        }
 
     }
 
     return pHeadColl;
 }
 
+{
+    int *a1 = malloc(sizeof(int) * 4);
+    int *a2 = malloc(sizeof(int) * 2);
+    int *a3 = malloc(sizeof(int) * 3);
+    int *a[9];
+
+    int **pointerPointer[3] = {&a1, &a2, &a3};
+    int idx1, idx2 = 0;
+
+
+    for (idx1 = 0; idx1 < 3; idx1++)
+    {
+        printf("----a%1d-------------\n", idx1);
+        for (idx2 = 0; idx2 < 4; idx2++)
+        {
+            *( (*pointerPointer[idx1]) + idx2) = 7 + (idx1 << 1) + (idx2 * 5);
+            //printf("%3d\n", *(a1 + idx
+        }
+    }
+
+        for (idx2 = 0; idx2 < 4; idx2++)
+        {
+            printf("%3d\n", *(a1 + idx2));
+        }
+
+        for (idx2 = 0; idx2 < 2; idx2++)
+        {
+            printf("%3d\n", *(a2 + idx2));
+        }
+
+        for (idx2 = 0; idx2 < 3; idx2++)
+        {
+            printf("%3d\n", *(a3 + idx2));
+        }
+
+
+        //
+        //
+        //
+        //----
+
+        for (idx2 = 0; idx2 < 4; idx2++)
+        {
+            a[idx2] = a1 + idx2;
+            printf("%2d,", *(a[idx2]));
+        }
+
+
+    return 1;
+}
 
 struct TreeNode** generateTrees(int n, int* returnSize)
 {

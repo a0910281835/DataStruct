@@ -109,7 +109,7 @@ int main(void)
    DECIDE_T decide = IsBSTTree(pHead3);
    decide = IsBSTTreeByRecursive(pHead3);
    printf("%s\n", array[decide]);
-   int n = numTrees(19);
+   int n = numTrees(9);
 
    printf("%2d\n", n);
     /*

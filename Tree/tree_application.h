@@ -50,8 +50,8 @@ typedef struct TreeNode**  P_HEAD_COLLECT_T;
 typedef struct TreeNode
 {
     int val;
-    TreeNode* left;
-    TreeNode* right;
+    struct TreeNode* left;
+    struct TreeNode* right;
 }TreeNode;
 
 
