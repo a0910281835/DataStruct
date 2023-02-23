@@ -109,9 +109,28 @@ int main(void)
    DECIDE_T decide = IsBSTTree(pHead3);
    decide = IsBSTTreeByRecursive(pHead3);
    printf("%s\n", array[decide]);
-   int n = numTrees(8);
 
+
+   
+   int max_num = 5;
+
+   int n = numTrees(max_num);
    printf("%2d\n", n);
+
+
+   int *ret = malloc(sizeof(int));
+   P_HEAD_COLLECT_T collect;
+   collect = generateTrees(max_num, ret);
+   printf("--------List Trees num Start----------\n");
+   printf("total number : %2d\n", *ret);
+   //for (idx = 0; idx < *ret; idx++)
+   //{
+   //    printf("The %3d th Tree-------\n", idx + 1);
+   //    TravelBinTree((BINTREE_HEAD)collect[idx], BREADTH_ORDER);
+
+   //}
+
+
     /*
     char *d = malloc(sizeof(char));
     P_QUEUE_ARRAY_T pQueue = CreatQueueArray(sizeof(char));

@@ -50,11 +50,12 @@ typedef struct TreeNode**  P_HEAD_COLLECT_T;
 typedef struct TreeNode
 {
     int val;
-    struct TreeNode* left;
-    struct TreeNode* right;
+    P_TREE_NODE_T left;
+    P_TREE_NODE_T right;
 }TreeNode;
 
 
+extern struct TreeNode** generateTrees(int n, int* returnSize);
 
 // AVL Tree
 // Calulate the min size of Blance BST

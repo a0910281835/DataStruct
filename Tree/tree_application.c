@@ -554,20 +554,46 @@ int numTreesByRecursive(int n)
  *   */
 
 #define MAX_HEAD_NUM 1500
-
-void TravalTreeAddNum(int number, TreeNode** collect, int treenum);
+P_TREE_NODE_T travalTreeAndAddNum(int num, P_TREE_NODE_T treeHead)
 {
+    //Inital Condition
+    if (NULL == treeHead)
+        return treeHead;
+    else
+    {
+        P_TREE_NODE_T leftSubTree  = treeHead->left;
+        P_TREE_NODE_T rightSubTree = treeHead->right;
+        leftSubTree  = travalTreeAndAddNum(num, leftSubTree);
+        rightSubTree = travalTreeAndAddNum(num, rightSubTree);
+        treeHead->val += num;
+        treeHead->left  = leftSubTree;
+        treeHead->right = rightSubTree;
+    }
+    return treeHead;
+}
+
+
+void TravalTreeAddNum(int number, P_HEAD_COLLECT_T collect, int treeNum)
+{
+
+    int idx = 0;
+
+    for (idx = 0; idx < treeNum; idx++)
+    {
+        travalTreeAndAddNum(number, collect[idx]);
+    }
+
 
 }
 
 static P_HEAD_COLLECT_T generateTreesByRecursive(int n, int* returnSize)
 {
-    P_HEAD_COLLECT_T pHeadColl;
+    P_HEAD_COLLECT_T pHeadColl = malloc(sizeof(P_TREE_NODE_T));
     //Intial Condition
     if ((n == 1) || (n == 0))
     {
         *returnSize = 1;
-        P_TREE_HEAD_T pHead = NULL;
+        P_TREE_NODE_T pHead = NULL;
         if (n == 1)
         {
             pHead = malloc(sizeof(TREE_NODE_T));
@@ -576,41 +602,69 @@ static P_HEAD_COLLECT_T generateTreesByRecursive(int n, int* returnSize)
             pHead->right = NULL;
         }
 
-        pHeadColl = &(pHead);
+        pHeadColl[0] = (pHead);
 
     }
     else
     {
-        //This Problem need to know int** a[9] int**a1 int**a2
         int headIdx = 1;
-        TreeNode * totalHeadIdx[MAX_HEAD_NUM];
-        int last_num = 0;
+        int last_num = 0;  //  Recording Number of Tree
+        int current_val = 1;// Recording Collect Capacity, Remark : this is not Num of tree
 
         for (headIdx = 1; headIdx <= n; headIdx++)
         {
             int headIdxAsHeadNum;
-            TreeNode** leftHeaad = generateTreesByRecursive(headIdx-1, returnSize);
+            P_HEAD_COLLECT_T leftHead = generateTreesByRecursive(headIdx-1, returnSize);
             int leftTreeNum = *returnSize;
-            TreeNode** rightHead = generateTreesByRecursive(n-headIdx, returnSize);
+            P_HEAD_COLLECT_T rightHead = generateTreesByRecursive(n-headIdx, returnSize);
             int rightTreeNum = *returnSize;
+            TravalTreeAddNum(headIdx, rightHead, rightTreeNum);
             headIdxAsHeadNum = leftTreeNum * rightTreeNum;
-            TreeNode * headIdxHead[headIdxAsHeadNum];
+            P_TREE_NODE_T headIdxHead[headIdxAsHeadNum];
 
             int idx1 = 0;
+            int idx2 = 0;
 
-            for (idx1 = 0; idx1 < headIdxAsHeadNum; idx1++)
+            for (idx1 = 0; idx1 < leftTreeNum; idx1++)
             {
+                for (idx2 = 0; idx2 < rightTreeNum; idx2++)
+                {
+                    int sumIdx = idx1 + idx2;
+                    headIdxHead[sumIdx] = malloc(sizeof(TreeNode));
+                    (headIdxHead[sumIdx])->val   = headIdx;
+                    (headIdxHead[sumIdx])->left  = leftHead[idx1];
+                    (headIdxHead[sumIdx])->right = rightHead[idx2];
+                }
+            }
 
-                headIdxHead[last_num] = malloc(sizeof(TreeNode));
-                (headIdxHead[last_num])->val = headIdx;
+            // Extend Array
+            int cpyIdx = 0;
 
+            if (current_val < (last_num + headIdxAsHeadNum))
+            {
+                P_HEAD_COLLECT_T extendPointer = malloc(sizeof(P_TREE_NODE_T) * ((last_num + headIdxAsHeadNum) << 1));
+                //Copy OLD term.
+                for (cpyIdx = 0; cpyIdx < last_num; cpyIdx++)
+                {
+                    extendPointer[cpyIdx] = pHeadColl[cpyIdx];
+                }
+
+                free(pHeadColl);
+                pHeadColl = extendPointer;
+                current_val = ((last_num + headIdxAsHeadNum) << 1);
 
             }
 
+            //Copy New term.
+            for (cpyIdx = 0; cpyIdx < headIdxAsHeadNum; cpyIdx++)
+            {
+                pHeadColl[cpyIdx + last_num] = headIdxHead[cpyIdx];
+            }
 
-
+            last_num += headIdxAsHeadNum;
         }
 
+        *returnSize = last_num;
     }
 
     return pHeadColl;
@@ -619,34 +673,8 @@ static P_HEAD_COLLECT_T generateTreesByRecursive(int n, int* returnSize)
 
 struct TreeNode** generateTrees(int n, int* returnSize)
 {
-    int *resultSize = malloc(sizeof(int));
-    TreeNode** nTreeHead = generateTreesByRecursive(n, resultSize);
+    P_HEAD_COLLECT_T nTreeHead = generateTreesByRecursive(n, returnSize);
     return nTreeHead;
-    int* returnSize1;
-    int* returnSize2;
-
-    // Inital Condtion
-
-
-
-    int headIdx = 1;
-
-    for (headIdx = 1; headIdx <= n; headIdx++)
-    {
-        TreeNode** leftHeaad = generateTrees(headIdx-1, returnSize1);
-        TreeNode** rightHead = generateTrees(n-headIdx, returnSize2);
-
-        //Difficult : 1. How To connect
-        //            2. How To addtive;
-
-        //2. Addtive Finish Here
-        //
-        //
-        //1. Connect.
-
-    }
-
-
 }
 
 
