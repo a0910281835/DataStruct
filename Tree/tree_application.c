@@ -573,6 +573,7 @@ P_TREE_NODE_T travalTreeAndAddNum(int num, P_TREE_NODE_T treeHead)
 }
 
 
+// It's Difficult Consider this conditon : list has common
 void TravalTreeAddNum(int number, P_HEAD_COLLECT_T collect, int treeNum)
 {
 
@@ -585,6 +586,27 @@ void TravalTreeAddNum(int number, P_HEAD_COLLECT_T collect, int treeNum)
 
 
 }
+
+
+P_TREE_NODE_T CopyTree(P_TREE_NODE_T beCopyTree)
+{
+    P_TREE_NODE_T pHead = NULL;
+    //Inital Codition
+    if (NULL != beCopyTree)
+    {
+        pHead = malloc(sizeof(TREE_NODE_T));
+        pHead->val = beCopyTree->val;
+        pHead->left  = CopyTree(beCopyTree->left);
+        pHead->right = CopyTree(beCopyTree->right);
+
+    }
+
+    return pHead;
+}
+
+void DeleteTree(P_TREE_NODE_T tree);
+
+
 
 static P_HEAD_COLLECT_T generateTreesByRecursive(int n, int* returnSize)
 {
@@ -618,9 +640,9 @@ static P_HEAD_COLLECT_T generateTreesByRecursive(int n, int* returnSize)
             int leftTreeNum = *returnSize;
             P_HEAD_COLLECT_T rightHead = generateTreesByRecursive(n-headIdx, returnSize);
             int rightTreeNum = *returnSize;
-            TravalTreeAddNum(headIdx, rightHead, rightTreeNum);
+            //TravalTreeAddNum(headIdx, rightHead, rightTreeNum);
             headIdxAsHeadNum = leftTreeNum * rightTreeNum;
-            P_TREE_NODE_T headIdxHead[headIdxAsHeadNum];
+            P_HEAD_COLLECT_T headIdxHead = malloc(sizeof(P_TREE_NODE_T) * headIdxAsHeadNum);
 
             int idx1 = 0;
             int idx2 = 0;
@@ -632,6 +654,7 @@ static P_HEAD_COLLECT_T generateTreesByRecursive(int n, int* returnSize)
                     int sumIdx = idx1 + idx2;
                     headIdxHead[sumIdx] = malloc(sizeof(TreeNode));
                     (headIdxHead[sumIdx])->val   = headIdx;
+                    // Copy left Term
                     (headIdxHead[sumIdx])->left  = leftHead[idx1];
                     (headIdxHead[sumIdx])->right = rightHead[idx2];
                 }
