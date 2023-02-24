@@ -47,6 +47,10 @@ typedef struct TreeNode*   P_TREE_NODE_T;
 typedef struct TreeNode*   P_TREE_HEAD_T;
 typedef struct TreeNode**  P_HEAD_COLLECT_T;
 
+extern void DeleteTree(P_TREE_NODE_T tree);
+extern P_TREE_NODE_T CopyTree(P_TREE_NODE_T beCopyTree);
+extern P_TREE_NODE_T travalTreeAndAddNum(int num, P_TREE_NODE_T treeHead);
+extern P_TREE_NODE_T CopyTree(P_TREE_NODE_T beCopyTree);
 typedef struct TreeNode
 {
     int val;

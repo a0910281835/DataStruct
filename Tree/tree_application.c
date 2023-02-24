@@ -557,9 +557,7 @@ int numTreesByRecursive(int n)
 P_TREE_NODE_T travalTreeAndAddNum(int num, P_TREE_NODE_T treeHead)
 {
     //Inital Condition
-    if (NULL == treeHead)
-        return treeHead;
-    else
+    if (NULL != treeHead)
     {
         P_TREE_NODE_T leftSubTree  = treeHead->left;
         P_TREE_NODE_T rightSubTree = treeHead->right;
@@ -604,9 +602,28 @@ P_TREE_NODE_T CopyTree(P_TREE_NODE_T beCopyTree)
     return pHead;
 }
 
-void DeleteTree(P_TREE_NODE_T tree);
+
+void DeleteTree(P_TREE_NODE_T tree)
+{
+    //Inital Condition
+    if (NULL !=  tree)
+    {
+        DeleteTree(tree->left);
+        DeleteTree(tree->right);
+        free(tree);
+    }
+}
 
 
+void DeleteTreeSet(P_HEAD_COLLECT_T treeSet, int numTree)
+{
+    int idx = 0;
+    for (idx = 0; idx < numTree; idx++)
+    {
+        DeleteTree(treeSet[idx]);
+        treeSet[idx] = NULL;
+    }
+}
 
 static P_HEAD_COLLECT_T generateTreesByRecursive(int n, int* returnSize)
 {
@@ -632,10 +649,12 @@ static P_HEAD_COLLECT_T generateTreesByRecursive(int n, int* returnSize)
         int headIdx = 1;
         int last_num = 0;  //  Recording Number of Tree
         int current_val = 1;// Recording Collect Capacity, Remark : this is not Num of tree
+        int idx1 = 0;
+        int idx2 = 0;
+        int headIdxAsHeadNum;
 
         for (headIdx = 1; headIdx <= n; headIdx++)
         {
-            int headIdxAsHeadNum;
             P_HEAD_COLLECT_T leftHead = generateTreesByRecursive(headIdx-1, returnSize);
             int leftTreeNum = *returnSize;
             P_HEAD_COLLECT_T rightHead = generateTreesByRecursive(n-headIdx, returnSize);
@@ -644,35 +663,51 @@ static P_HEAD_COLLECT_T generateTreesByRecursive(int n, int* returnSize)
             headIdxAsHeadNum = leftTreeNum * rightTreeNum;
             P_HEAD_COLLECT_T headIdxHead = malloc(sizeof(P_TREE_NODE_T) * headIdxAsHeadNum);
 
-            int idx1 = 0;
-            int idx2 = 0;
 
+            // Connect All tree with left and right subtree for head  HeadIdx
             for (idx1 = 0; idx1 < leftTreeNum; idx1++)
             {
                 for (idx2 = 0; idx2 < rightTreeNum; idx2++)
                 {
                     int sumIdx = idx1 + idx2;
-                    headIdxHead[sumIdx] = malloc(sizeof(TreeNode));
-                    (headIdxHead[sumIdx])->val   = headIdx;
+                    //printf("sumIdx : %2d = %2d + %2d \n", sumIdx, idx1, idx2);
+                    headIdxHead[sumIdx] = malloc(sizeof(TREE_NODE_T));
+                    (headIdxHead[sumIdx])->val = headIdx;
                     // Copy left Term
-                    (headIdxHead[sumIdx])->left  = leftHead[idx1];
-                    (headIdxHead[sumIdx])->right = rightHead[idx2];
+                    P_TREE_NODE_T leftSubTree = CopyTree(leftHead[idx1]);
+                    // Copy right Term
+                    P_TREE_NODE_T rightSubTree = CopyTree(rightHead[idx2]);
+                    rightSubTree = travalTreeAndAddNum(headIdx, rightSubTree);
+                    (headIdxHead[sumIdx])->left  = leftSubTree;
+                    (headIdxHead[sumIdx])->right = rightSubTree;
                 }
             }
+
+
+            //Delete Those No Need
+            DeleteTreeSet(leftHead,  leftTreeNum);
+            leftHead = NULL;
+            DeleteTreeSet(rightHead, rightTreeNum);
+            rightHead = NULL;
+
+
 
             // Extend Array
             int cpyIdx = 0;
 
-            if (current_val < (last_num + headIdxAsHeadNum))
+            printf(" n = %2d current_val :%2d last_num: %2d headIdxAsHeadNum :%2d\n", n ,current_val, last_num, headIdxAsHeadNum);
+            if (current_val <= (last_num + headIdxAsHeadNum))
             {
+
                 P_HEAD_COLLECT_T extendPointer = malloc(sizeof(P_TREE_NODE_T) * ((last_num + headIdxAsHeadNum) << 1));
-                //Copy OLD term.
+
+                //Copy OLD term. XXX : Copy is Copy Structure, then space is continuous.
                 for (cpyIdx = 0; cpyIdx < last_num; cpyIdx++)
                 {
-                    extendPointer[cpyIdx] = pHeadColl[cpyIdx];
+                    extendPointer[cpyIdx] = CopyTree(pHeadColl[cpyIdx]);
                 }
 
-                free(pHeadColl);
+                DeleteTreeSet(pHeadColl, current_val);
                 pHeadColl = extendPointer;
                 current_val = ((last_num + headIdxAsHeadNum) << 1);
 
@@ -684,7 +719,24 @@ static P_HEAD_COLLECT_T generateTreesByRecursive(int n, int* returnSize)
                 pHeadColl[cpyIdx + last_num] = headIdxHead[cpyIdx];
             }
 
+            //if (n == 3)
+            //{
+            //    printf("headIdx : %2d\n", headIdx);
+            //    printf("current_val :%2d last_num: %2d headIdxAsHeadNum :%2d\n", current_val, last_num, headIdxAsHeadNum);
+            //    if (headIdx == 1)
+            //    {
+            //        for (idx1 = 0; idx1 < last_num + headIdxAsHeadNum;  idx1++)
+            //        {
+            //            printf("---------\n");
+            //            TravelBinTree((BINTREE_HEAD)pHeadColl[idx1], BREADTH_ORDER);
+            //            printf("---------\n");
+            //        }
+
+            //    }
+
+            //}
             last_num += headIdxAsHeadNum;
+
         }
 
         *returnSize = last_num;
