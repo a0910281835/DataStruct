@@ -113,7 +113,7 @@ int main(void)
     //printf("%s\n", array[decide]);
 
 
-   int max_num = 3;
+   int max_num = 9;
    int idx;
 
    int n = numTrees(max_num);
@@ -125,12 +125,12 @@ int main(void)
    collect = generateTrees(max_num, ret);
    printf("--------List Trees num Start----------\n");
    printf("total number : %2d\n", *ret);
-   //for (idx = 0; idx < *ret; idx++)
-   //{
-   //    printf("The %3d th Tree-------\n", idx + 1);
-   //    TravelBinTree((BINTREE_HEAD)collect[idx], BREADTH_ORDER);
+   for (idx = 0; idx < *ret; idx++)
+   {
+       printf("The %3d th Tree-------\n", idx + 1);
+       TravelBinTree((BINTREE_HEAD)collect[idx], BREADTH_ORDER);
 
-   //}
+   }
 
 
 

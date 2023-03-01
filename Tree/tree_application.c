@@ -603,26 +603,29 @@ P_TREE_NODE_T CopyTree(P_TREE_NODE_T beCopyTree)
 }
 
 
-void DeleteTree(P_TREE_NODE_T tree)
+P_TREE_NODE_T DeleteTree(P_TREE_NODE_T tree)
 {
     //Inital Condition
-    if (NULL !=  tree)
+    if (NULL != tree)
     {
-        DeleteTree(tree->left);
-        DeleteTree(tree->right);
+        tree->left  = DeleteTree(tree->left);
+        tree->right = DeleteTree(tree->right);
         free(tree);
+        tree = NULL;
     }
+    return tree;
 }
 
 
-void DeleteTreeSet(P_HEAD_COLLECT_T treeSet, int numTree)
+P_HEAD_COLLECT_T DeleteTreeSet(P_HEAD_COLLECT_T treeSet, int numTree)
 {
     int idx = 0;
     for (idx = 0; idx < numTree; idx++)
     {
-        DeleteTree(treeSet[idx]);
-        treeSet[idx] = NULL;
+        treeSet[idx] = DeleteTree(treeSet[idx]);
     }
+
+    return treeSet;
 }
 
 static P_HEAD_COLLECT_T generateTreesByRecursive(int n, int* returnSize)
@@ -680,34 +683,56 @@ static P_HEAD_COLLECT_T generateTreesByRecursive(int n, int* returnSize)
                     rightSubTree = travalTreeAndAddNum(headIdx, rightSubTree);
                     (headIdxHead[sumIdx])->left  = leftSubTree;
                     (headIdxHead[sumIdx])->right = rightSubTree;
+                    leftSubTree  = NULL;
+                    rightSubTree = NULL;
                 }
             }
 
 
             //Delete Those No Need
-            DeleteTreeSet(leftHead,  leftTreeNum);
-            leftHead = NULL;
-            DeleteTreeSet(rightHead, rightTreeNum);
-            rightHead = NULL;
+            //leftHead  = DeleteTreeSet(leftHead,  leftTreeNum);
+            //free(leftHead);
+            //rightHead = DeleteTreeSet(rightHead, rightTreeNum);
+            //free(rightHead);
+
+            //for (idx1 = 0; idx1 < leftTreeNum; idx1++)
+            //{
+            //    //leftHead[idx1] = DeleteTree(leftHead[idx1]);
+            //    //leftHead[idx1] = NULL;
+            //    free(leftHead[idx1]);
+            //}
+            //free(leftHead);
+            //for (idx1 = 0; idx1 < rightTreeNum; idx1++)
+            //{
+            //    //leftHead[idx1] = DeleteTree(leftHead[idx1]);
+            //    //leftHead[idx1] = NULL;
+            //    free(rightHead[idx1]);
+            //}
+            //free(rightHead);
 
 
 
             // Extend Array
             int cpyIdx = 0;
 
-            printf(" n = %2d current_val :%2d last_num: %2d headIdxAsHeadNum :%2d\n", n ,current_val, last_num, headIdxAsHeadNum);
             if (current_val <= (last_num + headIdxAsHeadNum))
             {
+                //printf(" n = %2d current_val :%2d last_num: %2d headIdxAsHeadNum :%2d, headIdx : %2d\n", n ,current_val, last_num, headIdxAsHeadNum, headIdx);
 
                 P_HEAD_COLLECT_T extendPointer = malloc(sizeof(P_TREE_NODE_T) * ((last_num + headIdxAsHeadNum) << 1));
 
                 //Copy OLD term. XXX : Copy is Copy Structure, then space is continuous.
                 for (cpyIdx = 0; cpyIdx < last_num; cpyIdx++)
                 {
-                    extendPointer[cpyIdx] = CopyTree(pHeadColl[cpyIdx]);
+                    extendPointer[cpyIdx] = (pHeadColl[cpyIdx]);
                 }
 
-                DeleteTreeSet(pHeadColl, current_val);
+                for (cpyIdx = 0; cpyIdx < current_val; cpyIdx++)
+                {
+                    pHeadColl[cpyIdx] = NULL;
+                }
+
+                free(pHeadColl);
                 pHeadColl = extendPointer;
                 current_val = ((last_num + headIdxAsHeadNum) << 1);
 
@@ -717,7 +742,11 @@ static P_HEAD_COLLECT_T generateTreesByRecursive(int n, int* returnSize)
             for (cpyIdx = 0; cpyIdx < headIdxAsHeadNum; cpyIdx++)
             {
                 pHeadColl[cpyIdx + last_num] = headIdxHead[cpyIdx];
+                headIdxHead[cpyIdx] = NULL;
             }
+
+            //Cpy end and free
+            free(headIdxHead);
 
             //if (n == 3)
             //{
@@ -741,6 +770,26 @@ static P_HEAD_COLLECT_T generateTreesByRecursive(int n, int* returnSize)
 
         *returnSize = last_num;
     }
+
+    //printf("--------------\n");
+    //printf("n = %2d\n", n);
+    //printf("size = %2d\n", *returnSize);
+
+    //int idx = 0;
+    //for (idx = 0; idx < *returnSize; idx++)
+    //{
+    //    if (pHeadColl[idx] == NULL)
+    //    {
+    //        printf("NULL\n");
+    //    }
+    //    else
+    //    {
+    //        TravelBinTree((BINTREE_HEAD)pHeadColl[idx], BREADTH_ORDER);
+    //        printf("\n");
+
+    //    }
+    //}
+
 
     return pHeadColl;
 }
