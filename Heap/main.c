@@ -14,6 +14,30 @@ int main(void)
     printf("%d\n", pHeap->array[0]);
     printf("%s is empty\n",resultString[ret]);
 
+    int idx = 0;
+    for (idx = 0; idx < 5; idx++)
+    {
+        InsertMaxHeap(pHeap, 12 + idx);
+    }
+    for (idx = 1; idx <= pHeap->size; idx++)
+    {
+        printf("%d\n", pHeap->array[idx]);
+    }
+
+    int delete = DeleteMaxHeap(pHeap);
+    printf("Delete Element : %2d\n", delete);
+    for (idx = 1; idx <= pHeap->size; idx++)
+    {
+        printf("%d\n", pHeap->array[idx]);
+    }
+
+
+
+    ret = IsMaxHeap(pHeap);
+    printf("%s is MAX Heap\n",resultString[ret]);
+
+
+
     return 1;
 
 }
