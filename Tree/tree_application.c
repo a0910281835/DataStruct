@@ -802,5 +802,141 @@ struct TreeNode** generateTrees(int n, int* returnSize)
 }
 
 
+//99. Recover Binary Search Tree
+//You are given the root of a binary search tree (BST),
+//where the values of exactly two nodes of the tree were swapped by mistake.
+//Recover the tree without changing its structure.
+
+/*
+ *  graph like this
+ *      1         3
+ *     /         /
+ *    3         1
+ *     \         \ .
+ *      2         2
+Input: root = [1,3,null,null,2]
+Output: [3,1,null,null,2]
+Explanation: 3 cannot be a left child of 1 because 3 > 1. Swapping 1 and 3 makes the BST valid.
+*/
+
+//
+//    3            2
+//   / \    =>    / \ .
+//  1   4        1   4
+//     /            /
+//    2            3
 
 
+/*
+Input: root = [3,1,4,null,null,2]
+Output: [2,1,4,null,null,3]
+Explanation: 2 cannot be in the right subtree of 3 because 2 < 3. Swapping 2 and 3 makes the BST valid.
+*/
+
+
+
+P_TREE_NODE_T* recoverTreeByRecursive(P_TREE_NODE_T pHead)
+{
+    static int errorIdx = 0;
+    static P_TREE_NODE_T pErrorNode[2] = {NULL, NULL};
+    static P_TREE_NODE_T pLastNode= NULL;
+
+    // Inital Codition
+    if (NULL != pHead)
+    {
+        recoverTreeByRecursive(pHead->left);
+
+        // Do Somthing for This Node.
+        if (NULL == pLastNode)
+        {
+            pLastNode = pHead;
+        }
+        else
+        {
+            if ((pLastNode->val > pHead->val) && (errorIdx <= 1))
+            {
+                pErrorNode[errorIdx] = (errorIdx == 0) ? (pLastNode) : (pHead);
+                if (errorIdx == 0) pErrorNode[errorIdx + 1] = pHead;
+                errorIdx++;
+
+            }
+
+            pLastNode = pHead;
+
+        }
+
+        recoverTreeByRecursive(pHead->right);
+    }
+
+
+    int idx = 0;
+    //for (idx = 0; idx < 2; idx++)
+    //{
+    //    if (pErrorNode[idx] == NULL)
+    //    {
+    //        printf(" NULL, ");
+    //    }
+    //    else
+    //    {
+    //        printf("%2d, ", (pErrorNode[idx])->val);
+    //    }
+    //}
+    //printf("\n");
+
+    return pErrorNode;
+}
+
+
+
+
+void RecoverTree(P_TREE_NODE_T pRoot)
+{
+    P_TREE_NODE_T* pErrorNodeArray = recoverTreeByRecursive(pRoot);
+    int temp;
+
+    temp = pErrorNodeArray[0]->val;
+    pErrorNodeArray[0]->val = pErrorNodeArray[1]->val;
+    pErrorNodeArray[1]->val = temp;
+
+}
+
+
+// there are two error pattern.
+void FixOrderSeqence(int *array, int num)
+{
+    int idx = 0;
+    int errorArray[2];
+    int errorIdx = 0;
+
+    for (idx = 0; idx < num; idx++)
+    {
+        printf(" %3d ", array[idx]);
+    }
+    printf("\n");
+
+
+
+    for (idx = 0; idx < num; idx++)
+    {
+        if (array[idx] > array[idx+1])
+        {
+            errorArray[errorIdx] = (errorIdx == 1) ? (idx + 1) : (idx);
+            errorIdx++;
+        }
+
+    }
+
+    int temp  = 0;
+
+    temp = array[errorArray[0]];
+    array[errorArray[0]] = array[errorArray[1]];
+    array[errorArray[1]] = temp;
+
+
+    for (idx = 0; idx < num; idx++)
+    {
+        printf(" %3d ", array[idx]);
+    }
+    printf("\n");
+
+}

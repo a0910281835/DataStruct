@@ -11,17 +11,18 @@ char *(array[2]) = {"NO", "YES" };
 int main(void)
 {
 
-    //BINTREE_HEAD pHead  = NULL;
-    //P_BINNODE_T current = NULL;
+    BINTREE_HEAD pHead  = NULL;
+    P_BINNODE_T current = NULL;
 
     ////       5
     ////     2   15
     ////        10  19
     ////       6   17 23
     ////        9   18
-    //InsertValBinNode(pHead, 5);
-    //InsertValBinNode(pHead->left, 2);
-    //InsertValBinNode(pHead->right, 15);
+    InsertValBinNode(pHead, 1);
+    InsertValBinNode(pHead->left, 2);
+    //InsertValBinNode(pHead->right, 4);
+    //InsertValBinNode((pHead->right)->left, 2);
     //printf("val: %d, %d, %d\n", pHead->val, (pHead->left)->val, (pHead->right)->val);
     //current = pHead->right;
     //InsertValBinNode(current->right, 19);
@@ -30,7 +31,9 @@ int main(void)
 
 
     //printf("--------Travel Start----------\n");
-    //TravelBinTree(pHead, IN_ORDER);
+    TravelBinTree(pHead, BREADTH_ORDER);
+    RecoverTree((P_TREE_NODE_T)pHead);
+    TravelBinTree(pHead, IN_ORDER);
     ////TravelBinTree(pHead, PRE_ORDER);
     //printf("--------Travel End------------\n");
 
@@ -113,24 +116,30 @@ int main(void)
     //printf("%s\n", array[decide]);
 
 
-   int max_num = 9;
-   int idx;
+   //int max_num = 9;
+   //int idx;
 
-   int n = numTrees(max_num);
-   printf("%2d\n", n);
+   //int n = numTrees(max_num);
+   //printf("%2d\n", n);
 
 
-   int *ret = malloc(sizeof(int));
-   P_HEAD_COLLECT_T collect;
-   collect = generateTrees(max_num, ret);
-   printf("--------List Trees num Start----------\n");
-   printf("total number : %2d\n", *ret);
-   for (idx = 0; idx < *ret; idx++)
-   {
-       printf("The %3d th Tree-------\n", idx + 1);
-       TravelBinTree((BINTREE_HEAD)collect[idx], BREADTH_ORDER);
+   //int *ret = malloc(sizeof(int));
+   //P_HEAD_COLLECT_T collect;
+   //collect = generateTrees(max_num, ret);
+   //printf("--------List Trees num Start----------\n");
+   //printf("total number : %2d\n", *ret);
+   //for (idx = 0; idx < *ret; idx++)
+   //{
+   //    printf("The %3d th Tree-------\n", idx + 1);
+   //    TravelBinTree((BINTREE_HEAD)collect[idx], BREADTH_ORDER);
 
-   }
+   //}
+
+
+   //int array[8] = { 12, 13, 25, 16, 18, 20, 15, 28};
+
+   //FixOrderSeqence(array, 8);
+
 
 
 

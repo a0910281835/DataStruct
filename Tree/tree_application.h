@@ -64,5 +64,9 @@ extern struct TreeNode** generateTrees(int n, int* returnSize);
 // AVL Tree
 // Calulate the min size of Blance BST
 
+//leetcode 99
+extern void RecoverTree(P_TREE_NODE_T pRoot);
+extern void FixOrderSeqence(int *array, int num);
+
 #endif
 
