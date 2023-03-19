@@ -59,6 +59,11 @@ typedef struct TreeNode
 }TreeNode;
 
 
+typedef enum
+{
+    FALSE = 0,
+    TRUE  = 1,
+}bool;
 extern struct TreeNode** generateTrees(int n, int* returnSize);
 
 // AVL Tree
@@ -67,12 +72,8 @@ extern struct TreeNode** generateTrees(int n, int* returnSize);
 //leetcode 99
 extern void RecoverTree(P_TREE_NODE_T pRoot);
 extern void FixOrderSeqence(int *array, int num);
+extern bool isSymmetric(struct TreeNode* root);
 
-typedef enum
-{
-    FALSE = 0,
-    TRUE  = 1,
-}bool;
 
 #endif
 

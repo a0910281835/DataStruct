@@ -1012,3 +1012,54 @@ bool isSameTree(struct TreeNode* p, struct TreeNode* q)
 
 }
 
+
+//101. Symmetric Tree
+//Given the root of a binary tree, check whether it is a mirror of itself (i.e., symmetric around its center).
+//Example 1:
+//Input: root = [1,2,2,3,4,4,3]
+//Output: true
+//Example 2:
+//Input: root = [1,2,2,null,3,null,3]
+//Output: false
+//Constraints:
+//
+//The number of nodes in the tree is in the range [1, 1000].
+//-100 <= Node.val <= 100
+//
+//
+static bool isSymTreeByRecursive(P_TREE_NODE_T firstTree, P_TREE_NODE_T secondTree)
+{
+    bool ret;
+    // Inital Condition
+    if ((NULL != firstTree) && (NULL != secondTree))
+    {
+        if (firstTree->val == secondTree->val)
+        {
+            ret = (isSymTreeByRecursive(firstTree->left, secondTree->right)) & (isSymTreeByRecursive(firstTree->right, secondTree->left));
+            return ret;
+        }
+        else
+        {
+            return 0;
+        }
+
+    }
+    else if ((NULL == firstTree) && (NULL == secondTree))
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+
+
+}
+
+bool isSymmetric(struct TreeNode* root)
+{
+    bool ret = 1;
+    if (root != NULL) ret = isSymTreeByRecursive(root->left, root->right);
+    return ret;
+
+}
