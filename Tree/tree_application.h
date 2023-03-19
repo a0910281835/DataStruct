@@ -68,5 +68,11 @@ extern struct TreeNode** generateTrees(int n, int* returnSize);
 extern void RecoverTree(P_TREE_NODE_T pRoot);
 extern void FixOrderSeqence(int *array, int num);
 
+typedef enum
+{
+    FALSE = 0,
+    TRUE  = 1,
+}bool;
+
 #endif
 

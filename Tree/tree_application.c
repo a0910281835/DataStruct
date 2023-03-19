@@ -940,3 +940,75 @@ void FixOrderSeqence(int *array, int num)
     printf("\n");
 
 }
+
+
+
+/*
+ * 100. Same Tree
+ * Easy
+ * 9K
+ * 181
+ * Companies
+ * Given the roots of two binary trees p and q, write a function to check if they are the same or not.
+ *
+ * Two binary trees are considered the same if they are structurally identical, and the nodes have the same value.
+ *
+ *
+ *
+ *  Example 1:
+ *  Input: p = [1,2,3], q = [1,2,3]
+ *  Output: true
+ *
+ *  Example 2:
+ *  Input: p = [1,2], q = [1,null,2]
+ *  Output: false
+ *
+ *  Example 3:
+ *
+ *  Input: p = [1,2,1], q = [1,1,2]
+ *  Output: false
+ *
+ *  Constraints:
+ *
+ *  The number of nodes in both trees is in the range [0, 100].
+ *  -104 <= Node.val <= 104
+ *
+ *  */
+
+static bool isSameTreeByRecursive(P_TREE_NODE_T firstTree, P_TREE_NODE_T secondTree)
+{
+    bool ret;
+    // Inital Condition
+    if ((NULL != firstTree) && (NULL != secondTree))
+    {
+        if (firstTree->val == secondTree->val)
+        {
+            ret = (isSameTreeByRecursive(firstTree->left, secondTree->left)) & (isSameTreeByRecursive(firstTree->right, secondTree->right));
+            return ret;
+        }
+        else
+        {
+            return 0;
+        }
+
+    }
+    else if ((NULL == firstTree) && (NULL == secondTree))
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+
+
+}
+
+bool isSameTree(struct TreeNode* p, struct TreeNode* q)
+{
+    bool ret = isSameTreeByRecursive(p, q);
+
+    return ret;
+
+}
+
