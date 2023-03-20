@@ -1086,7 +1086,7 @@ bool isSymmetric(struct TreeNode* root)
 // -1000 <= Node.val <= 1000
 //
 //
-DECIDE_T IsEmptyFIFOTree(P_FIFO_PTREE_T pFifo)
+DECIDE_T IsEmptyFIFOTree(P_FIFO_TREE_NODE_T pFifo)
 {
     DECIDE_T ret = YES;
     if (NULL != pFifo) ret = NO;
