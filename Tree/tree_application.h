@@ -74,6 +74,22 @@ extern void RecoverTree(P_TREE_NODE_T pRoot);
 extern void FixOrderSeqence(int *array, int num);
 extern bool isSymmetric(struct TreeNode* root);
 
+// leetcode 101
+// FIFO use link list.
+typedef struct FIFO_PTREE_T * P_FIFO_PTREE_T;
+typedef struct FIFO_NODE_T
+{
+    P_TREE_NODE_T  pNode;
+    P_FIFO_PTREE_T pNext;
+}FIFO_PTREE_T;
+
+extern DECIDE_T IsEmptyFIFOTree(P_FIFO_PTREE_T pFifo);
+extern void PushFIFOTree(P_FIFO_PTREE_T pFifo, P_TREE_NODE_T pNode);
+extern P_TREE_NODE_T PopFIFOTree((P_FIFO_PTREE_T pFifo);
+
+
+
+
 
 #endif
 

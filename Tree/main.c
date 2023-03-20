@@ -157,5 +157,13 @@ int main(void)
     //pHead = NULL;
     //TravelBinTree((BINTREE_HEAD)pHead, BREADTH_ORDER);
 
+
+    //P_FIFO_PTREE_T pFifo = NULL;
+    //DECIDE_T retIdx = IsEmptyFIFOTree(pFifo);
+    //printf(" is empty : %s \n", array[retIdx]);
+    //pFifo = malloc(sizeof(FIFO_PTREE_T));
+    //pFifo->pNode = (P_TREE_NODE_T)pHead;
+    //printf("%2d\n", pFifo->pNode->val);
+
     return 1;
 }

@@ -1063,3 +1063,41 @@ bool isSymmetric(struct TreeNode* root)
     return ret;
 
 }
+
+
+//
+//102. Binary Tree Level Order Traversal
+//Given the root of a binary tree, return the level order traversal of its nodes' values. (i.e., from left to right, level by level).
+//
+// Example 1:Input: root = [3,9,20,null,null,15,7]
+// Output: [[3],[9,20],[15,7]]
+//
+// Example 2:
+// Input: root = [1]
+// Output: [[1]]
+//
+// Example 3:
+// Input: root = []
+// Output: []
+//
+// Constraints:
+//
+// The number of nodes in the tree is in the range [0, 2000].
+// -1000 <= Node.val <= 1000
+//
+//
+DECIDE_T IsEmptyFIFOTree(P_FIFO_PTREE_T pFifo)
+{
+    DECIDE_T ret = YES;
+    if (NULL != pFifo) ret = NO;
+    return ret;
+}
+
+void PushFIFOTree(P_FIFO_PTREE_T pFifo, P_TREE_NODE_T pNode)
+{
+}
+extern P_TREE_NODE_T PopFIFOTree((P_FIFO_PTREE_T pFifo);
+int** levelOrder(struct TreeNode* root, int* returnSize, int** returnColumnSizes)
+{
+
+}
