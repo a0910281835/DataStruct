@@ -75,7 +75,7 @@ extern void FixOrderSeqence(int *array, int num);
 extern bool isSymmetric(struct TreeNode* root);
 
 // leetcode 101
-// FIFO use link list.
+// tree FIFO use two way link list.
 typedef struct TWO_WAY_LINK_NODE_T* P_TWO_WAY_LINK_NODE_T;
 typedef struct TWO_WAY_LINK_NODE_T
 {
@@ -97,6 +97,7 @@ extern DECIDE_T IsEmptyFIFOTree(P_FIFO_TREE_NODE_T pFifo);
 extern void PushFIFOTree(P_FIFO_TREE_NODE_T pFifo, P_TREE_NODE_T pNode);
 extern P_TREE_NODE_T PopFIFOTree(P_FIFO_TREE_NODE_T pFifo);
 extern int FifoSize(P_FIFO_TREE_NODE_T pFifo);
+extern int** levelOrder(struct TreeNode* root, int* returnSize, int** returnColumnSizes);
 
 
 

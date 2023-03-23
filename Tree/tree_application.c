@@ -1188,27 +1188,30 @@ int FifoSize(P_FIFO_TREE_NODE_T pFifo)
 
 int** levelOrder(struct TreeNode* root, int* returnSize, int** returnColumnSizes)
 {
-#define DEFAULT 2
 
     P_TREE_NODE_T pLayersLastNode = root;
     P_TREE_NODE_T pRecoderNode;
+    int capacity = 1;//cap of collect and returnColumnSizes
     int thislayerSize = 1;
     int numLayers     = 0;
     int idxThisLyer   = 0;
-    int** collect = malloc(sizeof(int*) * DEFAULT);
-    *returnColumnSizes = malloc(sizeof(int) * DEFAULT);
+    int** collect = malloc(sizeof(int*) * capacity);
+    *returnColumnSizes = malloc(sizeof(int) * capacity);
 
     P_FIFO_TREE_NODE_T pFifo = CreateFifo();
     *returnSize = 0;
+    (*returnColumnSizes)[0] = 0;
     if (NULL == root) return collect;
-    collect[0] = malloc(sizeof(int));
+    collect[numLayers] = malloc(sizeof(int) * thislayerSize);
+    (*returnColumnSizes)[0] = 1;
 
     PushFIFOTree(pFifo, root);
     P_TREE_NODE_T pPopNode = PopFIFOTree(pFifo);
 
     while (NULL != pPopNode)
     {
-        collect[numLayers][idxThisLyer] = pPopNode->val;
+        printf("%2d\n", pPopNode->val);
+        collect[numLayers][idxThisLyer++] = pPopNode->val;
         //collect[0]
         PushFIFOTree(pFifo, pPopNode->left);
         if (NULL != pPopNode->left) pRecoderNode = pPopNode->left;
@@ -1217,18 +1220,51 @@ int** levelOrder(struct TreeNode* root, int* returnSize, int** returnColumnSizes
 
         if (pPopNode == pLayersLastNode)
         {
-            pLayersLastNode = pRecoderNode;
-            thislayerSize = FifoSize(pFifo);
             numLayers++;
 
+            if (numLayers == capacity) // need to extend collect, returnColumnSizes
+            {
 
+                // malloc
+                int** tempCollect   = malloc(sizeof(int*) * (capacity << 1));
+                int*  tempColumSize = malloc(sizeof(int)  * (capacity << 1));
 
+                // copy pointer or data
+                int idx = 0;
+                for (idx = 0; idx < capacity; idx++)
+                {
+                    tempCollect[idx]   = collect[idx];//Copy pointer;
+                    tempColumSize[idx] = (*returnColumnSizes)[idx];
+                }
+
+                //free old data
+                free(collect);
+                free(*returnColumnSizes);
+
+                //Those pointer pointed New Space
+                collect = tempCollect;
+                *returnColumnSizes = tempColumSize;
+                capacity <<= 1;
+
+                tempCollect = NULL;
+                tempColumSize = NULL;
+            }
+
+            pLayersLastNode = pRecoderNode;
+            thislayerSize = FifoSize(pFifo);
+            collect[numLayers] = malloc(sizeof(int) * thislayerSize);
+            (*returnColumnSizes)[numLayers] = thislayerSize;
+            idxThisLyer = 0;
 
         }
 
+
+        pPopNode = PopFIFOTree(pFifo);
+
     }
 
+    *returnSize = numLayers;
 
-
+    return collect;
 
 }

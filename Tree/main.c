@@ -144,10 +144,37 @@ int main(void)
 
 
     P_TREE_NODE_T pHead = malloc(sizeof(TREE_NODE_T));
-    P_TREE_NODE_T pHead2; 
     pHead->val = 5;
     pHead->left = malloc(sizeof(TREE_NODE_T));
     (pHead->left)->val = 7;
+    pHead->right = malloc(sizeof(TREE_NODE_T));
+    (pHead->right)->val = 3;
+    (pHead->left)->right = malloc(sizeof(TREE_NODE_T));
+    (pHead->left)->right->val = 4;
+
+
+    int returnSize = 0;
+    int** returnColumnSizes = malloc(sizeof(int*));
+    int **array = levelOrder(pHead, &returnSize, returnColumnSizes);
+    printf("%2d\n", returnSize);
+    int idx;
+    int idx2;
+    for (idx = 0; idx < returnSize; idx++)
+    {
+        printf("Layers size : %2d\n", (*returnColumnSizes)[idx2]);
+        for (idx2 = 0; idx2 < (*returnColumnSizes)[idx]; idx2++)
+        {
+            printf("%2d, ", array[idx][idx2]);
+        }
+
+        
+        printf("\n");
+    }
+
+
+
+
+
     //pHead2 = CopyTree(pHead);
     //TravelBinTree((BINTREE_HEAD)pHead, BREADTH_ORDER);
     //travalTreeAndAddNum(3, pHead);
@@ -164,39 +191,37 @@ int main(void)
     //pFifo = malloc(sizeof(FIFO_PTREE_T));
     //pFifo->pNode = (P_TREE_NODE_T)pHead;
     //printf("%2d\n", pFifo->pNode->val);
-    P_FIFO_TREE_NODE_T pFifo = CreateFifo();
-    DECIDE_T retIdx = IsEmptyFIFOTree(pFifo);
-    printf(" is empty : %s \n", array[retIdx]);
-    PushFIFOTree(pFifo, pHead);
-    PushFIFOTree(pFifo, pHead->left);
-    PushFIFOTree(pFifo, pHead->left);
-    PushFIFOTree(pFifo, pHead->left);
-    int size = FifoSize(pFifo);
-    printf("size = %2d\n", size);
+    //// Practice FIFO which Saved tree.
+    //P_FIFO_TREE_NODE_T pFifo = CreateFifo();
+    //DECIDE_T retIdx = IsEmptyFIFOTree(pFifo);
+    //printf(" is empty : %s \n", array[retIdx]);
+    //PushFIFOTree(pFifo, pHead);
+    //PushFIFOTree(pFifo, pHead->left);
+    //PushFIFOTree(pFifo, pHead->left);
+    //PushFIFOTree(pFifo, pHead->left);
+    //int size = FifoSize(pFifo);
+    //printf("size = %2d\n", size);
 
-    pHead2 = PopFIFOTree(pFifo);
-    retIdx = IsEmptyFIFOTree(pFifo);
-    printf(" is empty : %s \n", array[retIdx]);
-    printf("%2d\n", pHead2->val);
-    pHead2 = PopFIFOTree(pFifo);
-    retIdx = IsEmptyFIFOTree(pFifo);
-    printf(" is empty : %s \n", array[retIdx]);
-    printf("%2d\n", pHead2->val);
-    pHead2 = PopFIFOTree(pFifo);
-    retIdx = IsEmptyFIFOTree(pFifo);
-    printf(" is empty : %s \n", array[retIdx]);
-    printf("%2d\n", pHead2->val);
-    pHead2 = PopFIFOTree(pFifo);
-    retIdx = IsEmptyFIFOTree(pFifo);
-    printf(" is empty : %s \n", array[retIdx]);
-    printf("%2d\n", pHead2->val);
-    pHead2 = PopFIFOTree(pFifo);
+    //pHead2 = PopFIFOTree(pFifo);
+    //retIdx = IsEmptyFIFOTree(pFifo);
+    //printf(" is empty : %s \n", array[retIdx]);
+    //printf("%2d\n", pHead2->val);
+    //pHead2 = PopFIFOTree(pFifo);
+    //retIdx = IsEmptyFIFOTree(pFifo);
+    //printf(" is empty : %s \n", array[retIdx]);
+    //printf("%2d\n", pHead2->val);
+    //pHead2 = PopFIFOTree(pFifo);
+    //retIdx = IsEmptyFIFOTree(pFifo);
+    //printf(" is empty : %s \n", array[retIdx]);
+    //printf("%2d\n", pHead2->val);
+    //pHead2 = PopFIFOTree(pFifo);
+    //retIdx = IsEmptyFIFOTree(pFifo);
+    //printf(" is empty : %s \n", array[retIdx]);
+    //printf("%2d\n", pHead2->val);
+    //pHead2 = PopFIFOTree(pFifo);
 
 
 
-    int b = 4;
-    int *a = &b;
-    printf("%2d\n", *a);
 
 
 
