@@ -11,16 +11,16 @@ char *(array[2]) = {"NO", "YES" };
 int main(void)
 {
 
-    BINTREE_HEAD pHead  = NULL;
-    P_BINNODE_T current = NULL;
+    //BINTREE_HEAD pHead  = NULL;
+    //P_BINNODE_T current = NULL;
 
-    ////       5
-    ////     2   15
-    ////        10  19
-    ////       6   17 23
-    ////        9   18
-    InsertValBinNode(pHead, 1);
-    InsertValBinNode(pHead->left, 2);
+    //////       5
+    //////     2   15
+    //////        10  19
+    //////       6   17 23
+    //////        9   18
+    //InsertValBinNode(pHead, 1);
+    //InsertValBinNode(pHead->left, 2);
     //InsertValBinNode(pHead->right, 4);
     //InsertValBinNode((pHead->right)->left, 2);
     //printf("val: %d, %d, %d\n", pHead->val, (pHead->left)->val, (pHead->right)->val);
@@ -31,9 +31,9 @@ int main(void)
 
 
     //printf("--------Travel Start----------\n");
-    TravelBinTree(pHead, BREADTH_ORDER);
-    RecoverTree((P_TREE_NODE_T)pHead);
-    TravelBinTree(pHead, IN_ORDER);
+    //TravelBinTree(pHead, BREADTH_ORDER);
+    //RecoverTree((P_TREE_NODE_T)pHead);
+    //TravelBinTree(pHead, IN_ORDER);
     ////TravelBinTree(pHead, PRE_ORDER);
     //printf("--------Travel End------------\n");
 
@@ -143,11 +143,11 @@ int main(void)
 
 
 
-    //P_TREE_NODE_T pHead = malloc(sizeof(TREE_NODE_T));
-    //P_TREE_NODE_T pHead2; 
-    //pHead->val = 5;
-    //pHead->left = malloc(sizeof(TREE_NODE_T));
-    //(pHead->left)->val = 7;
+    P_TREE_NODE_T pHead = malloc(sizeof(TREE_NODE_T));
+    P_TREE_NODE_T pHead2; 
+    pHead->val = 5;
+    pHead->left = malloc(sizeof(TREE_NODE_T));
+    (pHead->left)->val = 7;
     //pHead2 = CopyTree(pHead);
     //TravelBinTree((BINTREE_HEAD)pHead, BREADTH_ORDER);
     //travalTreeAndAddNum(3, pHead);
@@ -164,6 +164,42 @@ int main(void)
     //pFifo = malloc(sizeof(FIFO_PTREE_T));
     //pFifo->pNode = (P_TREE_NODE_T)pHead;
     //printf("%2d\n", pFifo->pNode->val);
+    P_FIFO_TREE_NODE_T pFifo = CreateFifo();
+    DECIDE_T retIdx = IsEmptyFIFOTree(pFifo);
+    printf(" is empty : %s \n", array[retIdx]);
+    PushFIFOTree(pFifo, pHead);
+    PushFIFOTree(pFifo, pHead->left);
+    PushFIFOTree(pFifo, pHead->left);
+    PushFIFOTree(pFifo, pHead->left);
+    int size = FifoSize(pFifo);
+    printf("size = %2d\n", size);
+
+    pHead2 = PopFIFOTree(pFifo);
+    retIdx = IsEmptyFIFOTree(pFifo);
+    printf(" is empty : %s \n", array[retIdx]);
+    printf("%2d\n", pHead2->val);
+    pHead2 = PopFIFOTree(pFifo);
+    retIdx = IsEmptyFIFOTree(pFifo);
+    printf(" is empty : %s \n", array[retIdx]);
+    printf("%2d\n", pHead2->val);
+    pHead2 = PopFIFOTree(pFifo);
+    retIdx = IsEmptyFIFOTree(pFifo);
+    printf(" is empty : %s \n", array[retIdx]);
+    printf("%2d\n", pHead2->val);
+    pHead2 = PopFIFOTree(pFifo);
+    retIdx = IsEmptyFIFOTree(pFifo);
+    printf(" is empty : %s \n", array[retIdx]);
+    printf("%2d\n", pHead2->val);
+    pHead2 = PopFIFOTree(pFifo);
+
+
+
+    int b = 4;
+    int *a = &b;
+    printf("%2d\n", *a);
+
+
+
 
     return 1;
 }

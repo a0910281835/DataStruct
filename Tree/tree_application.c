@@ -1085,19 +1085,150 @@ bool isSymmetric(struct TreeNode* root)
 // The number of nodes in the tree is in the range [0, 2000].
 // -1000 <= Node.val <= 1000
 //
-//
+
+// pFifo->pInput == pFifo->pOutput &&
+
+
+P_FIFO_TREE_NODE_T CreateFifo(void)
+{
+    P_FIFO_TREE_NODE_T pFifo = malloc(sizeof(FIFO_TREE_NODE_T ));
+    pFifo->pInput  = NULL;
+    pFifo->pOutput = NULL;
+}
+
+
 DECIDE_T IsEmptyFIFOTree(P_FIFO_TREE_NODE_T pFifo)
 {
     DECIDE_T ret = YES;
-    if (NULL != pFifo) ret = NO;
+    if (NULL != pFifo->pInput) ret = NO;
     return ret;
 }
 
-void PushFIFOTree(P_FIFO_PTREE_T pFifo, P_TREE_NODE_T pNode)
+void PushFIFOTree(P_FIFO_TREE_NODE_T pFifo, P_TREE_NODE_T pNode)
 {
+    if (NULL != pNode)
+    {
+        P_TWO_WAY_LINK_NODE_T pInsertNode = malloc(sizeof(TWO_WAY_LINK_NODE_T));
+        pInsertNode->pNode    = pNode;
+        pInsertNode->pPrevious = NULL;
+
+        DECIDE_T ret = IsEmptyFIFOTree(pFifo);
+
+        if (YES == ret)
+        {
+            //empty condition
+            pFifo->pInput  = pInsertNode;
+            pFifo->pOutput = pInsertNode;
+            pInsertNode->pNext = NULL;
+        }
+        else
+        {
+            P_TWO_WAY_LINK_NODE_T pOldInput = pFifo->pInput;
+            pOldInput->pPrevious = pInsertNode;// ---(1)
+            pInsertNode->pNext = pOldInput;   // ----(2)
+            pFifo->pInput = pInsertNode;      // ----(3)
+        }
+
+
+    }
 }
-extern P_TREE_NODE_T PopFIFOTree((P_FIFO_PTREE_T pFifo);
+
+P_TREE_NODE_T PopFIFOTree(P_FIFO_TREE_NODE_T pFifo)
+{
+    P_TREE_NODE_T pPopTreeNode = NULL;
+    DECIDE_T ret = IsEmptyFIFOTree(pFifo);
+
+    if (NO == ret)
+    {
+        pPopTreeNode = (pFifo->pOutput)->pNode;
+        // Only element
+        if ((pFifo->pInput) == (pFifo->pOutput))
+        {
+            free(pFifo->pOutput);
+            pFifo->pInput  = NULL;
+            pFifo->pOutput = NULL;
+        }
+        else
+        {
+            P_TWO_WAY_LINK_NODE_T pNextPopNode = (pFifo->pOutput)->pPrevious;
+            pNextPopNode->pNext = NULL;
+            free(pFifo->pOutput);
+            pFifo->pOutput = pNextPopNode;
+
+        }
+    }
+    else
+    {
+        printf("Error fifo is empty\n ");
+    }
+
+    return pPopTreeNode;
+}
+
+int FifoSize(P_FIFO_TREE_NODE_T pFifo)
+{
+    int size = 0;
+    P_TWO_WAY_LINK_NODE_T pCell = pFifo->pInput;
+
+    while (NULL != pCell)
+    {
+        size++;
+        pCell = pCell->pNext;
+    }
+
+    return size;
+
+}
+
+/**
+ *  * Return an array of arrays of size *returnSize.
+ *   * The sizes of the arrays are returned as *returnColumnSizes array.
+ *    * Note: Both returned array and *columnSizes array must be malloced, assume caller calls free().
+ *     */
+
 int** levelOrder(struct TreeNode* root, int* returnSize, int** returnColumnSizes)
 {
+#define DEFAULT 2
+
+    P_TREE_NODE_T pLayersLastNode = root;
+    P_TREE_NODE_T pRecoderNode;
+    int thislayerSize = 1;
+    int numLayers     = 0;
+    int idxThisLyer   = 0;
+    int** collect = malloc(sizeof(int*) * DEFAULT);
+    *returnColumnSizes = malloc(sizeof(int) * DEFAULT);
+
+    P_FIFO_TREE_NODE_T pFifo = CreateFifo();
+    *returnSize = 0;
+    if (NULL == root) return collect;
+    collect[0] = malloc(sizeof(int));
+
+    PushFIFOTree(pFifo, root);
+    P_TREE_NODE_T pPopNode = PopFIFOTree(pFifo);
+
+    while (NULL != pPopNode)
+    {
+        collect[numLayers][idxThisLyer] = pPopNode->val;
+        //collect[0]
+        PushFIFOTree(pFifo, pPopNode->left);
+        if (NULL != pPopNode->left) pRecoderNode = pPopNode->left;
+        PushFIFOTree(pFifo, pPopNode->right);
+        if (NULL != pPopNode->right) pRecoderNode = pPopNode->right;
+
+        if (pPopNode == pLayersLastNode)
+        {
+            pLayersLastNode = pRecoderNode;
+            thislayerSize = FifoSize(pFifo);
+            numLayers++;
+
+
+
+
+        }
+
+    }
+
+
+
 
 }
