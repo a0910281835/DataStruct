@@ -1094,6 +1094,7 @@ P_FIFO_TREE_NODE_T CreateFifo(void)
     P_FIFO_TREE_NODE_T pFifo = malloc(sizeof(FIFO_TREE_NODE_T ));
     pFifo->pInput  = NULL;
     pFifo->pOutput = NULL;
+    return pFifo;
 }
 
 
@@ -1270,5 +1271,15 @@ int** levelOrder(struct TreeNode* root, int* returnSize, int** returnColumnSizes
 }
 
 
-//Again
+//103. Binary Tree Zigzag Level Order Traversal
+//Given the root of a binary tree, return the zigzag level order traversal of its nodes' values. (i.e., from left to right, then right to left for the next level and alternate between).
 //
+//Example 1:
+//
+//          3
+//        /   \
+//       9    20
+//           /   \
+//          15    7
+//
+//Ouput : root and right to left for 2 layers and left to right for 3 layer
