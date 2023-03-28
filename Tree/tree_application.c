@@ -1283,3 +1283,76 @@ int** levelOrder(struct TreeNode* root, int* returnSize, int** returnColumnSizes
 //          15    7
 //
 //Ouput : root and right to left for 2 layers and left to right for 3 layer
+
+
+
+
+
+
+
+P_SPE_FIFO_TREE_NODE_T CreateSpeFifo(void)
+{
+    P_SPE_FIFO_TREE_NODE_T pFifo = malloc(sizeof(SPE_FIFO_TREE_NODE_T ));
+    pFifo->pLeftNode  = NULL;
+    pFifo->pRightNode = NULL;
+    pFifo->direct = LEFT_TO_RIGHT;
+    return pFifo;
+}
+
+DECIDE_T IsEmptySPEFIFOTree(P_SPE_FIFO_TREE_NODE_T pFifo)
+{
+    DECIDE_T ret = YES;
+    if (NULL != pFifo->pLeftNode) ret = NO;
+    return ret;
+}
+
+int SPEFifoSize(P_SPE_FIFO_TREE_NODE_T pFifo)
+{
+    int size = 0;
+    P_SPE_TWO_WAY_LINK_NODE_T pCell = (LEFT_TO_RIGHT == pFifo->direct) ? (pFifo->pLeftNode) : (pFifo->pRightNode);
+
+    while (NULL != pCell)
+    {
+        size++;
+        pCell = (LEFT_TO_RIGHT == pFifo->direct) ? (pCell->pToRight) : (pCell->pToLeft);
+    }
+
+    return size;
+
+}
+void PushSPEFIFOTree(P_SPE_FIFO_TREE_NODE_T pFifo, P_TREE_NODE_T pNode)
+{
+    if (NULL != pNode)
+    {
+        P_SPE_TWO_WAY_LINK_NODE_T pInsertNode = malloc(sizeof(SPE_TWO_WAY_LINK_NODE_T));
+        pInsertNode->pNode    = pNode;
+        P_SPE_TWO_WAY_LINK_NODE_T* pPreviousPointer = (LEFT_TO_RIGHT == pFifo->direct) ? &(pInsertNode->pToLeft)  : &(pInsertNode->pToRight);
+        P_SPE_TWO_WAY_LINK_NODE_T* pNextPointer     = (LEFT_TO_RIGHT == pFifo->direct) ? &(pInsertNode->pToRight) : &(pInsertNode->pToLeft);
+        if (LEFT_TO_RIGHT == pFifo->direct)
+
+
+        *pPreviousPointer  = NULL;
+
+        DECIDE_T ret = IsEmptySPEFIFOTree(pFifo);
+
+        if (YES == ret)
+        {
+            //empty condition
+            pFifo->pLeftNode  = pInsertNode;
+            pFifo->pRightNode = pInsertNode;
+            *pNextPointer = NULL;
+        }
+        else
+        {
+            P_SPE_TWO_WAY_LINK_NODE_T pOldInput     = (LEFT_TO_RIGHT == pFifo->direct) ?  (pFifo->pLeftNode)    :  (pFifo->pRightNode);// Exist
+            P_SPE_TWO_WAY_LINK_NODE_T* pOldPrevious = (LEFT_TO_RIGHT == pFifo->direct) ? &(pOldInput->pToLeft)  : &(pOldInput->pToRight);
+            P_SPE_TWO_WAY_LINK_NODE_T* pOldNext     = (LEFT_TO_RIGHT == pFifo->direct) ? &(pOldInput->pToRight) :  &(pOldInput->pToLeft);
+            pOldPrevious = pInsertNode;// ---(1)
+            pInsertNode->pNext = pOldInput;   // ----(2)
+            pFifo->pInput = pInsertNode;      // ----(3)
+        }
+
+
+    }
+}
+extern P_TREE_NODE_T PopSPEFIFOTree(P_SPE_FIFO_TREE_NODE_T pFifo);

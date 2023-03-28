@@ -74,7 +74,7 @@ extern void RecoverTree(P_TREE_NODE_T pRoot);
 extern void FixOrderSeqence(int *array, int num);
 extern bool isSymmetric(struct TreeNode* root);
 
-// leetcode 101
+// leetcode 102
 // tree FIFO use two way link list.
 typedef struct TWO_WAY_LINK_NODE_T* P_TWO_WAY_LINK_NODE_T;
 typedef struct TWO_WAY_LINK_NODE_T
@@ -94,13 +94,45 @@ typedef struct FIFO_TREE_NODE_T
 
 extern P_FIFO_TREE_NODE_T CreateFifo(void);
 extern DECIDE_T IsEmptyFIFOTree(P_FIFO_TREE_NODE_T pFifo);
+extern int FifoSize(P_FIFO_TREE_NODE_T pFifo);
 extern void PushFIFOTree(P_FIFO_TREE_NODE_T pFifo, P_TREE_NODE_T pNode);
 extern P_TREE_NODE_T PopFIFOTree(P_FIFO_TREE_NODE_T pFifo);
-extern int FifoSize(P_FIFO_TREE_NODE_T pFifo);
 extern int** levelOrder(struct TreeNode* root, int* returnSize, int** returnColumnSizes);
 
 
 
+// leetcode 103
+// Special FIFO
+// tree FIFO use two way link list.
+typedef struct SPE_TWO_WAY_LINK_NODE_T* P_SPE_TWO_WAY_LINK_NODE_T;
+typedef struct SPE_TWO_WAY_LINK_NODE_T
+{
+    P_TREE_NODE_T  pNode;
+    P_SPE_TWO_WAY_LINK_NODE_T pToRight;  //  =>
+    P_SPE_TWO_WAY_LINK_NODE_T pToLeft;   //  <=
+    
+}SPE_TWO_WAY_LINK_NODE_T;
+
+
+typedef enum
+{
+    LEFT_TO_RIGHT = 0,
+    RIGHT_TO_LEFT = 1
+}TAG_TYPE;
+
+typedef struct SPE_FIFO_TREE_NODE_T * P_SPE_FIFO_TREE_NODE_T;
+typedef struct SPE_FIFO_TREE_NODE_T
+{
+    P_SPE_TWO_WAY_LINK_NODE_T pLeftNode;
+    P_SPE_TWO_WAY_LINK_NODE_T pRightNode;
+    TAG_TYPE direct;
+}SPE_FIFO_TREE_NODE_T;
+
+extern P_SPE_FIFO_TREE_NODE_T CreateSpeFifo(void);
+extern DECIDE_T IsEmptySPEFIFOTree(P_SPE_FIFO_TREE_NODE_T pFifo);
+extern int SPEFifoSize(P_SPE_FIFO_TREE_NODE_T pFifo);
+extern void PushSPEFIFOTree(P_SPE_FIFO_TREE_NODE_T pFifo, P_TREE_NODE_T pNode);
+extern P_TREE_NODE_T PopSPEFIFOTree(P_SPE_FIFO_TREE_NODE_T pFifo);
 
 
 #endif
