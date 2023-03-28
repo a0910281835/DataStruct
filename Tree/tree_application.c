@@ -1344,12 +1344,12 @@ void PushSPEFIFOTree(P_SPE_FIFO_TREE_NODE_T pFifo, P_TREE_NODE_T pNode)
         }
         else
         {
-            P_SPE_TWO_WAY_LINK_NODE_T pOldInput     = (LEFT_TO_RIGHT == pFifo->direct) ?  (pFifo->pLeftNode)    :  (pFifo->pRightNode);// Exist
-            P_SPE_TWO_WAY_LINK_NODE_T* pOldPrevious = (LEFT_TO_RIGHT == pFifo->direct) ? &(pOldInput->pToLeft)  : &(pOldInput->pToRight);
-            P_SPE_TWO_WAY_LINK_NODE_T* pOldNext     = (LEFT_TO_RIGHT == pFifo->direct) ? &(pOldInput->pToRight) :  &(pOldInput->pToLeft);
-            pOldPrevious = pInsertNode;// ---(1)
-            pInsertNode->pNext = pOldInput;   // ----(2)
-            pFifo->pInput = pInsertNode;      // ----(3)
+            P_SPE_TWO_WAY_LINK_NODE_T* pOldInput     = (LEFT_TO_RIGHT == pFifo->direct) ?  &(pFifo->pLeftNode)    :  &(pFifo->pRightNode);// Exist
+            P_SPE_TWO_WAY_LINK_NODE_T* pOldPrevious = (LEFT_TO_RIGHT == pFifo->direct) ? &((*pOldInput)->pToLeft)  : &((*pOldInput)->pToRight);
+            P_SPE_TWO_WAY_LINK_NODE_T* pOldNext     = (LEFT_TO_RIGHT == pFifo->direct) ? &((*pOldInput)->pToRight) :  &((*pOldInput)->pToLeft);
+            *pOldPrevious = pInsertNode;// ----(1)
+            *pNextPointer = *pOldInput; // ----(2)
+            *pOldInput = pInsertNode;   // ----(3)
         }
 
 
