@@ -133,6 +133,7 @@ extern DECIDE_T IsEmptySPEFIFOTree(P_SPE_FIFO_TREE_NODE_T pFifo);
 extern int SPEFifoSize(P_SPE_FIFO_TREE_NODE_T pFifo);
 extern void PushSPEFIFOTree(P_SPE_FIFO_TREE_NODE_T pFifo, P_TREE_NODE_T pNode);
 extern P_TREE_NODE_T PopSPEFIFOTree(P_SPE_FIFO_TREE_NODE_T pFifo);
+extern void ChangeSPEFIFODirect(P_SPE_FIFO_TREE_NODE_T pFifo, TAG_TYPE direct);
 
 
 #endif

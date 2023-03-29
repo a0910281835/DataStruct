@@ -141,7 +141,11 @@ int main(void)
    //FixOrderSeqence(array, 8);
 
 
-
+    //      5
+    //    /   \
+    //   7      3
+    //     \       .
+    //      4
 
     P_TREE_NODE_T pHead = malloc(sizeof(TREE_NODE_T));
     pHead->val = 5;
@@ -167,7 +171,7 @@ int main(void)
             printf("%2d, ", array[idx][idx2]);
         }
 
-        
+
         printf("\n");
     }
 
@@ -240,12 +244,21 @@ int main(void)
     printf("num = %2d\n", num);
     PushSPEFIFOTree(pFifo, pHead);
     PushSPEFIFOTree(pFifo, pHead->left);
+    PushSPEFIFOTree(pFifo, pHead->right);
+
     num = SPEFifoSize(pFifo);
     printf("num = %2d\n", num);
     P_TREE_NODE_T pHead2 = PopSPEFIFOTree(pFifo);
     printf("Val:%2d\n", pHead2->val);
+    ChangeSPEFIFODirect(pFifo, RIGHT_TO_LEFT);
+    printf("Change Direct\n");
     pHead2 = PopSPEFIFOTree(pFifo);
     printf("Val:%2d\n", pHead2->val);
+    pHead2 = PopSPEFIFOTree(pFifo);
+    printf("Val:%2d\n", pHead2->val);
+    num = SPEFifoSize(pFifo);
+    printf("num = %2d\n", num);
+
 
 
 

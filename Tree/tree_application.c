@@ -1388,3 +1388,15 @@ P_TREE_NODE_T PopSPEFIFOTree(P_SPE_FIFO_TREE_NODE_T pFifo)
 
     return pPopTreeNode;
 }
+
+void ChangeSPEFIFODirect(P_SPE_FIFO_TREE_NODE_T pFifo, TAG_TYPE direct)
+{
+    if (pFifo != NULL) pFifo->direct = direct;
+}
+
+
+int** zigzagLevelOrder(struct TreeNode* root, int* returnSize, int** returnColumnSizes)
+{
+
+
+}
