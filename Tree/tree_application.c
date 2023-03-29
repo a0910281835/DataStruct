@@ -1211,7 +1211,6 @@ int** levelOrder(struct TreeNode* root, int* returnSize, int** returnColumnSizes
 
     while (NULL != pPopNode)
     {
-        printf("%2d\n", pPopNode->val);
         collect[numLayers][idxThisLyer++] = pPopNode->val;
         //collect[0]
         PushFIFOTree(pFifo, pPopNode->left);
@@ -1355,4 +1354,37 @@ void PushSPEFIFOTree(P_SPE_FIFO_TREE_NODE_T pFifo, P_TREE_NODE_T pNode)
 
     }
 }
-extern P_TREE_NODE_T PopSPEFIFOTree(P_SPE_FIFO_TREE_NODE_T pFifo);
+P_TREE_NODE_T PopSPEFIFOTree(P_SPE_FIFO_TREE_NODE_T pFifo)
+{
+    P_TREE_NODE_T pPopTreeNode = NULL;
+    DECIDE_T ret = IsEmptySPEFIFOTree(pFifo);
+
+    if (NO == ret)
+    {
+        P_SPE_TWO_WAY_LINK_NODE_T* pOuputFIFO = (LEFT_TO_RIGHT == pFifo->direct) ? &(pFifo->pRightNode) : &(pFifo->pLeftNode);
+        P_SPE_TWO_WAY_LINK_NODE_T* pInputFIFO = (LEFT_TO_RIGHT == pFifo->direct) ? &(pFifo->pLeftNode)  : &(pFifo->pRightNode);
+        pPopTreeNode = (*pOuputFIFO)->pNode;
+        // Only element
+        if ((*pInputFIFO) == (*pOuputFIFO))
+        {
+            free(*pOuputFIFO);
+            *pInputFIFO  = NULL;
+            *pOuputFIFO  = NULL;
+        }
+        else
+        {
+            P_SPE_TWO_WAY_LINK_NODE_T* pNextPopNode         = (LEFT_TO_RIGHT == pFifo->direct) ? &((*pOuputFIFO)->pToLeft)     :  &((*pOuputFIFO)->pToRight);
+            P_SPE_TWO_WAY_LINK_NODE_T* pNextPopNodeNext     = (LEFT_TO_RIGHT == pFifo->direct) ? &((*pNextPopNode)->pToRight)  :  &((*pNextPopNode)->pToLeft);
+            *pNextPopNodeNext = NULL;
+            free(*pOuputFIFO);
+            *pOuputFIFO = *pNextPopNode;
+
+        }
+    }
+    else
+    {
+        printf("Error fifo is empty\n ");
+    }
+
+    return pPopTreeNode;
+}

@@ -4,7 +4,7 @@
 #include "queue_array.h"
 
 
-char *(array[2]) = {"NO", "YES" };
+char *(DECIDE[2]) = {"NO", "YES" };
 
 
 
@@ -157,8 +157,8 @@ int main(void)
     int** returnColumnSizes = malloc(sizeof(int*));
     int **array = levelOrder(pHead, &returnSize, returnColumnSizes);
     printf("%2d\n", returnSize);
-    int idx;
-    int idx2;
+    int idx = 0;
+    int idx2 = 0;
     for (idx = 0; idx < returnSize; idx++)
     {
         printf("Layers size : %2d\n", (*returnColumnSizes)[idx2]);
@@ -170,6 +170,16 @@ int main(void)
         
         printf("\n");
     }
+
+    //free
+
+    for (idx = 0; idx < returnSize; idx++)
+    {
+        free(array[idx]);
+    }
+    free(*returnColumnSizes);
+    free(returnColumnSizes);
+    free(array);
 
 
 
@@ -185,6 +195,7 @@ int main(void)
     //TravelBinTree((BINTREE_HEAD)pHead, BREADTH_ORDER);
 
 
+    //----- One Way FIFO----------------------//
     //P_FIFO_PTREE_T pFifo = NULL;
     //DECIDE_T retIdx = IsEmptyFIFOTree(pFifo);
     //printf(" is empty : %s \n", array[retIdx]);
@@ -220,9 +231,21 @@ int main(void)
     //printf("%2d\n", pHead2->val);
     //pHead2 = PopFIFOTree(pFifo);
 
-
-
-
+    //-------Two Way FIFO------------------------//
+    //
+    P_SPE_FIFO_TREE_NODE_T pFifo = CreateSpeFifo();
+    DECIDE_T retIdx = IsEmptySPEFIFOTree(pFifo);
+    printf(" is empty : %s \n", (DECIDE[retIdx]));
+    int num = SPEFifoSize(pFifo);
+    printf("num = %2d\n", num);
+    PushSPEFIFOTree(pFifo, pHead);
+    PushSPEFIFOTree(pFifo, pHead->left);
+    num = SPEFifoSize(pFifo);
+    printf("num = %2d\n", num);
+    P_TREE_NODE_T pHead2 = PopSPEFIFOTree(pFifo);
+    printf("Val:%2d\n", pHead2->val);
+    pHead2 = PopSPEFIFOTree(pFifo);
+    printf("Val:%2d\n", pHead2->val);
 
 
 
