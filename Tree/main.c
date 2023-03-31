@@ -144,8 +144,8 @@ int main(void)
     //      5
     //    /   \
     //   7      3
-    //     \       .
-    //      4
+    //     \     \   .
+    //      4     2
 
     P_TREE_NODE_T pHead = malloc(sizeof(TREE_NODE_T));
     pHead->val = 5;
@@ -155,35 +155,38 @@ int main(void)
     (pHead->right)->val = 3;
     (pHead->left)->right = malloc(sizeof(TREE_NODE_T));
     (pHead->left)->right->val = 4;
+    (pHead->right)->right = malloc(sizeof(TREE_NODE_T));
+    ((pHead->right)->right)->val  = 2;
 
 
-    int returnSize = 0;
-    int** returnColumnSizes = malloc(sizeof(int*));
-    int **array = levelOrder(pHead, &returnSize, returnColumnSizes);
-    printf("%2d\n", returnSize);
-    int idx = 0;
-    int idx2 = 0;
-    for (idx = 0; idx < returnSize; idx++)
-    {
-        printf("Layers size : %2d\n", (*returnColumnSizes)[idx2]);
-        for (idx2 = 0; idx2 < (*returnColumnSizes)[idx]; idx2++)
-        {
-            printf("%2d, ", array[idx][idx2]);
-        }
+    //int returnSize = 0;
+    //int** returnColumnSizes = malloc(sizeof(int*));
+    ////int **array  = levelOrder(pHead, &returnSize, returnColumnSizes);
+    //int ** array = zigzagLevelOrder(pHead, &returnSize, returnColumnSizes);
+    //printf("%2d\n", returnSize);
+    //int idx = 0;
+    //int idx2 = 0;
+    //for (idx = 0; idx < returnSize; idx++)
+    //{
+    //    printf("Layers size : %2d\n", (*returnColumnSizes)[idx2]);
+    //    for (idx2 = 0; idx2 < (*returnColumnSizes)[idx]; idx2++)
+    //    {
+    //        printf("%2d, ", array[idx][idx2]);
+    //    }
 
 
-        printf("\n");
-    }
+    //    printf("\n");
+    //}
 
     //free
 
-    for (idx = 0; idx < returnSize; idx++)
-    {
-        free(array[idx]);
-    }
-    free(*returnColumnSizes);
-    free(returnColumnSizes);
-    free(array);
+    //for (idx = 0; idx < returnSize; idx++)
+    //{
+    //    free(array[idx]);
+    //}
+    //free(*returnColumnSizes);
+    //free(returnColumnSizes);
+    //free(array);
 
 
 
@@ -242,22 +245,25 @@ int main(void)
     printf(" is empty : %s \n", (DECIDE[retIdx]));
     int num = SPEFifoSize(pFifo);
     printf("num = %2d\n", num);
-    PushSPEFIFOTree(pFifo, pHead);
-    PushSPEFIFOTree(pFifo, pHead->left);
-    PushSPEFIFOTree(pFifo, pHead->right);
+    //PushSPEFIFOTree(pFifo, pHead);
+    //PushSPEFIFOTree(pFifo, pHead->left);
+    //PushSPEFIFOTree(pFifo, pHead->right);
 
-    num = SPEFifoSize(pFifo);
-    printf("num = %2d\n", num);
+    //num = SPEFifoSize(pFifo);
+    //printf("num = %2d\n", num);
     P_TREE_NODE_T pHead2 = PopSPEFIFOTree(pFifo);
-    printf("Val:%2d\n", pHead2->val);
-    ChangeSPEFIFODirect(pFifo, RIGHT_TO_LEFT);
-    printf("Change Direct\n");
-    pHead2 = PopSPEFIFOTree(pFifo);
-    printf("Val:%2d\n", pHead2->val);
-    pHead2 = PopSPEFIFOTree(pFifo);
-    printf("Val:%2d\n", pHead2->val);
-    num = SPEFifoSize(pFifo);
-    printf("num = %2d\n", num);
+    //printf("Val:%2d\n", pHead2->val);
+    //ChangeSPEFIFODirect(pFifo, RIGHT_TO_LEFT);
+    //printf("Change Direct\n");
+    //
+    //pHead2 = SeekSPEFIFOTree(pFifo);
+    //printf("Val:%2d\n", pHead2->val);
+    //pHead2 = PopSPEFIFOTree(pFifo);
+    //printf("Val:%2d\n", pHead2->val);
+    //pHead2 = PopSPEFIFOTree(pFifo);
+    //printf("Val:%2d\n", pHead2->val);
+    //num = SPEFifoSize(pFifo);
+    //printf("num = %2d\n", num);
 
 
 

@@ -1394,9 +1394,101 @@ void ChangeSPEFIFODirect(P_SPE_FIFO_TREE_NODE_T pFifo, TAG_TYPE direct)
     if (pFifo != NULL) pFifo->direct = direct;
 }
 
+P_TREE_NODE_T SeekSPEFIFOTree(P_SPE_FIFO_TREE_NODE_T pFifo)
+{
+    P_TREE_NODE_T pSeekNode = NULL;
+    DECIDE_T ret = IsEmptySPEFIFOTree(pFifo);
+
+    if (NO == ret)
+    {
+        pSeekNode = (LEFT_TO_RIGHT == pFifo->direct) ? ((pFifo->pRightNode)->pNode) : ((pFifo->pLeftNode)->pNode);
+    }
+
+    return pSeekNode;
+
+}
 
 int** zigzagLevelOrder(struct TreeNode* root, int* returnSize, int** returnColumnSizes)
 {
 
+    P_TREE_NODE_T pLayersLastNode = root;
+    int capacity = 1;//cap of collect and returnColumnSizes
+    int thislayerSize = 1;
+    int numLayers     = 0;
+    int idxThisLyer   = 0;
+    int** collect = malloc(sizeof(int*) * capacity);
+    *returnColumnSizes = malloc(sizeof(int) * capacity);
+
+    P_SPE_FIFO_TREE_NODE_T pFifo = CreateSpeFifo();
+    *returnSize = 0;
+    (*returnColumnSizes)[0] = 0;
+    if (NULL == root) return collect;
+    collect[numLayers] = malloc(sizeof(int) * thislayerSize);
+    (*returnColumnSizes)[0] = 1;
+
+    PushSPEFIFOTree(pFifo, root);
+    P_TREE_NODE_T pPopNode = PopSPEFIFOTree(pFifo);
+
+    while (NULL != pPopNode)
+    {
+        collect[numLayers][idxThisLyer++] = pPopNode->val;
+
+        int idx = 0;
+        for (idx = 0; idx < 2; idx++)
+        {
+            P_TREE_NODE_T pPushNode =  (LEFT_TO_RIGHT == ((pFifo->direct + idx) & 0x1)) ? (pPopNode->left) : (pPopNode->right) ;
+            PushSPEFIFOTree(pFifo, pPushNode);
+        }
+
+        if (pPopNode == pLayersLastNode)
+        {
+            numLayers++;
+
+            if (numLayers == capacity) // need to extend collect, returnColumnSizes
+            {
+
+                // malloc
+                int** tempCollect   = malloc(sizeof(int*) * (capacity << 1));
+                int*  tempColumSize = malloc(sizeof(int)  * (capacity << 1));
+
+                // copy pointer or data
+                int idx = 0;
+                for (idx = 0; idx < capacity; idx++)
+                {
+                    tempCollect[idx]   = collect[idx];//Copy pointer;
+                    tempColumSize[idx] = (*returnColumnSizes)[idx];
+                }
+
+                //free old data
+                free(collect);
+                free(*returnColumnSizes);
+
+                //Those pointer pointed New Space
+                collect = tempCollect;
+                *returnColumnSizes = tempColumSize;
+                capacity <<= 1;
+
+                tempCollect = NULL;
+                tempColumSize = NULL;
+            }
+
+            pLayersLastNode = SeekSPEFIFOTree(pFifo);
+            thislayerSize = SPEFifoSize(pFifo);
+            collect[numLayers] = malloc(sizeof(int) * thislayerSize);
+            (*returnColumnSizes)[numLayers] = thislayerSize;
+            (pFifo->direct) = (LEFT_TO_RIGHT == pFifo->direct) ? (RIGHT_TO_LEFT) : (LEFT_TO_RIGHT);
+
+            idxThisLyer = 0;
+
+        }
+
+
+        pPopNode = PopSPEFIFOTree(pFifo);
+
+    }
+
+    *returnSize = numLayers;
+
+    return collect;
 
 }
