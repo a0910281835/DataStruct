@@ -159,24 +159,24 @@ int main(void)
     ((pHead->right)->right)->val  = 2;
 
 
-    //int returnSize = 0;
-    //int** returnColumnSizes = malloc(sizeof(int*));
-    ////int **array  = levelOrder(pHead, &returnSize, returnColumnSizes);
-    //int ** array = zigzagLevelOrder(pHead, &returnSize, returnColumnSizes);
-    //printf("%2d\n", returnSize);
-    //int idx = 0;
-    //int idx2 = 0;
-    //for (idx = 0; idx < returnSize; idx++)
-    //{
-    //    printf("Layers size : %2d\n", (*returnColumnSizes)[idx2]);
-    //    for (idx2 = 0; idx2 < (*returnColumnSizes)[idx]; idx2++)
-    //    {
-    //        printf("%2d, ", array[idx][idx2]);
-    //    }
+    int returnSize = 0;
+    int** returnColumnSizes = malloc(sizeof(int*));
+    //int **array  = levelOrder(pHead, &returnSize, returnColumnSizes);
+    int ** array = zigzagLevelOrder(pHead, &returnSize, returnColumnSizes);
+    printf("%2d\n", returnSize);
+    int idx = 0;
+    int idx2 = 0;
+    for (idx = 0; idx < returnSize; idx++)
+    {
+        printf("Layers size : %2d\n", (*returnColumnSizes)[idx2]);
+        for (idx2 = 0; idx2 < (*returnColumnSizes)[idx]; idx2++)
+        {
+            printf("%2d, ", array[idx][idx2]);
+        }
 
 
-    //    printf("\n");
-    //}
+        printf("\n");
+    }
 
     //free
 
@@ -240,18 +240,18 @@ int main(void)
 
     //-------Two Way FIFO------------------------//
     //
-    P_SPE_FIFO_TREE_NODE_T pFifo = CreateSpeFifo();
-    DECIDE_T retIdx = IsEmptySPEFIFOTree(pFifo);
-    printf(" is empty : %s \n", (DECIDE[retIdx]));
-    int num = SPEFifoSize(pFifo);
-    printf("num = %2d\n", num);
+    //P_SPE_FIFO_TREE_NODE_T pFifo = CreateSpeFifo();
+    //DECIDE_T retIdx = IsEmptySPEFIFOTree(pFifo);
+    //printf(" is empty : %s \n", (DECIDE[retIdx]));
+    //int num = SPEFifoSize(pFifo);
+    //printf("num = %2d\n", num);
     //PushSPEFIFOTree(pFifo, pHead);
     //PushSPEFIFOTree(pFifo, pHead->left);
-    //PushSPEFIFOTree(pFifo, pHead->right);
+    ////PushSPEFIFOTree(pFifo, pHead->right);
 
     //num = SPEFifoSize(pFifo);
     //printf("num = %2d\n", num);
-    P_TREE_NODE_T pHead2 = PopSPEFIFOTree(pFifo);
+    //P_TREE_NODE_T pHead2 = PopSPEFIFOTree(pFifo);
     //printf("Val:%2d\n", pHead2->val);
     //ChangeSPEFIFODirect(pFifo, RIGHT_TO_LEFT);
     //printf("Change Direct\n");
@@ -264,6 +264,7 @@ int main(void)
     //printf("Val:%2d\n", pHead2->val);
     //num = SPEFifoSize(pFifo);
     //printf("num = %2d\n", num);
+    //free(pFifo);
 
 
 

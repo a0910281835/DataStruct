@@ -1373,11 +1373,11 @@ P_TREE_NODE_T PopSPEFIFOTree(P_SPE_FIFO_TREE_NODE_T pFifo)
         }
         else
         {
-            P_SPE_TWO_WAY_LINK_NODE_T* pNextPopNode         = (LEFT_TO_RIGHT == pFifo->direct) ? &((*pOuputFIFO)->pToLeft)     :  &((*pOuputFIFO)->pToRight);
-            P_SPE_TWO_WAY_LINK_NODE_T* pNextPopNodeNext     = (LEFT_TO_RIGHT == pFifo->direct) ? &((*pNextPopNode)->pToRight)  :  &((*pNextPopNode)->pToLeft);
+            P_SPE_TWO_WAY_LINK_NODE_T  pNextPopNode         = (LEFT_TO_RIGHT == pFifo->direct) ? ((*pOuputFIFO)->pToLeft)     :  ((*pOuputFIFO)->pToRight);
+            P_SPE_TWO_WAY_LINK_NODE_T* pNextPopNodeNext     = (LEFT_TO_RIGHT == pFifo->direct) ? &((pNextPopNode)->pToRight)  :  &((pNextPopNode)->pToLeft);
             *pNextPopNodeNext = NULL;
             free(*pOuputFIFO);
-            *pOuputFIFO = *pNextPopNode;
+            *pOuputFIFO = pNextPopNode;
 
         }
     }
