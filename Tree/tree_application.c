@@ -1583,8 +1583,41 @@ int CalListLength(P_LISTNODE_T pList)
     return nums;
 }
 
+static P_TREE_NODE_T constructdBSTByrecursive(int numSize)
+{
+    P_TREE_NODE_T pHead = NULL;
+    if (numSize != 0)
+    {
+        pHead = malloc(sizeof(TREE_NODE_T));
+        int leftSize  = ((numSize -1) >> 1);
+        int rightSize = (numSize - 1 - leftSize);
+        pHead->left  = constructdBSTByrecursive(leftSize);
+        pHead->right = constructdBSTByrecursive(rightSize);
+    }
+
+    return pHead;
+
+}
+
+
+void InorederTree(P_TREE_NODE_T pHead,  P_LISTNODE_T* pList)
+{
+    if (NULL != pHead)
+    {
+        InorederTree(pHead->left, pList);
+        pHead->val = (*pList)->val;
+        (*pList) = (*pList)->next;
+        InorederTree(pHead->right, pList);
+    }
+
+}
 
 struct TreeNode* sortedListToBST(struct ListNode* head)
 {
-
+    int totalNums = CalListLength(head);
+    P_TREE_NODE_T pHead = constructdBSTByrecursive(totalNums);
+    P_LISTNODE_T* pRecord = malloc(sizeof(P_LISTNODE_T));
+    *pRecord = head;
+    InorederTree(pHead, pRecord);
+    return pHead;
 }

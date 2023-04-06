@@ -155,5 +155,7 @@ typedef struct ListNode
     struct ListNode *next;
 }ListNode;
 extern struct TreeNode* sortedListToBST(struct ListNode* head);
+extern int CalListLength(P_LISTNODE_T pList);
+extern void InorederTree(P_TREE_NODE_T pHeadi,  P_LISTNODE_T* pList);
 #endif
 

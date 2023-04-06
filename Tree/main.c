@@ -147,49 +147,49 @@ int main(void)
     //     \     \   .
     //      4     2
 
-    P_TREE_NODE_T pHead = malloc(sizeof(TREE_NODE_T));
-    pHead->val = 5;
-    pHead->left = malloc(sizeof(TREE_NODE_T));
-    (pHead->left)->val = 7;
-    pHead->right = malloc(sizeof(TREE_NODE_T));
-    (pHead->right)->val = 3;
-    (pHead->left)->right = malloc(sizeof(TREE_NODE_T));
-    (pHead->left)->right->val = 4;
-    (pHead->right)->right = malloc(sizeof(TREE_NODE_T));
-    ((pHead->right)->right)->val  = 2;
+    //P_TREE_NODE_T pHead = malloc(sizeof(TREE_NODE_T));
+    //pHead->val = 5;
+    //pHead->left = malloc(sizeof(TREE_NODE_T));
+    //(pHead->left)->val = 7;
+    //pHead->right = malloc(sizeof(TREE_NODE_T));
+    //(pHead->right)->val = 3;
+    //(pHead->left)->right = malloc(sizeof(TREE_NODE_T));
+    //(pHead->left)->right->val = 4;
+    //(pHead->right)->right = malloc(sizeof(TREE_NODE_T));
+    //((pHead->right)->right)->val  = 2;
 
 
-    int returnSize = 0;
-    int** returnColumnSizes = malloc(sizeof(int*));
-    //int **array  = levelOrder(pHead, &returnSize, returnColumnSizes);
-    int ** array = zigzagLevelOrder(pHead, &returnSize, returnColumnSizes);
-    printf("%2d\n", returnSize);
-    int idx = 0;
-    int idx2 = 0;
-    for (idx = 0; idx < returnSize; idx++)
-    {
-        printf("Layers size : %2d\n", (*returnColumnSizes)[idx2]);
-        for (idx2 = 0; idx2 < (*returnColumnSizes)[idx]; idx2++)
-        {
-            printf("%2d, ", array[idx][idx2]);
-        }
+    //int returnSize = 0;
+    //int** returnColumnSizes = malloc(sizeof(int*));
+    ////int **array  = levelOrder(pHead, &returnSize, returnColumnSizes);
+    //int ** array = zigzagLevelOrder(pHead, &returnSize, returnColumnSizes);
+    //printf("%2d\n", returnSize);
+    //int idx = 0;
+    //int idx2 = 0;
+    //for (idx = 0; idx < returnSize; idx++)
+    //{
+    //    printf("Layers size : %2d\n", (*returnColumnSizes)[idx2]);
+    //    for (idx2 = 0; idx2 < (*returnColumnSizes)[idx]; idx2++)
+    //    {
+    //        printf("%2d, ", array[idx][idx2]);
+    //    }
 
 
-        printf("\n");
-    }
+    //    printf("\n");
+    //}
 
 
-    int depth = maxDepth(pHead);
-    printf("depth = %2d\n", depth);
-    //free
-    //
-    //
-    //
+    //int depth = maxDepth(pHead);
+    //printf("depth = %2d\n", depth);
+    ////free
+    ////
+    ////
+    ////
 
-    int nums[] = {1, 2, 3, 4, 5};
+    //int nums[] = {1, 2, 3, 4, 5};
 
-    P_TREE_NODE_T pHead2 = sortedArrayToBST(nums, 5);
-    InOrderTravsl((P_BINNODE_T)pHead2);
+    //P_TREE_NODE_T pHead2 = sortedArrayToBST(nums, 5);
+    //InOrderTravsl((P_BINNODE_T)pHead2);
 
 
     //for (idx = 0; idx < returnSize; idx++)
@@ -277,6 +277,14 @@ int main(void)
     //num = SPEFifoSize(pFifo);
     //printf("num = %2d\n", num);
     //free(pFifo);
+
+
+
+    P_LISTNODE_T pList = malloc(sizeof(LISTNODE_T));
+    pList->val = 5;
+    pList->next = NULL;
+    int len = CalListLength(pList);
+    printf("%2d\n", len);
 
 
 
