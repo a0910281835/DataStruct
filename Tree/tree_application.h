@@ -82,7 +82,7 @@ typedef struct TWO_WAY_LINK_NODE_T
     P_TREE_NODE_T  pNode;
     P_TWO_WAY_LINK_NODE_T pNext;
     P_TWO_WAY_LINK_NODE_T pPrevious;
-    
+
 }TWO_WAY_LINK_NODE_T;
 
 typedef struct FIFO_TREE_NODE_T * P_FIFO_TREE_NODE_T;
@@ -110,7 +110,7 @@ typedef struct SPE_TWO_WAY_LINK_NODE_T
     P_TREE_NODE_T  pNode;
     P_SPE_TWO_WAY_LINK_NODE_T pToRight;  //  =>
     P_SPE_TWO_WAY_LINK_NODE_T pToLeft;   //  <=
-    
+
 }SPE_TWO_WAY_LINK_NODE_T;
 
 
@@ -138,5 +138,22 @@ extern P_TREE_NODE_T SeekSPEFIFOTree(P_SPE_FIFO_TREE_NODE_T pFifo);
 extern int** zigzagLevelOrder(struct TreeNode* root, int* returnSize, int** returnColumnSizes);
 
 
+//lettcode 104
+//
+extern int maxDepth(struct TreeNode* root);
+
+
+//Leetcode 108
+extern struct TreeNode* sortedArrayToBST(int* nums, int numsSize);
+
+// leetcode 109
+typedef struct ListNode  LISTNODE_T;
+typedef struct ListNode* P_LISTNODE_T;
+typedef struct ListNode
+{
+    int val;
+    struct ListNode *next;
+}ListNode;
+extern struct TreeNode* sortedListToBST(struct ListNode* head);
 #endif
 

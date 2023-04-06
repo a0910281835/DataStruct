@@ -178,7 +178,19 @@ int main(void)
         printf("\n");
     }
 
+
+    int depth = maxDepth(pHead);
+    printf("depth = %2d\n", depth);
     //free
+    //
+    //
+    //
+
+    int nums[] = {1, 2, 3, 4, 5};
+
+    P_TREE_NODE_T pHead2 = sortedArrayToBST(nums, 5);
+    InOrderTravsl((P_BINNODE_T)pHead2);
+
 
     //for (idx = 0; idx < returnSize; idx++)
     //{

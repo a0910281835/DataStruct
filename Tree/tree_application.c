@@ -1509,12 +1509,82 @@ int** zigzagLevelOrder(struct TreeNode* root, int* returnSize, int** returnColum
 //          15   7
 
 
-
-
-
 int maxDepth(struct TreeNode* root)
 {
-    int 
-    if (NULL == root) return 0;
+    int depth = 0;
+    if (NULL != root)
+    {
+        int leftDepth  = maxDepth(root->left);
+        int rightDepth = maxDepth(root->right);
+
+        depth = (leftDepth > rightDepth) ? (leftDepth) : (rightDepth);
+        depth++;
+
+    }
+
+    return depth;
+
+}
+
+
+//108. Convert Sorted Array to Binary Search Tree
+//Given an integer array nums where the elements are sorted in ascending order, convert it to a height-balanced binary search tree.
+//
+//Example 1:
+//Input: nums = [-10,-3,0,5,9]
+//Output: [0,-3,9,-10,null,5]
+//Explanation: [0,-10,5,null,-3,null,9] is also accepted.
+//
+//
+//Constraints:
+//
+//1 <= nums.length <= 104
+//-104 <= nums[i] <= 104
+//nums is sorted in a strictly increasing order.
+//
+
+static P_TREE_NODE_T sortedArrayToBSTByrecursive(int* nums, int numSize)
+{
+    P_TREE_NODE_T pHead = NULL;
+    if (numSize != 0)
+    {
+        pHead = malloc(sizeof(TREE_NODE_T));
+        int leftSize  = ((numSize -1) >> 1);
+        int rightSize = (numSize - 1 - leftSize);
+        pHead->val = nums[leftSize];
+        pHead->left  = sortedArrayToBSTByrecursive(nums, leftSize);
+        pHead->right = sortedArrayToBSTByrecursive(nums + leftSize + 1, rightSize);
+    }
+
+
+    return pHead;
+
+}
+
+struct TreeNode* sortedArrayToBST(int* nums, int numsSize)
+{
+    P_TREE_NODE_T pHead = sortedArrayToBSTByrecursive(nums, numsSize);
+}
+
+
+//Leetcode 109. Convert Sorted List to Binary Search Tree
+//Given the "head of a singly linked list" where elements are sorted in ascending order, convert it to a height-balanced binary search tree.
+
+int CalListLength(P_LISTNODE_T pList)
+{
+    int nums = 0;
+
+    while (NULL != pList)
+    {
+        pList = pList->next;
+        nums++;
+    }
+
+    return nums;
+}
+
+
+struct TreeNode* sortedListToBST(struct ListNode* head)
+{
 
 }
