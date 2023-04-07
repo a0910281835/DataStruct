@@ -282,7 +282,13 @@ int main(void)
 
     P_LISTNODE_T pList = malloc(sizeof(LISTNODE_T));
     pList->val = 5;
-    pList->next = NULL;
+    pList->next = malloc(sizeof(LISTNODE_T));
+    (pList->next)->val = 7;
+    (pList->next)->next = NULL;
+    P_TREE_NODE_T pHead = sortedListToBST(pList);
+    printf("%2d\n", pHead->val);
+    printf("%2d\n", (pHead->right)->val);
+
     int len = CalListLength(pList);
     printf("%2d\n", len);
 
