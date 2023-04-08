@@ -280,17 +280,38 @@ int main(void)
 
 
 
-    P_LISTNODE_T pList = malloc(sizeof(LISTNODE_T));
-    pList->val = 5;
-    pList->next = malloc(sizeof(LISTNODE_T));
-    (pList->next)->val = 7;
-    (pList->next)->next = NULL;
-    P_TREE_NODE_T pHead = sortedListToBST(pList);
-    printf("%2d\n", pHead->val);
-    printf("%2d\n", (pHead->right)->val);
+    //P_LISTNODE_T pList = malloc(sizeof(LISTNODE_T));
+    //pList->val = 5;
+    //pList->next = malloc(sizeof(LISTNODE_T));
+    //(pList->next)->val = 7;
+    //(pList->next)->next = NULL;
+    //P_TREE_NODE_T pHead = sortedListToBST(pList);
+    //printf("%2d\n", pHead->val);
+    //printf("%2d\n", (pHead->right)->val);
 
-    int len = CalListLength(pList);
-    printf("%2d\n", len);
+    //int len = CalListLength(pList);
+    //printf("%2d\n", len);
+
+    P_NODE_T pNode = malloc(sizeof(NODE_T));
+    pNode->val = 5;
+    pNode->next = NULL;
+    pNode->left  = malloc(sizeof(NODE_T));
+    pNode->right = malloc(sizeof(NODE_T));
+    (pNode->left)->val = 6;
+    (pNode->right)->val = 7;
+    (pNode->left)->left  = NULL;
+    (pNode->left)->right = NULL;
+    (pNode->right)->left  = NULL;
+    (pNode->right)->right = NULL;
+    connect(pNode);
+
+    int idx = 0;
+    P_NODE_T pNext = pNode->left;
+    while(pNext != NULL)
+    {
+        printf("%2d\n", pNext->val);
+        pNext = pNext->next;
+    }
 
 
 

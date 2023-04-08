@@ -1629,7 +1629,7 @@ struct TreeNode* sortedListToBST(struct ListNode* head)
 
 //116. Populating Next Right Pointers in Each Node
 //You are given a perfect binary tree where all leaves are on the same level, and every parent has two children. The binary tree has the following definition:
-//struct Node 
+//struct Node
 //{
 //    int val;
 //    Node *left;
@@ -1641,14 +1641,14 @@ struct TreeNode* sortedListToBST(struct ListNode* head)
 //
 //Input: root = [1,2,3,4,5,6,7]
 //Output: [1,#,2,3,#,4,5,6,7,#]
-//Explanation: Given the above perfect binary tree (Figure A), your function should populate each next pointer to point to its next right node, just like in Figure B. 
+//Explanation: Given the above perfect binary tree (Figure A), your function should populate each next pointer to point to its next right node, just like in Figure B.
 //The serialized output is in level order as connected by the next pointers, with '#' signifying the end of each level.
-// 
+//
 // Constraints:
 //
 // The number of nodes in the tree is in the range [0, 2^12 - 1].
 // -1000 <= Node.val <= 1000
-//  
+//
 //
 //  Follow-up:
 //
@@ -1675,22 +1675,25 @@ DECIDE_T IsFifoArrayEmpty(P_FIFO_ARRAY_T pFifo)
 }
 
 //  O : be occupy. X : No occupy
-//   
+//
 //    inputIdx
 //      ||
-//      \/ 
+//      \/
 // [ O | X |  |  |  | ... |  ]
 
 //       inputIdx
 //          ||
-//          \/ 
+//          \/
 // [ O | O | X |  |  | ... |  ]
 void PushFifoArray(P_FIFO_ARRAY_T pFifo, P_NODE_T node)
 {
     // FULL is impoibble if we use this size for this leetcode 116
-    int *pIdx = &(pFifo->inputIdx);
-    pFifo->array[*pIdx] = node;
-    (*pIdx)++;
+    if (NULL != node)
+    {
+        int *pIdx = &(pFifo->inputIdx);
+        pFifo->array[*pIdx] = node;
+        (*pIdx) = ((*pIdx) + 1) & 0xfff ;
+    }
 }
 
 P_NODE_T PopFifoArray(P_FIFO_ARRAY_T pFifo)
@@ -1702,12 +1705,62 @@ P_NODE_T PopFifoArray(P_FIFO_ARRAY_T pFifo)
         int *pIdx = &(pFifo->outputIdx);
         pNode = pFifo->array[*pIdx];
         pFifo->array[*pIdx] = NULL;
-        (*pIdx)++;
+        (*pIdx) = ((*pIdx) + 1) & 0xfff ;
+    }
+    else
+    {
+        printf("empty");
     }
 
     return pNode;
 }
 
-struct Node* connect(struct Node* root) 
+struct Node* connect(struct Node* root)
 {
+
+    if (NULL != root)
+    {
+        P_FIFO_ARRAY_T  pFifo = CreateFifoArray();
+        P_NODE_T pLastNode   = NULL;//Next time output in FIfo
+
+        int thislayersNum = 1;
+        int totalLayers   = 1;
+        PushFifoArray(pFifo, root);
+
+        DECIDE_T ret = IsFifoArrayEmpty(pFifo);
+        printf("ret = %2d\n", ret);
+        printf("Hi\n");
+        while (ret != YES)
+        {
+            printf("Ho\n");
+            int thisLayerIdx = 0;
+            P_NODE_T popNode;
+
+            printf("thislay = %2d, total = %2d\n", thislayersNum, totalLayers);
+
+            for (thisLayerIdx = 0; thisLayerIdx < thislayersNum; thisLayerIdx++)
+            {
+                popNode = PopFifoArray(pFifo);
+
+                if (pLastNode != NULL) pLastNode->next = popNode; //Connected
+                PushFifoArray(pFifo, popNode->left);
+                PushFifoArray(pFifo, popNode->right);
+                pLastNode = popNode;
+
+            }
+
+            thislayersNum = (1 << totalLayers);
+            totalLayers++;
+
+            pLastNode = NULL;// End This layers
+
+            ret = IsFifoArrayEmpty(pFifo);
+        }
+    printf("end\n");
+    }
+
+
+
+    return root;
+
 }

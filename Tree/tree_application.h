@@ -160,18 +160,18 @@ extern void InorederTree(P_TREE_NODE_T pHeadi,  P_LISTNODE_T* pList);
 
 //Leetcode 116 FIFO size less than 2^11.
 typedef struct Node NODE_T;
-typedef struct NODE_T * P_NODE_T;
+typedef struct Node* P_NODE_T;
 struct Node 
 {
-    int val;
     struct Node *left;
     struct Node *right;
     struct Node *next;
-}Node;
+    int val;
+};
 typedef struct FIFO_ARRAY_T * P_FIFO_ARRAY_T;
 typedef struct FIFO_ARRAY_T
 {
-    P_NODE_T array[2048];
+    P_NODE_T array[4096];
     int inputIdx;
     int outputIdx;
 }FIFO_ARRAY_T;
@@ -180,6 +180,7 @@ extern P_FIFO_ARRAY_T CreateFifoArray(void);
 extern DECIDE_T IsFifoArrayEmpty(P_FIFO_ARRAY_T pFifo);
 extern void PushFifoArray(P_FIFO_ARRAY_T pFifo, P_NODE_T node);
 extern P_NODE_T PopFifoArray(P_FIFO_ARRAY_T pFifo);
+extern struct Node* connect(struct Node* root);
 
 
 #endif
