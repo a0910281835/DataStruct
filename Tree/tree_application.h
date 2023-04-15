@@ -181,6 +181,8 @@ extern DECIDE_T IsFifoArrayEmpty(P_FIFO_ARRAY_T pFifo);
 extern void PushFifoArray(P_FIFO_ARRAY_T pFifo, P_NODE_T node);
 extern P_NODE_T PopFifoArray(P_FIFO_ARRAY_T pFifo);
 extern struct Node* connect(struct Node* root);
+extern struct Node* connect117(struct Node* root);
+extern int** generate(int numRows, int* returnSize, int** returnColumnSizes);
 
 
 #endif

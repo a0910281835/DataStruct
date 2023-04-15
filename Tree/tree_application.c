@@ -1707,10 +1707,6 @@ P_NODE_T PopFifoArray(P_FIFO_ARRAY_T pFifo)
         pFifo->array[*pIdx] = NULL;
         (*pIdx) = ((*pIdx) + 1) & 0xfff ;
     }
-    else
-    {
-        printf("empty");
-    }
 
     return pNode;
 }
@@ -1728,15 +1724,11 @@ struct Node* connect(struct Node* root)
         PushFifoArray(pFifo, root);
 
         DECIDE_T ret = IsFifoArrayEmpty(pFifo);
-        printf("ret = %2d\n", ret);
-        printf("Hi\n");
         while (ret != YES)
         {
-            printf("Ho\n");
             int thisLayerIdx = 0;
             P_NODE_T popNode;
 
-            printf("thislay = %2d, total = %2d\n", thislayersNum, totalLayers);
 
             for (thisLayerIdx = 0; thisLayerIdx < thislayersNum; thisLayerIdx++)
             {
@@ -1756,7 +1748,6 @@ struct Node* connect(struct Node* root)
 
             ret = IsFifoArrayEmpty(pFifo);
         }
-    printf("end\n");
     }
 
 
@@ -1764,3 +1755,147 @@ struct Node* connect(struct Node* root)
     return root;
 
 }
+
+
+//117. Populating Next Right Pointers in Each Node II
+//Given a binary tree
+//
+//struct Node
+//{
+//    int val;
+//    Node *left;
+//    Node *right;
+//    Node *next;
+//}
+//Populate each next pointer to point to its next right node. If there is no next right node, the next pointer should be set to NULL.
+//Initially, all next pointers are set to NULL.
+//
+struct Node* connect117(struct Node* root)
+{
+
+    if (NULL != root)
+    {
+        P_FIFO_ARRAY_T  pFifo = CreateFifoArray();
+        P_NODE_T pThisLayerLastNode   = root;   //Record this layers Last Node
+        P_NODE_T pRecordNextLayerNode   = NULL; //Next time output in FIfo
+        P_NODE_T popNode = NULL;
+        P_NODE_T pPrePopNode = NULL;
+
+        PushFifoArray(pFifo, root);
+
+        DECIDE_T ret = IsFifoArrayEmpty(pFifo);
+        while (ret != YES)
+        {
+            popNode = PopFifoArray(pFifo);
+            printf("%2d\n", popNode->val);
+
+            if (pPrePopNode != NULL) pPrePopNode->next = popNode;
+            pPrePopNode = popNode;
+
+            if (NULL != popNode->left)
+            {
+                pRecordNextLayerNode = popNode->left;
+                PushFifoArray(pFifo, popNode->left);
+            }
+            if (NULL != popNode->right)
+            {
+                pRecordNextLayerNode = popNode->right;
+                PushFifoArray(pFifo, popNode->right);
+            }
+
+
+            if (popNode == pThisLayerLastNode)
+            {
+                pThisLayerLastNode = pRecordNextLayerNode;
+                pPrePopNode = NULL;
+
+            }
+
+            ret = IsFifoArrayEmpty(pFifo);
+        }
+    }
+
+    return root;
+}
+
+
+
+//118. Pascal's Triangle
+//Given an integer numRows, return the first numRows of Pascal's triangle.
+//In Pascal's triangle, each number is the sum of the two numbers directly above it as shown:
+//Example 1:
+//Input: numRows = 5
+//Output: [[1],[1,1],[1,2,1],[1,3,3,1],[1,4,6,4,1]]
+//
+//
+//1 <= numRows <= 30
+//
+//
+///**
+// * Return an array of arrays of size *returnSize.
+// * The sizes of the arrays are returned as *returnColumnSizes array.
+// * Note: Both returned array and *columnSizes array must be malloced, assume caller calls free().
+//*/
+int** generate(int numRows, int* returnSize, int** returnColumnSizes)
+{
+    *returnSize = numRows;
+
+    int idx = 1;
+    *returnColumnSizes = malloc(sizeof(int)  * numRows);
+    int **pascalArray  = malloc(sizeof(int*) * numRows);
+    int *prePtr;
+    int *currPtr;
+    int *thisLayersPtr;
+
+    for (idx = 1; idx <= numRows; idx++)
+    {
+        (*returnColumnSizes)[idx-1] = idx;
+        pascalArray[idx-1] = malloc(sizeof(int) * idx);
+        pascalArray[idx-1][0] = 1;//Default a|k,1 = 0 for all k
+        if (idx > 2)
+        {
+            prePtr   = pascalArray[idx-2];
+            currPtr = (((int*) pascalArray[idx-2]) + 1);
+        }
+
+        // Cnt : do pascal algorithm time
+        int cnt = (idx & 0x1) ? ((idx + 1) >> 1) : (idx >> 1);
+        cnt--;
+        int idx2 = 0;
+        thisLayersPtr = (((int*) pascalArray[idx-1]) + 1);
+
+        for (idx2 = 1; idx2 <= cnt; idx2++)
+        {
+            *(thisLayersPtr++) = *(prePtr++) + *(currPtr++);
+        }
+
+        // only copy time : idx - cnt - 1// 1 is default
+        int cpyIdx;
+
+        for (cpyIdx = (cnt + 1); cpyIdx < idx; cpyIdx++)
+        {
+            pascalArray[idx-1][cpyIdx] = pascalArray[idx-1][idx-1-cpyIdx];
+        }
+
+    }
+
+    return pascalArray;
+
+}
+
+
+
+//121. Best Time to Buy and Sell Stock
+//You are given an array prices where prices[i] is the price of a given stock on the ith day.
+//You want to maximize your profit by choosing a single day to buy one stock and choosing a different day in the future to sell that stock.
+//Return the maximum profit you can achieve from this transaction. If you cannot achieve any profit, return 0.
+//
+//
+//Exampl1 :
+//
+//Example 1:
+//
+//Input: prices = [7,1,5,3,6,4]
+//Output: 5
+//Explanation: Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5.
+//Note that buying on day 2 and selling on day 1 is not allowed because you must buy before you sell.

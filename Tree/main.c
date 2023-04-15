@@ -292,27 +292,61 @@ int main(void)
     //int len = CalListLength(pList);
     //printf("%2d\n", len);
 
-    P_NODE_T pNode = malloc(sizeof(NODE_T));
-    pNode->val = 5;
-    pNode->next = NULL;
-    pNode->left  = malloc(sizeof(NODE_T));
-    pNode->right = malloc(sizeof(NODE_T));
-    (pNode->left)->val = 6;
-    (pNode->right)->val = 7;
-    (pNode->left)->left  = NULL;
-    (pNode->left)->right = NULL;
-    (pNode->right)->left  = NULL;
-    (pNode->right)->right = NULL;
-    connect(pNode);
+    //P_NODE_T pNode = malloc(sizeof(NODE_T));
+    //pNode->val = 1;
+    //pNode->next = NULL;
+    //pNode->left  = malloc(sizeof(NODE_T));
+    //pNode->right = malloc(sizeof(NODE_T));
+    //(pNode->left)->val = 2;
+    //(pNode->right)->val = 3;
+    //(pNode->left)->left  = NULL;
+    //(pNode->left)->right = NULL;
+    //(pNode->right)->left  = NULL;
+    //(pNode->right)->right = NULL;
 
-    int idx = 0;
-    P_NODE_T pNext = pNode->left;
-    while(pNext != NULL)
+    //(pNode->left)->left  =  malloc(sizeof(NODE_T));
+    //(pNode->left)->right  = malloc(sizeof(NODE_T));
+    //(pNode->right)->right  =  malloc(sizeof(NODE_T));
+    //
+    //((pNode->left)->left)->val  = 4;
+    //((pNode->left)->right)->val = 5;
+    //((pNode->right)->right)->val = 7;
+    //((pNode->left)->left)->left  = NULL;
+    //((pNode->left)->left)->right = NULL;
+    //((pNode->left)->right)->left  = NULL;
+    //((pNode->left)->right)->right = NULL;
+    //((pNode->right)->right)->left = NULL;
+    //((pNode->right)->right)->right = NULL;
+    //connect117(pNode);
+
+    //int idx = 0;
+    //P_NODE_T pNext = (pNode->left)->left;
+    //while(pNext != NULL)
+    //{
+    //    printf("%2d\n", pNext->val);
+    //    pNext = pNext->next;
+    //}
+
+    int returnSize = 0;
+    int numRows    = 5;
+    int ** returnColumnSizes = malloc(sizeof(int*));
+
+    printf("hi");
+    int** pascalArray = generate(numRows, &returnSize, returnColumnSizes);
+    
+    int idx, idx2;
+
+    printf("------------------\n");
+    for (idx = 0; idx < returnSize; idx++)
     {
-        printf("%2d\n", pNext->val);
-        pNext = pNext->next;
-    }
+        for (idx2 = 0; idx2 < (*returnColumnSizes)[idx]; idx2++)
+        {
+            printf("%2d, ", pascalArray[idx][idx2]);
+        }
 
+        printf("------------------\n");
+
+    }
 
 
 
