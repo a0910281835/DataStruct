@@ -1914,13 +1914,39 @@ static int findMaxPrices(int *prices, int precesSize)
     int idx = 0;
     for (idx = 0; idx < precesSize; idx++)
     {
-
+        if (maxPrices < prices[idx])
+        {
+            maxPrices = prices[idx];
+        }
     }
 
+    return maxPrices;
+}
+
+static int findMinPrices(int *prices, int precesSize)
+{
+    int minPrices = prices[0];
+    int idx = 0;
+    for (idx = 0; idx < precesSize; idx++)
+    {
+        if (minPrices >  prices[idx])
+        {
+            minPrices = prices[idx];
+        }
+    }
+
+    return minPrices;
 }
 
 int maxProfit(int* prices, int pricesSize)
 {
+    int leftSize  = (pricesSize >> 1);
+    int rightSize = (pricesSize - leftSize);
+
+    if (pricesSize == 1)
+    {
+
+    }
 
 }
 
