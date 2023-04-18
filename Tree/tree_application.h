@@ -181,8 +181,13 @@ extern DECIDE_T IsFifoArrayEmpty(P_FIFO_ARRAY_T pFifo);
 extern void PushFifoArray(P_FIFO_ARRAY_T pFifo, P_NODE_T node);
 extern P_NODE_T PopFifoArray(P_FIFO_ARRAY_T pFifo);
 extern struct Node* connect(struct Node* root);
+// leetcode 117
 extern struct Node* connect117(struct Node* root);
+// leetcode 118
 extern int** generate(int numRows, int* returnSize, int** returnColumnSizes);
+// leetcode 121
+extern int maxProfit(int* prices, int pricesSize);
+extern int maxProfit2(int* prices, int pricesSize);
 
 
 #endif

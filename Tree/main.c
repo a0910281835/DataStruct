@@ -327,26 +327,31 @@ int main(void)
     //    pNext = pNext->next;
     //}
 
-    int returnSize = 0;
-    int numRows    = 5;
-    int ** returnColumnSizes = malloc(sizeof(int*));
+    //int returnSize = 0;
+    //int numRows    = 5;
+    //int ** returnColumnSizes = malloc(sizeof(int*));
 
-    printf("hi");
-    int** pascalArray = generate(numRows, &returnSize, returnColumnSizes);
+    //int** pascalArray = generate(numRows, &returnSize, returnColumnSizes);
+    //
+    //int idx, idx2;
+
+    //printf("------------------\n");
+    //for (idx = 0; idx < returnSize; idx++)
+    //{
+    //    for (idx2 = 0; idx2 < (*returnColumnSizes)[idx]; idx2++)
+    //    {
+    //        printf("%2d, ", pascalArray[idx][idx2]);
+    //    }
+
+    //    printf("------------------\n");
+
+    //}
     
-    int idx, idx2;
 
-    printf("------------------\n");
-    for (idx = 0; idx < returnSize; idx++)
-    {
-        for (idx2 = 0; idx2 < (*returnColumnSizes)[idx]; idx2++)
-        {
-            printf("%2d, ", pascalArray[idx][idx2]);
-        }
+    int prices[6] = {10, 2, 9, 1, 5, 6};
 
-        printf("------------------\n");
-
-    }
+    int profit = maxProfit2(prices, 6);
+    printf("%2d\n", profit);
 
 
 
