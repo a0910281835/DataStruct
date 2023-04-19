@@ -1976,6 +1976,30 @@ int maxProfit2(int* prices, int pricesSize)
 }
 
 
+// prove this correct;
+
+int maxProfitAlg(int* prices, int pricesSize)
+{
+    int profit = 0;
+    int minPrice = prices[0];
+
+    int idx = 0;
+    for (idx = 0; idx < pricesSize; idx++)
+    {
+        if (prices[idx] > minPrice)
+        {
+            int temp = prices[idx] - minPrice;
+            profit = (temp > profit) ? temp : profit;
+
+        }
+        else
+        {
+            minPrice = prices[idx];
+        }
+    }
+
+    return profit;
+}
 
 
 //122. Best Time to Buy and Sell Stock II
