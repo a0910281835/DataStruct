@@ -188,7 +188,8 @@ extern int** generate(int numRows, int* returnSize, int** returnColumnSizes);
 // leetcode 121
 extern int maxProfit(int* prices, int pricesSize);
 extern int maxProfit2(int* prices, int pricesSize);
-
+//122. Best Time to Buy and Sell Stock II
+extern int maxProfit3(int* prices, int pricesSize);
 
 #endif
 

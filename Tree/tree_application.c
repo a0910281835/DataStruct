@@ -1564,6 +1564,7 @@ static P_TREE_NODE_T sortedArrayToBSTByrecursive(int* nums, int numSize)
 struct TreeNode* sortedArrayToBST(int* nums, int numsSize)
 {
     P_TREE_NODE_T pHead = sortedArrayToBSTByrecursive(nums, numsSize);
+    return pHead;
 }
 
 
@@ -2034,6 +2035,42 @@ int maxProfitAlg(int* prices, int pricesSize)
 //1 <= prices.length <= 3 * 104
 //0 <= prices[i] <= 104
 //
-//int maxProfit(int* prices, int pricesSize){
+int maxProfit3(int* prices, int pricesSize)
+{
+#define FIRST_IDX 0
+#define BREAK_EVEN 0
+    int profit = 0;
+    int diff = 0;
+    int lastPrice = prices[FIRST_IDX];
+
+    int idx = 0;
+
+    for (idx = 0; idx < pricesSize; idx++)
+    {
+        diff = prices[idx] - lastPrice;
+        profit = (diff > BREAK_EVEN) ? (profit + diff) : profit;
+        lastPrice = prices[idx];
+
+    }
+
+    return profit;
+}
+
+//124. Binary Tree Maximum Path Sum
+//A path in a binary tree is a sequence of nodes where each pair of adjacent nodes in the sequence has an edge connecting them.
+//A node can only appear in the sequence at most once. Note that the path does not need to pass through the root.
+//The path sum of a path is the sum of the node's values in the path.
+//Given the root of a binary tree, return the maximum path sum of any non-empty path.
+
+//Example 1:
+//Input: root = [1,2,3]
+//Output: 6
+//Explanation: The optimal path is 2 -> 1 -> 3 with a path sum of 2 + 1 + 3 = 6.
 //
-//}
+//Example 2:
+//nput: root = [-10,9,20,null,null,15,7]
+//Output: 42
+//Explanation: The optimal path is 15 -> 20 -> 7 with a path sum of 15 + 20 + 7 = 42.
+//Constraints:
+//The number of nodes in the tree is in the range [1, 3 * 104].
+//-1000 <= Node.val <= 1000

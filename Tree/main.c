@@ -346,12 +346,13 @@ int main(void)
     //    printf("------------------\n");
 
     //}
-    
+
 
     int prices[6] = {10, 2, 9, 1, 5, 6};
 
     int profit = maxProfit2(prices, 6);
-    printf("%2d\n", profit);
+    printf("\n");
+    printf("%d\n", profit);
 
 
 
