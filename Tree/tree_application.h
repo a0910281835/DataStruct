@@ -191,5 +191,6 @@ extern int maxProfit2(int* prices, int pricesSize);
 //122. Best Time to Buy and Sell Stock II
 extern int maxProfit3(int* prices, int pricesSize);
 
+extern int maxPathSum(struct TreeNode* root);
 #endif
 

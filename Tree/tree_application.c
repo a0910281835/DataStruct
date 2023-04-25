@@ -2074,3 +2074,30 @@ int maxProfit3(int* prices, int pricesSize)
 //Constraints:
 //The number of nodes in the tree is in the range [1, 3 * 104].
 //-1000 <= Node.val <= 1000
+
+static int recursiveNodeAsRootPath(P_TREE_NODE_T pHead, int *pMaxPath)
+{
+    int pathForNode = 0;
+    if (NULL != pHead)
+    {
+        int leftNodePath  = recursiveNodeAsRootPath(pHead->left, pMaxPath);
+        int rightNodePath = recursiveNodeAsRootPath(pHead->right, pMaxPath);
+        pathForNode   = (leftNodePath > rightNodePath) ? (leftNodePath) : (rightNodePath);
+
+        pathForNode   = ( pathForNode > 0) ? ((pHead->val) + pathForNode) : (pHead->val);
+
+        int connectPath = (pathForNode > (leftNodePath + rightNodePath + (pHead->val))) ? (pathForNode) : (leftNodePath + rightNodePath + (pHead->val));
+        *pMaxPath = (*pMaxPath > connectPath) ? (*pMaxPath) : (connectPath);
+    }
+
+    return pathForNode;
+
+}
+
+int maxPathSum(struct TreeNode* root)
+{
+    static int maxPath;
+    maxPath = -30000000;
+    recursiveNodeAsRootPath(root, &maxPath);
+    return maxPath;
+}

@@ -141,22 +141,25 @@ int main(void)
    //FixOrderSeqence(array, 8);
 
 
-    //      5
+    //     -10
     //    /   \
-    //   7      3
-    //     \     \   .
-    //      4     2
+    //   9      20
+    //         /  \   .
+    //        15   7
 
-    //P_TREE_NODE_T pHead = malloc(sizeof(TREE_NODE_T));
-    //pHead->val = 5;
-    //pHead->left = malloc(sizeof(TREE_NODE_T));
-    //(pHead->left)->val = 7;
-    //pHead->right = malloc(sizeof(TREE_NODE_T));
-    //(pHead->right)->val = 3;
-    //(pHead->left)->right = malloc(sizeof(TREE_NODE_T));
-    //(pHead->left)->right->val = 4;
-    //(pHead->right)->right = malloc(sizeof(TREE_NODE_T));
-    //((pHead->right)->right)->val  = 2;
+    P_TREE_NODE_T pHead = malloc(sizeof(TREE_NODE_T));
+    pHead->val = -10;
+    pHead->left = malloc(sizeof(TREE_NODE_T));
+    (pHead->left)->val = 9;
+    pHead->right = malloc(sizeof(TREE_NODE_T));
+    (pHead->right)->val = 20;
+    (pHead->right)->left = malloc(sizeof(TREE_NODE_T));
+    ((pHead->right)->left)->val  = 15;
+    (pHead->right)->right = malloc(sizeof(TREE_NODE_T));
+    (pHead->right)->right->val = 7;
+
+    int v = maxPathSum(pHead);
+    printf("%3d\n", v);
 
 
     //int returnSize = 0;
