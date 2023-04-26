@@ -195,5 +195,6 @@ extern int maxPathSum(struct TreeNode* root);
 //125.
 extern bool isPalindrome(char * s);
 extern int longestConsecutive(int* nums, int numsSize);
+extern void CalulateModeGroup(int* nums, int numsSize, int *pMax, int *pMin);
 #endif
 

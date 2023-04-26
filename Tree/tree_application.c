@@ -2205,14 +2205,14 @@ int longestConsecutive(int* nums, int numsSize)
         max = (max > nums[idx]) ? max : nums[idx];
         min = (min < nums[idx]) ? min : nums[idx];
     }
-    //Let max-min < 1000
+    //Let max-min < 1024
     if ((max-min) > 1024)
     {
-        //10 100 1000 reucreisve
-
+        CalulateModeGroup(nums, numsSize, &max, &min);
+        //divid 10 part
     }
 
-    char *array = malloc(sizeof(char) * (max-min+1));
+    char *array = malloc(sizeof(char) * (1024));
     //hash
     for (idx = 0; idx < numsSize; idx++)
     {
@@ -2222,7 +2222,7 @@ int longestConsecutive(int* nums, int numsSize)
     //calulate
     int succMaxNum = 0;
     int tmpSucc = 0;
-    for (idx = 0; idx < (max-min+1); idx++)
+    for (idx = 0; idx < (1024); idx++)
     {
         if(array[idx] == 1)
         {
@@ -2237,4 +2237,55 @@ int longestConsecutive(int* nums, int numsSize)
     }
 
     return succMaxNum;
+}
+
+void CalulateModeGroup(int* nums, int numsSize, int *pMax, int *pMin)
+{
+    if ((*pMax-*pMin) < 1024)
+    {
+        return;
+    }
+    else
+    {
+        //Hash
+        int range[16];
+        int max[16];
+        int min[16];
+        int idx = 0;
+        for (idx = 0; idx < 16; idx++)
+        {
+            range[idx] = 0;
+            max[idx] = *pMin - 1;
+            min[idx] = *pMax + 1;
+        }
+
+        int dividNum = ((*pMax-*pMin+1) & 0xf) ? (((*pMax -*pMin) >> 4) + 1) : ((*pMax -*pMin) >> 4);
+        for (idx = 0; idx < numsSize; idx++)
+        {
+            if ((*pMin <= nums[idx]) && (nums[idx] <= *pMax))
+            {
+                int cntIdx = ((nums[idx] - *pMin) / dividNum);
+                (range[cntIdx])++;
+                max[cntIdx] = (max[cntIdx] < nums[idx]) ? nums[idx]   : max[cntIdx];
+                min[cntIdx] = (min[cntIdx] < nums[idx]) ? min[cntIdx] : nums[idx];
+            }
+
+        }
+
+        int temp = range[0];
+        int recordIdx = 0;
+
+        for (idx = 0; idx < 16; idx++)
+        {
+            if (temp < range[idx])
+            {
+                recordIdx = idx;
+                temp = range[idx];
+            }
+        }
+
+        *pMax = max[recordIdx];
+        *pMin = min[recordIdx];
+        CalulateModeGroup(nums, numsSize, pMax, pMin);
+    }
 }
