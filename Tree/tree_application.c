@@ -2130,7 +2130,111 @@ int maxPathSum(struct TreeNode* root)
 //1 <= s.length <= 2 * 105
 //s consists only of printable ASCII characters.
 //
+//
+static void str2Parser(char* strInput, char *strOuput, int *pLowCnt)
+{
+    //uppercase to lowercase and delete non-alphanumeric characters
+    int idx = 0;
+    char comChar = strInput[idx];
+    *pLowCnt = 0;
+
+    while ('\0' != comChar)
+    {
+        //if (((int)'A' <= (int)comChar) && ((int)comChar <= (int)'Z'))
+        if ((65 <= comChar) && (comChar) <= 90)
+        {
+            comChar += 32;
+        }
+        if (((97 <= comChar) && (comChar) <= 122) || ((48 <= comChar) && (comChar) <= 57))
+        {
+            strOuput[*pLowCnt] = comChar;
+            (*pLowCnt)++;
+        }
+        comChar = strInput[++idx];
+
+    }
+    strOuput[*pLowCnt] = '\0';
+
+
+}
 bool isPalindrome(char * s)
 {
+    // Save to array.
+    // If you want to reduce memeory, you can use two-way  link list to memeory those position.
+    char str[200000];
+    int lowercaseCnt = 0;
+    str2Parser(s, str, &lowercaseCnt);
+
+    //Check is Palindrome
+    int leftIdx  = 0;
+    int rightIdx = (lowercaseCnt - 1);
+
+    while (leftIdx <= rightIdx)
+    {
+        if (str[leftIdx++] != str[rightIdx--])
+            return 0;
+    }
+
+
     return 1;
+}
+
+
+//128. Longest Consecutive Sequence
+//
+//Given an unsorted array of integers nums, return the length of the longest consecutive elements sequence.
+//You must write an algorithm that runs in O(n) time.
+//
+//Example 1:
+//Input: nums = [100,4,200,1,3,2]
+//Output: 4
+//Explanation: The longest consecutive elements sequence is [1, 2, 3, 4]. Therefore its length is 4.
+//Example 2:
+//Input: nums = [0,3,7,2,5,8,4,6,0,1]
+//Output: 9
+//Constraints:
+//0 <= nums.length <= 105
+//-109 <= nums[i] <= 109
+int longestConsecutive(int* nums, int numsSize)
+{
+    int max = -1000000000;
+    int min =  1000000000;
+    int idx = 0;
+    for(idx = 0; idx <numsSize; idx++)
+    {
+        max = (max > nums[idx]) ? max : nums[idx];
+        min = (min < nums[idx]) ? min : nums[idx];
+    }
+    //Let max-min < 1000
+    if ((max-min) > 1024)
+    {
+        //10 100 1000 reucreisve
+
+    }
+
+    char *array = malloc(sizeof(char) * (max-min+1));
+    //hash
+    for (idx = 0; idx < numsSize; idx++)
+    {
+        array[nums[idx] - min] = 1;
+    }
+
+    //calulate
+    int succMaxNum = 0;
+    int tmpSucc = 0;
+    for (idx = 0; idx < (max-min+1); idx++)
+    {
+        if(array[idx] == 1)
+        {
+            tmpSucc++;
+        }
+        else
+        {
+            tmpSucc = 0;
+        }
+
+        succMaxNum = (succMaxNum > tmpSucc) ? succMaxNum : tmpSucc;
+    }
+
+    return succMaxNum;
 }

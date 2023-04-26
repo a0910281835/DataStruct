@@ -190,7 +190,10 @@ extern int maxProfit(int* prices, int pricesSize);
 extern int maxProfit2(int* prices, int pricesSize);
 //122. Best Time to Buy and Sell Stock II
 extern int maxProfit3(int* prices, int pricesSize);
-
+//124. Binary Tree Maximum Path Sum
 extern int maxPathSum(struct TreeNode* root);
+//125.
+extern bool isPalindrome(char * s);
+extern int longestConsecutive(int* nums, int numsSize);
 #endif
 

@@ -353,9 +353,8 @@ int main(void)
 
     int prices[6] = {10, 2, 9, 1, 5, 6};
 
-    int profit = maxProfit2(prices, 6);
-    printf("\n");
-    printf("%d\n", profit);
+    int ret = longestConsecutive(prices, 6);
+    printf("%2d\n", ret);
 
 
 
