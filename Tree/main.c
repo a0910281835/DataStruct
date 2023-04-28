@@ -351,9 +351,8 @@ int main(void)
     //}
 
 
-    int prices[] = {10, 2, 9, 1, 5, 6, 10000, 130001};
-
-    int ret = longestConsecutive(prices, 8);
+    int prices[] = {0,1,2,4,8,5,6,7,9,3,55,88,77,99,999999999};
+    int ret = longestConsecutive(prices, 15);
     printf("%2d\n", ret);
 
 

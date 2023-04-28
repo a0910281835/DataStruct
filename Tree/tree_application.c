@@ -2206,23 +2206,23 @@ int longestConsecutive(int* nums, int numsSize)
         min = (min < nums[idx]) ? min : nums[idx];
     }
     //Let max-min < 1024
-    if ((max-min) > 1024)
-    {
-        CalulateModeGroup(nums, numsSize, &max, &min);
+    if (numsSize == 0) return 0;
+    CalulateModeGroup(nums, numsSize, &max, &min);
         //divid 10 part
-    }
+    //printf("Get : %2d, %2d\n", max, min);
 
-    char *array = malloc(sizeof(char) * (1024));
+    char *array = malloc(sizeof(char) * (max-min+1));
     //hash
     for (idx = 0; idx < numsSize; idx++)
     {
-        array[nums[idx] - min] = 1;
+        if ((min <= nums[idx]) && (nums[idx] <= max))
+            array[nums[idx] - min] = 1;
     }
 
     //calulate
     int succMaxNum = 0;
     int tmpSucc = 0;
-    for (idx = 0; idx < (1024); idx++)
+    for (idx = 0; idx < (max-min+1); idx++)
     {
         if(array[idx] == 1)
         {
@@ -2241,8 +2241,14 @@ int longestConsecutive(int* nums, int numsSize)
 
 void CalulateModeGroup(int* nums, int numsSize, int *pMax, int *pMin)
 {
-    if ((*pMax-*pMin) < 1024)
+    //static int recordCall = 0;
+    ////printf("time : %4d\n", recordCall);
+    //recordCall++;
+    //printf("max : %d\n", *pMax);
+    //printf("min : %d\n", *pMin);
+    if (((*pMax-*pMin) >> 5) < numsSize)
     {
+        //printf("over\n");
         return;
     }
     else
@@ -2259,7 +2265,8 @@ void CalulateModeGroup(int* nums, int numsSize, int *pMax, int *pMin)
             min[idx] = *pMax + 1;
         }
 
-        int dividNum = ((*pMax-*pMin+1) & 0xf) ? (((*pMax -*pMin) >> 4) + 1) : ((*pMax -*pMin) >> 4);
+        int dividNum = ((*pMax-*pMin+1) & 0xf) ? (((*pMax -*pMin + 1) >> 4) + 1) : ((*pMax -*pMin + 1) >> 4);
+        //printf("div : %d\n", dividNum);
         for (idx = 0; idx < numsSize; idx++)
         {
             if ((*pMin <= nums[idx]) && (nums[idx] <= *pMax))
@@ -2268,6 +2275,8 @@ void CalulateModeGroup(int* nums, int numsSize, int *pMax, int *pMin)
                 (range[cntIdx])++;
                 max[cntIdx] = (max[cntIdx] < nums[idx]) ? nums[idx]   : max[cntIdx];
                 min[cntIdx] = (min[cntIdx] < nums[idx]) ? min[cntIdx] : nums[idx];
+                //printf("nums : %d\n", nums[idx]);
+                //printf("cntIdx = %2d\n", cntIdx);
             }
 
         }
