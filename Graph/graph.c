@@ -54,7 +54,7 @@ static P_NODE_GRAPH_T recursiveGraph(P_NODE_GRAPH_T pHead, NODE_INFORM_T * pNode
         int idx = pHead->val;
         if (pNodeState[idx].status == UNINITAL)
         {
-            printf("First Time : %d\n",pHead->val);
+            //printf("First Time : %d\n",pHead->val);
             pCpyNode = malloc(sizeof(NODE_GRAPH_T));
             pCpyNode->numNeighbors = pHead->numNeighbors;
             pCpyNode->neighbors = malloc(sizeof(P_NODE_GRAPH_T) * (pCpyNode->numNeighbors));
@@ -67,8 +67,8 @@ static P_NODE_GRAPH_T recursiveGraph(P_NODE_GRAPH_T pHead, NODE_INFORM_T * pNode
 
             for (neighIdx = 0; neighIdx < pCpyNode->numNeighbors; neighIdx++)
             {
-                printf("time %2d\n", neighIdx);
-                printf("Neigh : %2d\n", (pHead->neighbors[neighIdx])->val);
+                //printf("time %2d\n", neighIdx);
+                //printf("Neigh : %2d\n", (pHead->neighbors[neighIdx])->val);
                 pNeighNode = recursiveGraph(pHead->neighbors[neighIdx], pNodeState);
                 pCpyNode->neighbors[neighIdx] = pNeighNode;
             }
@@ -77,13 +77,13 @@ static P_NODE_GRAPH_T recursiveGraph(P_NODE_GRAPH_T pHead, NODE_INFORM_T * pNode
         else
         {
             pCpyNode = pNodeState[idx].pNode;
-            printf("Call Have Exist Val : %2d\n", (pNodeState[idx].pNode)->val);
+            //printf("Call Have Exist Val : %2d\n", (pNodeState[idx].pNode)->val);
         }
 
     }
     else
     {
-        printf("not exist");
+        //printf("not exist");
     }
     return  pCpyNode;
 
@@ -124,10 +124,59 @@ void PushFIFO(P_FIFO_T pFifo, P_NODE_GRAPH_T pNode)
     {
         int *pIdx = &(pFifo->inputIdx);
         pFifo->nodeArray[*pIdx] = pNode;
+        *pIdx = ((*pIdx) + 1) & 0x7f;
     }
 }
-void PrintfGraph(NODE_GRAPH_T pNode)
+
+P_NODE_GRAPH_T PopFIFO(P_FIFO_T pFifo)
 {
+    int *pInpIdx = &(pFifo->inputIdx);
+    int *pOutIdx = &(pFifo->outputIdx);
+    P_NODE_GRAPH_T pOutNode = NULL;
+    if (*pInpIdx == *pOutIdx)
+    {
+        printf("Empty\n");
+    }
+    else
+    {
+        pOutNode = pFifo->nodeArray[*pOutIdx];
+        *pOutIdx  = (*pOutIdx + 1) & 0x7f;
+    }
+    return pOutNode;
+}
+
+void PrintfGraph(P_NODE_GRAPH_T pNode)
+{
+    if (NULL != pNode)
+    {
+        STATUS_T statusArray[101] = {0};
+        P_FIFO_T pFifo = CreateFIFOArray();
+        PushFIFO(pFifo, pNode);
+
+        P_NODE_GRAPH_T pOuputNode = PopFIFO(pFifo);
+
+
+        // FIFO is not empty!
+        while (NULL != pOuputNode)
+        {
+            int idx = pOuputNode->val;
+            if (UNINITAL == statusArray[idx])
+            {
+                int neighborIdx = 0;
+                statusArray[idx] = TRAVELING;
+
+                printf("Node val : %2d\n", pOuputNode->val);
+
+                for (neighborIdx = 0; neighborIdx < pOuputNode->numNeighbors; neighborIdx++)
+                {
+                    PushFIFO(pFifo, pOuputNode->neighbors[neighborIdx]);
+                }
+            }
+
+            pOuputNode = PopFIFO(pFifo);
+        }
+
+    }
 
 
 }

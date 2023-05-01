@@ -28,11 +28,11 @@ typedef struct NODE_INFORM_T* P_NODE_INFORM_T;
 
 
 // FIFO struct
-typedef struct FIFO_T * P_FIFO_T
+typedef struct FIFO_T * P_FIFO_T;
 
 typedef struct FIFO_T
 {
-    P_NODE_GRAPH_T nodeArray[101];
+    P_NODE_GRAPH_T nodeArray[128];
     int inputIdx;
     int outputIdx;
 }FIFO_T;
@@ -41,6 +41,7 @@ typedef struct FIFO_T
 extern P_FIFO_T CreateFIFOArray(void);
 extern void PushFIFO(P_FIFO_T pFifo, P_NODE_GRAPH_T pNode);
 extern P_NODE_GRAPH_T PopFIFO(P_FIFO_T pFifo);
+extern void PrintfGraph(P_NODE_GRAPH_T pNode);
 
 extern struct Node *cloneGraph(struct Node *s);
 #endif

@@ -47,6 +47,9 @@ int main(void)
 
 
     pHead2 = cloneGraph(pNode);
+    PrintfGraph(pHead2);
+    printf("-------\n");
+    PrintfGraph(pNode);
 
     return 1;
 }
