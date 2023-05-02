@@ -44,4 +44,6 @@ extern P_NODE_GRAPH_T PopFIFO(P_FIFO_T pFifo);
 extern void PrintfGraph(P_NODE_GRAPH_T pNode);
 
 extern struct Node *cloneGraph(struct Node *s);
+#define uint32_t unsigned int
+uint32_t reverseBits(uint32_t n);
 #endif

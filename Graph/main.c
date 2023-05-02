@@ -50,6 +50,7 @@ int main(void)
     PrintfGraph(pHead2);
     printf("-------\n");
     PrintfGraph(pNode);
+    reverseBits(0x20);
 
     return 1;
 }
