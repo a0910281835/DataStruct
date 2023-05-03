@@ -268,9 +268,60 @@ uint32_t reverseBits(uint32_t n)
 // -3 * 104 <= nums[i] <= 3 * 104
 // Each element in the array appears twice except for one element which appears only once.
 //
-static void recusiveFindMaxMinMode(int* nums, int numsSize, int *pMax, int *pMin);
+static void recusiveFindMaxMinMode(int* nums, int numsSize, int *pMax, int *pMin)
+{
+    if ((*pMax -*pMin) >= 1)
+    {
+        int hashCollision[2];
+        int max[2];
+        int min[2];
+        int idx = 0;
+        printf("---------------------\n");
+        printf("compare\n");
+        printf(" max : %5d\n", *pMax);
+        printf(" min : %5d\n", *pMin);
+        printf("---------------------\n");
+
+        for (idx = 0; idx < 2; idx++)
+        {
+            hashCollision[idx] = 0;
+            max[idx] = *pMin - 1;
+            min[idx] = *pMax + 1;
+        }
+
+
+        int dividend = (*pMax - *pMin);
+        int divisor  = (dividend & 0x1) ? ((dividend >> 1) + 1) : (dividend >> 1);
+
+
+        for (idx = 0; idx < numsSize; idx++)
+        {
+            if ((*pMin <= nums[idx]) && (nums[idx] <= *pMax))
+            {
+                int rangeIdx = (nums[idx] - *pMin) / divisor;
+                hashCollision[rangeIdx]++;
+                max[rangeIdx] = (max[rangeIdx] < nums[idx]) ? nums[idx] : max[rangeIdx];
+                min[rangeIdx] = (nums[idx] < min[rangeIdx]) ? nums[idx] : min[rangeIdx];
+
+            }
+
+        }
+
+        idx = (hashCollision[0] & 0x1) ? 0 : 1;
+        *pMax = max[idx];
+        *pMin = min[idx];
+        printf(" max : %5d\n", *pMax);
+        printf(" min : %5d\n", *pMin);
+        recusiveFindMaxMinMode(nums, numsSize, pMax, pMin);
+    }
+
+}
 int singleNumber(int* nums, int numsSize)
 {
-    //Hash Table
-
+    //Use Collision to Detect!
+    int idx = 0;
+    int max =  30001;
+    int min = -30001;
+    recusiveFindMaxMinMode(nums, numsSize, &max, &min);
+    return max;
 }

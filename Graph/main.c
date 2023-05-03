@@ -53,5 +53,11 @@ int main(void)
     int ret = reverseBits(0x20);
     printf("%x\n", ret);
 
+
+    //int array[11] = { 1, 1, 2, 2, 4, 4, 10000, 20000, 20000, -1200, -1200}; 
+    int array[3] = {2, 2, 1};
+
+    singleNumber(array, 3);
+
     return 1;
 }
