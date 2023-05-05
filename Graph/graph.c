@@ -345,19 +345,21 @@ int singleNumber(int* nums, int numsSize)
 //1 <= nums.length <= 3 * 104
 //-231 <= nums[i] <= 231 - 1
 //Each element in nums appears exactly three times except for one element which appears once.
-static void recusiveFindMaxMinMode2(int* nums, int numsSize, long long *pMax, long long *pMin)
+static void recusiveFindMaxMinMode2(int* nums, int numsSize, int *pMax, int *pMin)
 {
-    if ((*pMax -*pMin) >= 1)
+    if (*pMax > *pMin)
     {
+
+        int divisor;
         int hashCollision[2];
         int max[2];
         int min[2];
         int idx = 0;
-        printf("---------------------\n");
-        printf("compare\n");
-        printf(" max : %lld\n", *pMax);
-        printf(" min : %lld\n", *pMin);
-        printf("---------------------\n");
+        //printf("---------------------\n");
+        //printf("compare\n");
+        //printf(" max : %d\n", *pMax);
+        //printf(" min : %d\n", *pMin);
+        //printf("---------------------\n");
 
         for (idx = 0; idx < 2; idx++)
         {
@@ -366,19 +368,39 @@ static void recusiveFindMaxMinMode2(int* nums, int numsSize, long long *pMax, lo
             min[idx] = *pMax;
         }
 
-
-        long long dividend = (*pMax - *pMin + 1);
-        long long divisor  = (dividend & 0x1) ? ((dividend >> 1) + 1) : (dividend >> 1);
-
-
-        for (idx = 0; idx < numsSize; idx++)
+        if ((*pMax == 2147483647) && (*pMin == -2147483648))
         {
-            if ((*pMin <= nums[idx]) && (nums[idx] <= *pMax))
+            int rangeIdx;
+            for (idx = 0; idx < numsSize; idx++)
             {
-                int rangeIdx = (nums[idx] - *pMin) / divisor;
+                if (nums[idx] < 0)
+                {
+                    rangeIdx = 0;
+                }
+                else
+                {
+                    rangeIdx = 1;
+                }
                 hashCollision[rangeIdx]++;
                 max[rangeIdx] = (max[rangeIdx] < nums[idx]) ? nums[idx] : max[rangeIdx];
                 min[rangeIdx] = (nums[idx] < min[rangeIdx]) ? nums[idx] : min[rangeIdx];
+
+            }
+        }
+        else
+        {
+            int dividend = (*pMax - *pMin + 1);
+            divisor  = (dividend & 0x1) ? ((dividend >> 1) + 1) : (dividend >> 1);
+            for (idx = 0; idx < numsSize; idx++)
+            {
+                if ((*pMin <= nums[idx]) && (nums[idx] <= *pMax))
+                {
+                    int rangeIdx = (nums[idx] - *pMin) / divisor;
+                    hashCollision[rangeIdx]++;
+                    max[rangeIdx] = (max[rangeIdx] < nums[idx]) ? nums[idx] : max[rangeIdx];
+                    min[rangeIdx] = (nums[idx] < min[rangeIdx]) ? nums[idx] : min[rangeIdx];
+
+                }
 
             }
 
@@ -387,8 +409,8 @@ static void recusiveFindMaxMinMode2(int* nums, int numsSize, long long *pMax, lo
         idx = ((hashCollision[0] % 3) & 0x1) ? 0 : 1;
         *pMax = max[idx];
         *pMin = min[idx];
-        printf(" max : %lld\n", *pMax);
-        printf(" min : %lld\n", *pMin);
+        //printf(" max : %d\n", *pMax);
+        //printf(" min : %d\n", *pMin);
         recusiveFindMaxMinMode2(nums, numsSize, pMax, pMin);
     }
 
@@ -397,11 +419,13 @@ int singleNumber2(int* nums, int numsSize)
 {
     //Use Collision to Detect!
     int idx = 0;
-    long long max =   2147483647;
-    long long min =  -2147483648;
-    printf(" max : %lld\n", max);
-    printf(" min : %lld\n", min);
+    int max =   2147483647;
+    int min =  -2147483648;
+    //printf(" max : %d\n", max);
+    //printf(" min : %d\n", min);
     recusiveFindMaxMinMode2(nums, numsSize, &max, &min);
+    //printf(" max : %d\n", max);
+    //printf(" min : %d\n", min);
     return max;
 
 }

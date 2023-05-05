@@ -55,7 +55,7 @@ int main(void)
 
 
     //int array[11] = { 1, 1, 2, 2, 4, 4, 10000, 20000, 20000, -1200, -1200}; 
-    int array[7] = {2, 2, 2,  5, 5, 5, 1};
+    int array[7] = {2, 2, 2,  5, 5, 5, 9};
 
     singleNumber2(array, 7);
 
