@@ -48,4 +48,6 @@ extern struct Node *cloneGraph(struct Node *s);
 uint32_t reverseBits(uint32_t n);
 //136. Single Number
 extern int singleNumber(int* nums, int numsSize);
+//137. Single Number
+extern int singleNumber2(int* nums, int numsSize);
 #endif

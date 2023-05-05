@@ -290,7 +290,7 @@ static void recusiveFindMaxMinMode(int* nums, int numsSize, int *pMax, int *pMin
         }
 
 
-        int dividend = (*pMax - *pMin);
+        int dividend = (*pMax - *pMin + 1);
         int divisor  = (dividend & 0x1) ? ((dividend >> 1) + 1) : (dividend >> 1);
 
 
@@ -324,4 +324,84 @@ int singleNumber(int* nums, int numsSize)
     int min = -30001;
     recusiveFindMaxMinMode(nums, numsSize, &max, &min);
     return max;
+}
+
+//137. Single Number II
+//Given an integer array nums where every element appears three times except for one, which appears exactly once. Find the single element and return it.
+//You must implement a solution with a linear runtime complexity and use only constant extra space.
+//
+// Example 1:
+//
+// Input: nums = [2,2,3,2]
+// Output: 3
+// Example 2:
+//
+// Input: nums = [0,1,0,1,0,1,99]
+// Output: 99
+//
+//
+//Constraints:
+//
+//1 <= nums.length <= 3 * 104
+//-231 <= nums[i] <= 231 - 1
+//Each element in nums appears exactly three times except for one element which appears once.
+static void recusiveFindMaxMinMode2(int* nums, int numsSize, long long *pMax, long long *pMin)
+{
+    if ((*pMax -*pMin) >= 1)
+    {
+        int hashCollision[2];
+        int max[2];
+        int min[2];
+        int idx = 0;
+        printf("---------------------\n");
+        printf("compare\n");
+        printf(" max : %lld\n", *pMax);
+        printf(" min : %lld\n", *pMin);
+        printf("---------------------\n");
+
+        for (idx = 0; idx < 2; idx++)
+        {
+            hashCollision[idx] = 0;
+            max[idx] = *pMin;
+            min[idx] = *pMax;
+        }
+
+
+        long long dividend = (*pMax - *pMin + 1);
+        long long divisor  = (dividend & 0x1) ? ((dividend >> 1) + 1) : (dividend >> 1);
+
+
+        for (idx = 0; idx < numsSize; idx++)
+        {
+            if ((*pMin <= nums[idx]) && (nums[idx] <= *pMax))
+            {
+                int rangeIdx = (nums[idx] - *pMin) / divisor;
+                hashCollision[rangeIdx]++;
+                max[rangeIdx] = (max[rangeIdx] < nums[idx]) ? nums[idx] : max[rangeIdx];
+                min[rangeIdx] = (nums[idx] < min[rangeIdx]) ? nums[idx] : min[rangeIdx];
+
+            }
+
+        }
+
+        idx = ((hashCollision[0] % 3) & 0x1) ? 0 : 1;
+        *pMax = max[idx];
+        *pMin = min[idx];
+        printf(" max : %lld\n", *pMax);
+        printf(" min : %lld\n", *pMin);
+        recusiveFindMaxMinMode2(nums, numsSize, pMax, pMin);
+    }
+
+}
+int singleNumber2(int* nums, int numsSize)
+{
+    //Use Collision to Detect!
+    int idx = 0;
+    long long max =   2147483647;
+    long long min =  -2147483648;
+    printf(" max : %lld\n", max);
+    printf(" min : %lld\n", min);
+    recusiveFindMaxMinMode2(nums, numsSize, &max, &min);
+    return max;
+
 }
