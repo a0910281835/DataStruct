@@ -347,37 +347,46 @@ int singleNumber(int* nums, int numsSize)
 //Each element in nums appears exactly three times except for one element which appears once.
 static void recusiveFindMaxMinMode2(int* nums, int numsSize, int *pMax, int *pMin)
 {
-    if (*pMax > *pMin)
+    int divisor;
+    int hashCollision[64];
+    int idx = 0;
+    for (idx = 0; idx < 64; idx++)
     {
+        hashCollision[idx] = 0;
+    }
+    if ((*pMax > *pMin) && ((*pMax - 64) > *pMin))
+    {
+        printf("%d -64:\n", *pMax);
 
-        int divisor;
-        int hashCollision[64];
-        int idx = 0;
-        //printf("---------------------\n");
-        //printf("compare\n");
-        //printf(" max : %d\n", *pMax);
-        //printf(" min : %d\n", *pMin);
-        //printf("---------------------\n");
+        printf("---------------------\n");
+        printf("compare\n");
+        printf(" max : %d\n", *pMax);
+        printf(" min : %d\n", *pMin);
+        printf("---------------------\n");
 
-        for (idx = 0; idx < 64; idx++)
-        {
-            hashCollision[idx] = 0;
-        }
+        divisor  = 1073741824;
 
         if ((*pMax == 2147483647) && (*pMin == -2147483648))
         {
-            int rangeIdx;
             for (idx = 0; idx < numsSize; idx++)
             {
-                if (nums[idx] < 0)
+                if ((*pMin <= nums[idx]) && (nums[idx] < -1073741824))
                 {
-                    rangeIdx = 0;
+                    hashCollision[0]++;
                 }
-                else
+                else if ((-1073741824 <= nums[idx]) && (nums[idx] < 0))
                 {
-                    rangeIdx = 1;
+                    hashCollision[1]++;
                 }
-                hashCollision[rangeIdx]++;
+                else if ((0 <= nums[idx]) && (nums[idx] < 1073741824))
+                {
+                    hashCollision[2]++;
+                }
+                else if ((1073741824 <= nums[idx]) && (nums[idx] <= 2147483647))
+                {
+                     hashCollision[3]++;
+                }
+
 
             }
         }
@@ -397,16 +406,68 @@ static void recusiveFindMaxMinMode2(int* nums, int numsSize, int *pMax, int *pMi
             }
 
         }
+        printf("dividsor : %d\n", divisor);
 
         for (idx = 0; idx < 64; idx++)
         {
             if ((hashCollision[idx] % 3) == 1) break;
         }
-        *pMin = *pMin + idx * divisor;
-        *pMax = *pMin + ((idx + 1) *divisor - 1);
-        //printf(" max : %d\n", *pMax);
-        //printf(" min : %d\n", *pMin);
+        printf("idx : %d\n", idx);
+        if (divisor == 1073741824)
+        {
+            switch (idx)
+            {
+                case 0 :
+                    *pMax = -1073741823;
+                    *pMin = *pMin;
+                    break;
+                case 1 :
+                    *pMax = -1;
+                    *pMin = -1073741824;
+                    break;
+                case 2 :
+                    *pMax = 1073741823;
+                    *pMin = 0;
+                    break;
+                case 3 :
+                    *pMax = 2147483647;
+                    *pMin = 1073741824;
+                    break;
+            }
+        }
+        else
+        {
+
+            *pMax = *pMin + ((idx + 1) * divisor - 1);
+            *pMin = *pMin + idx * divisor;
+        }
+        printf(" max : %d\n", *pMax);
+        printf(" min : %d\n", *pMin);
         recusiveFindMaxMinMode2(nums, numsSize, pMax, pMin);
+    }
+    else if (*pMin + 64 > *pMax)
+    {
+        int idx = 0;
+        int rangeIdx = 0;
+        for (idx = 0; idx < numsSize; idx++)
+        {
+            if ((*pMin <= nums[idx]) && (nums[idx] <= *pMax))
+            {
+                int rangeIdx = (nums[idx] - *pMin);
+                hashCollision[rangeIdx]++;
+            }
+
+        }
+        for (idx = 0; idx < 64; idx++)
+        {
+            if ((hashCollision[idx] % 3) == 1) break;
+        }
+        printf("idx : %d\n", idx);
+
+         *pMax = idx + *pMin;
+         *pMin = idx + *pMin;
+        printf(" max : %d\n", *pMax);
+
     }
 
 }
