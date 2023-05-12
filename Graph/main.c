@@ -59,6 +59,8 @@ int main(void)
     printf("%2d\n", (int)sizeof(array));
 
     singleNumber2(array, 31);
+    ret = hammingWeight(0xfffffffd);
+    printf("%d\n", ret);
 
     return 1;
 }

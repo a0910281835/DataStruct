@@ -50,4 +50,6 @@ uint32_t reverseBits(uint32_t n);
 extern int singleNumber(int* nums, int numsSize);
 //137. Single Number
 extern int singleNumber2(int* nums, int numsSize);
+
+extern int hammingWeight(uint32_t n);
 #endif
