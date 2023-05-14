@@ -50,6 +50,18 @@ uint32_t reverseBits(uint32_t n);
 extern int singleNumber(int* nums, int numsSize);
 //137. Single Number
 extern int singleNumber2(int* nums, int numsSize);
-
+//191. Number of b'1
 extern int hammingWeight(uint32_t n);
+
+//141. Linked List Cycle
+
+typedef struct ListNode * P_LISTNODE_T;
+typedef struct ListNode
+{
+    int val;
+    struct ListNode *next;
+}LISTNODE_T;
+#define bool char
+extern bool hasCycle(struct ListNode *head);
+
 #endif

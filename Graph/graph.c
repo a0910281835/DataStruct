@@ -643,3 +643,106 @@ int hammingWeight(uint32_t n)
 
     return recordNum;
 }
+
+
+// 141. Linked List Cycle
+// Given head, the head of a linked list, determine if the linked list has a cycle in it
+// There is a cycle in a linked list if there is some node in the list that can be reached again by continuously following the next pointer.
+// Internally, pos is used to denote the index of the node that tail's next pointer is connected to. Note that pos is not passed as a parameter.
+// Return true if there is a cycle in the linked list. Otherwise, return false.
+//
+//Example 1:
+//
+//Input: head = [3,2,0,-4], pos = 1
+//Output: true
+//Explanation: There is a cycle in the linked list, where the tail connects to the 1st node (0-indexed).
+//
+// (3) -> (2) -> (0) -> (4)
+//         ^             |
+//         |  <-   <-    v
+//
+//
+//Input: head = [1,2], pos = 0
+//Output: true
+//Explanation: There is a cycle in the linked list, where the tail connects to the 0th node.
+//
+// (1) -> (2)
+//  ^      |
+//  |  __  |
+
+
+// Input: head = [1], pos = -1
+//Output: false
+//Explanation: There is no cycle in the linked list.
+//
+// (1)
+//
+// Constraints:
+
+//The number of the nodes in the list is in the range [0, 10^4].
+//-10^5 <= Node.val <= 10^5
+//pos is -1 or a valid index in the linked-list.
+//
+//Follow up: Can you solve it using O(1) (i.e. constant) memory?
+//
+//
+ //* Definition for singly-linked list.
+ //* struct ListNode {
+ //*     int val;
+ //*     struct ListNode *next;
+ //* };
+ //*/
+P_LISTNODE_T InsertOrderSeqence(P_LISTNODE_T pHead, int val, bool * hasCycleRet)
+{
+    //pList is not empty beacuse has guard element.
+    //
+    // X->Y
+    // X < val and val < Y.
+    P_LISTNODE_T pList = pHead;
+    while((pList->next) != NULL)
+    {
+        if ((pList->next)->val < val)
+            pList = pList->next;
+        else
+            break;
+    }
+    //Cond1 : pList->val < val and val <= (pList->next)->val
+    if (NULL != (pList->next))
+    {
+        if ((pList->next)->val == val)
+        {
+            *hasCycleRet = YES;
+        }
+        else
+        {
+            //Ineset Position.
+            P_LISTNODE_T pNext = pList->next;
+            P_LISTNODE_T pInsertEle = malloc(sizeof(LISTNODE_T));
+            pInsertEle->val = val;
+            pList->next = pInsertEle;
+            pInsertEle->next = pNext;
+        }
+    }
+    return pHead;
+} 
+bool hasCycle(struct ListNode *head)
+{
+    if (NULL != head)
+    {
+        // At least link list has one elemnet.
+        unsigned int add = 0x0;
+        P_LISTNODE_T pHead = malloc(sizeof(LISTNODE_T));
+        while (NULL != head->next)
+        {
+            printf("%p\n", head);
+            head = head->next;
+
+
+        }
+
+
+    }
+    return NO;
+
+}
+
