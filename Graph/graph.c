@@ -707,38 +707,51 @@ P_LISTNODE_T InsertOrderSeqence(P_LISTNODE_T pHead, int val, bool * hasCycleRet)
             break;
     }
     //Cond1 : pList->val < val and val <= (pList->next)->val
-    if (NULL != (pList->next))
+    if ((NULL != pList->next) && ((pList->next)->val == val))
     {
-        if ((pList->next)->val == val)
-        {
-            *hasCycleRet = YES;
-        }
-        else
-        {
-            //Ineset Position.
-            P_LISTNODE_T pNext = pList->next;
-            P_LISTNODE_T pInsertEle = malloc(sizeof(LISTNODE_T));
-            pInsertEle->val = val;
-            pList->next = pInsertEle;
-            pInsertEle->next = pNext;
-        }
+        *hasCycleRet = YES;
+    }
+    else
+    {
+        printf("data : %d\n", pList->val);
+        //Ineset Position.
+        P_LISTNODE_T pNext = pList->next;
+        P_LISTNODE_T pInsertEle = malloc(sizeof(LISTNODE_T));
+        pInsertEle->val = val;
+        pList->next = pInsertEle;
+        pInsertEle->next = pNext;
     }
     return pHead;
-} 
+}
 bool hasCycle(struct ListNode *head)
 {
+    bool hasCycleRet = NO;
     if (NULL != head)
     {
         // At least link list has one elemnet.
         unsigned int add = 0x0;
         P_LISTNODE_T pHead = malloc(sizeof(LISTNODE_T));
-        while (NULL != head->next)
+        pHead->val = add;
+        pHead->next = NULL;
+        InsertOrderSeqence(pHead, 0x20, &hasCycleRet);
+
+        if (pHead < head)
         {
-            printf("%p\n", head);
-            head = head->next;
-
-
+            printf("pHead : %p\n", pHead);
+            printf("head  : %p\n", head);
         }
+        else 
+        {
+            printf("pHead : %p\n", pHead);
+            printf("head  : %p\n", head);
+        }
+        //while (NULL != head->next)
+        //{
+        //    printf("%d\n", pHead->val);
+        //    printf("%p\n", head);
+        //    //InsertOrderSeqence(pHead, (int*)head, &hasCycleRet);
+        //    pHead = pHead->next;
+        //}
 
 
     }

@@ -84,10 +84,7 @@ int main(void)
     //}
     //printf("\n");
     ret = hasCycle(pTemp);
-    printf("%x\n", ret);
-    int b = 6;
-    int *a = &b;
-    printf("%p\n",a);
+    //printf("%x\n", ret);
 
     return 1;
 }
