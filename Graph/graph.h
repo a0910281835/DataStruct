@@ -61,6 +61,14 @@ typedef struct ListNode
     int val;
     struct ListNode *next;
 }LISTNODE_T;
+
+typedef struct RECORD_ADDRESS_T * P_RECORD_ADDRESS_T;
+typedef struct RECORD_ADDRESS_T
+{
+    P_RECORD_ADDRESS_T  pNext;
+    unsigned int * pAddr;
+}RECORD_ADDRESS_T;
+
 #define bool char
 extern bool hasCycle(struct ListNode *head);
 

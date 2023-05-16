@@ -692,34 +692,36 @@ int hammingWeight(uint32_t n)
  //*     struct ListNode *next;
  //* };
  //*/
-P_LISTNODE_T InsertOrderSeqence(P_LISTNODE_T pHead, int val, bool * hasCycleRet)
+P_RECORD_ADDRESS_T InsertOrderSeqence(P_RECORD_ADDRESS_T pHead, unsigned int * pAddr, bool * hasCycleRet)
 {
     //pList is not empty beacuse has guard element.
     //
     // X->Y
-    // X < val and val < Y.
-    P_LISTNODE_T pList = pHead;
-    while((pList->next) != NULL)
+    // X(empty) < val and val < Y.
+    P_RECORD_ADDRESS_T pList = pHead;
+    while((pList->pNext) != NULL)
     {
-        if ((pList->next)->val < val)
-            pList = pList->next;
+        if ((pList->pNext)->pAddr < pAddr)
+            pList = pList->pNext;
         else
             break;
     }
-    //Cond1 : pList->val < val and val <= (pList->next)->val
-    if ((NULL != pList->next) && ((pList->next)->val == val))
+    //Cond1 : pList->val < val and val <=  (pList->next)->val
+    if ((NULL != pList->pNext) && ((pList->pNext)->pAddr == pAddr))
     {
         *hasCycleRet = YES;
+        //printf("YES\n");
     }
     else
     {
-        printf("data : %d\n", pList->val);
+        // Inset Element
+        //printf("data : %p\n", pList->pAddr);
         //Ineset Position.
-        P_LISTNODE_T pNext = pList->next;
-        P_LISTNODE_T pInsertEle = malloc(sizeof(LISTNODE_T));
-        pInsertEle->val = val;
-        pList->next = pInsertEle;
-        pInsertEle->next = pNext;
+        P_RECORD_ADDRESS_T pNext = pList->pNext;
+        P_RECORD_ADDRESS_T pInsertEle = malloc(sizeof(RECORD_ADDRESS_T));
+        pInsertEle->pAddr = pAddr;
+        pList->pNext = pInsertEle;
+        pInsertEle->pNext = pNext;
     }
     return pHead;
 }
@@ -729,33 +731,20 @@ bool hasCycle(struct ListNode *head)
     if (NULL != head)
     {
         // At least link list has one elemnet.
-        unsigned int add = 0x0;
-        P_LISTNODE_T pHead = malloc(sizeof(LISTNODE_T));
-        pHead->val = add;
-        pHead->next = NULL;
-        InsertOrderSeqence(pHead, 0x20, &hasCycleRet);
+        P_RECORD_ADDRESS_T pOrderAddr = malloc(sizeof(RECORD_ADDRESS_T));
+        pOrderAddr->pAddr = (unsigned int*)NULL;
+        pOrderAddr->pNext = NULL;
 
-        if (pHead < head)
+        while (NULL != head->next)
         {
-            printf("pHead : %p\n", pHead);
-            printf("head  : %p\n", head);
+            InsertOrderSeqence(pOrderAddr, (unsigned int*)head, &hasCycleRet);
+            if (YES == hasCycleRet) break;
+            head = head->next;
         }
-        else 
-        {
-            printf("pHead : %p\n", pHead);
-            printf("head  : %p\n", head);
-        }
-        //while (NULL != head->next)
-        //{
-        //    printf("%d\n", pHead->val);
-        //    printf("%p\n", head);
-        //    //InsertOrderSeqence(pHead, (int*)head, &hasCycleRet);
-        //    pHead = pHead->next;
-        //}
 
 
     }
-    return NO;
+    return hasCycleRet;
 
 }
 

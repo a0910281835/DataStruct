@@ -75,6 +75,7 @@ int main(void)
     }
     pList->val = 8;
     pList->next = pTemp;
+    //pList->next = NULL;
 
     //while(NULL != pTemp)
     //{
@@ -84,7 +85,8 @@ int main(void)
     //}
     //printf("\n");
     ret = hasCycle(pTemp);
-    //printf("%x\n", ret);
+    printf("%x\n", ret);
+    //
 
     return 1;
 }
