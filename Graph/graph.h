@@ -73,5 +73,6 @@ typedef struct RECORD_ADDRESS_T
 #define NEXT2(p) ((p) = (((p)->next)->next))
 #define NEXT(p) ((p) = ((p)->next))
 extern bool hasCycle(struct ListNode *head);
+extern bool hasCycle2(struct ListNode *head);
 
 #endif

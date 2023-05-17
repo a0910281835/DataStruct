@@ -763,21 +763,28 @@ bool hasCycle2(struct ListNode *head)
         do
         {
             NEXT(pOneStep);
-            if (NULL != (NEXT(pTwoStep)))
+            NEXT(pTwoStep);
+            if (pTwoStep != NULL)
             {
                 NEXT(pTwoStep);
             }
             else
             {
-                break;
+                hasCycleRet = NO;
+                return hasCycleRet;
             }
 
-        } while(pOneStep == pTwoStep)
+            if (pOneStep == pTwoStep)
+            {
 
+                hasCycleRet = YES;
+                return hasCycleRet;
+            }
+
+
+        } while(pTwoStep!= NULL);
     }
 
-
-
-
+    return hasCycleRet;
 }
 
