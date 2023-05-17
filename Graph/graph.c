@@ -725,6 +725,7 @@ P_RECORD_ADDRESS_T InsertOrderSeqence(P_RECORD_ADDRESS_T pHead, unsigned int * p
     }
     return pHead;
 }
+
 bool hasCycle(struct ListNode *head)
 {
     bool hasCycleRet = NO;
@@ -745,6 +746,38 @@ bool hasCycle(struct ListNode *head)
 
     }
     return hasCycleRet;
+
+}
+
+
+bool hasCycle2(struct ListNode *head)
+{
+
+    bool hasCycleRet = NO;
+
+    if (NULL != head)
+    {
+        P_LISTNODE_T pOneStep = head;
+        P_LISTNODE_T pTwoStep = head;
+
+        do
+        {
+            NEXT(pOneStep);
+            if (NULL != (NEXT(pTwoStep)))
+            {
+                NEXT(pTwoStep);
+            }
+            else
+            {
+                break;
+            }
+
+        } while(pOneStep == pTwoStep)
+
+    }
+
+
+
 
 }
 

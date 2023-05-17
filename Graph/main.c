@@ -65,6 +65,7 @@ int main(void)
     printf("------------------\n");
     P_LISTNODE_T pList = malloc(sizeof(LISTNODE_T));
     P_LISTNODE_T pTemp = pList;
+    P_LISTNODE_T pTemp2 = pList;
 
     int idx = 0;
     for (idx = 0; idx < 3; idx++)
@@ -74,18 +75,21 @@ int main(void)
         pList = pList->next;
     }
     pList->val = 8;
-    pList->next = pTemp;
-    //pList->next = NULL;
+    //pList->next = pTemp;
+    pList->next = NULL;
 
-    //while(NULL != pTemp)
-    //{
-    //    printf("%d", pTemp->val);
-    //    pTemp = pTemp->next;
-    //    if (NULL != pTemp) printf(" -> ");
-    //}
-    //printf("\n");
-    ret = hasCycle(pTemp);
-    printf("%x\n", ret);
+    while(NULL != pTemp)
+    {
+        printf("%d", pTemp->val);
+        pTemp = pTemp->next;
+        if (NULL != pTemp) printf(" -> ");
+    }
+    printf("\n");
+    NEXT(pTemp2);
+    printf("temp: %d\n", pTemp2->val);
+    //pTemp = (pTemp->next)->next;
+    //ret = hasCycle(pTemp);
+    //printf("%x\n", ret);
     //
 
     return 1;
