@@ -55,12 +55,13 @@ extern int hammingWeight(uint32_t n);
 
 //141. Linked List Cycle
 
+typedef struct ListNode   LISTNODE_T;
 typedef struct ListNode * P_LISTNODE_T;
-typedef struct ListNode
+struct ListNode
 {
     int val;
     struct ListNode *next;
-}LISTNODE_T;
+};
 
 typedef struct RECORD_ADDRESS_T * P_RECORD_ADDRESS_T;
 typedef struct RECORD_ADDRESS_T
@@ -75,4 +76,36 @@ typedef struct RECORD_ADDRESS_T
 extern bool hasCycle(struct ListNode *head);
 extern bool hasCycle2(struct ListNode *head);
 
+
+//Leetcode 155
+// MinStack.
+
+typedef struct MinStack
+{
+     P_LISTNODE_T pHead;
+     P_LISTNODE_T* pArray;
+     NUM_T  cellNum;
+     NUM_T  useNum;
+
+}MinStack;
+typedef struct MinStack   MIN_STACK_T;
+typedef struct MinStack * P_MIN_STACK_T;
+
+
+
+//void minStackPop(MinStack* obj) {
+//
+//}
+//
+//int minStackTop(MinStack* obj) {
+//
+//}
+//
+//int minStackGetMin(MinStack* obj) {
+//
+//}
+//
+//void minStackFree(MinStack* obj) {
+//
+//}
 #endif
