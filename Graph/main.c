@@ -91,7 +91,7 @@ int main(void)
     //ret = hasCycle(pTemp);
     ret = hasCycle2(pTemp2);
     printf("%x\n", ret);
-    //
+    P_MIN_STACK_T pMinStack = minStackCreate();
 
     return 1;
 }

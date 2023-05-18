@@ -92,6 +92,8 @@ typedef struct MinStack   MIN_STACK_T;
 typedef struct MinStack * P_MIN_STACK_T;
 
 
+extern MinStack* minStackCreate();
+extern void minStackPush(MinStack* obj, int val);
 
 //void minStackPop(MinStack* obj) {
 //

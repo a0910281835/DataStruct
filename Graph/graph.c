@@ -850,23 +850,28 @@ MinStack* minStackCreate()
 }
 
 
-static void minPriority(MinStack* pMinStack, P_LISTNODE_T pInsertNode)
+static void insertInMinPriority(MinStack* pMinStack, P_LISTNODE_T pInsertNode)
 {
     //This function guarantee size not full.
 
     int *pIdx = &(pMinStack->useNum);
 
-    int child  = *pIdx;
-    int parent = (*pIdx >> 1);
     pMinStack->pArray[*pIdx] = pInsertNode;
+    int childIdx  = *pIdx;
+    int parentIdx = (*pIdx == 0) ? (*pIdx) : ((*pIdx-1) >> 1);
 
-    int par
-
-    while
-
-
-
-
+    P_LISTNODE_T pChildList = pMinStack->pArray[childIdx];
+    P_LISTNODE_T pParList   = pMinStack->pArray[parentIdx];
+    while ((pChildList->val < pParList->val) && (childIdx != 0))
+    {
+        P_LISTNODE_T pTemp = pChildList;
+        pMinStack->pArray[childIdx]  = pParList;
+        pMinStack->pArray[parentIdx] = pTemp;
+        childIdx  = parentIdx;
+        parentIdx = (childIdx == 0) ? (childIdx) : ((childIdx-1) >> 1);
+        pChildList = pMinStack->pArray[childIdx];
+        pParList   = pMinStack->pArray[parentIdx];
+    }
 }
 
 void minStackPush(MinStack* obj, int val)
@@ -876,7 +881,7 @@ void minStackPush(MinStack* obj, int val)
 
     if (*pCellNum == *pUseNum)
     {
-        printf("Full\n");
+        printf("Full Do something\n");
     }
     else
     {
@@ -886,8 +891,7 @@ void minStackPush(MinStack* obj, int val)
         pInsertNode->next = obj->pHead;
         obj->pHead = pInsertNode;
         // Min Priority Insert.
-        //
-        //
+        insertInMinPriority(obj, pInsertNode);
 
     }
 
