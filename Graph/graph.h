@@ -60,6 +60,7 @@ typedef struct ListNode * P_LISTNODE_T;
 struct ListNode
 {
     int val;
+    int pos;
     struct ListNode *next;
 };
 
@@ -94,18 +95,12 @@ typedef struct MinStack * P_MIN_STACK_T;
 
 extern MinStack* minStackCreate();
 extern void minStackPush(MinStack* obj, int val);
+extern int minStackGetMin(MinStack* obj);
+extern int minStackTop(MinStack* obj);
 
-//void minStackPop(MinStack* obj) {
+
 //
-//}
 //
-//int minStackTop(MinStack* obj) {
-//
-//}
-//
-//int minStackGetMin(MinStack* obj) {
-//
-//}
 //
 //void minStackFree(MinStack* obj) {
 //

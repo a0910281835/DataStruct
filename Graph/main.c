@@ -92,6 +92,23 @@ int main(void)
     ret = hasCycle2(pTemp2);
     printf("%x\n", ret);
     P_MIN_STACK_T pMinStack = minStackCreate();
+    printf("StackSize = %d, UseSize = %d\n", pMinStack->cellNum, pMinStack->useNum);
+    minStackPush(pMinStack, 10);
+    printf("StackSize = %d, UseSize = %d\n", pMinStack->cellNum, pMinStack->useNum);
+    printf("StackFirstNum : %d , Array First : %d\n", (pMinStack->pHead)->val, (pMinStack->pArray[0])->val);
+    minStackPush(pMinStack, 14);
+    printf("StackSize = %d, UseSize = %d\n", pMinStack->cellNum, pMinStack->useNum);
+    printf("StackFirstNum : %d , Array First : %d\n", (pMinStack->pHead)->val, (pMinStack->pArray[0])->val);
+    minStackPush(pMinStack, 9);
+    printf("StackSize = %d, UseSize = %d\n", pMinStack->cellNum, pMinStack->useNum);
+    printf("StackFirstNum : %d , Array First : %d\n", (pMinStack->pHead)->val, (pMinStack->pArray[0])->val);
+    ret = minStackGetMin(pMinStack);
+    printf("min : %d\n", ret);
+    minStackPush(pMinStack, 13);
+    printf("StackSize = %d, UseSize = %d\n", pMinStack->cellNum, pMinStack->useNum);
+    printf("StackFirstNum : %d , Array First : %d\n", (pMinStack->pHead)->val, (pMinStack->pArray[0])->val);
+    ret = minStackGetMin(pMinStack);
+    printf("min : %d\n", ret);
 
     return 1;
 }

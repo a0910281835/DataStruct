@@ -850,7 +850,7 @@ MinStack* minStackCreate()
 }
 
 
-static void insertInMinPriority(MinStack* pMinStack, P_LISTNODE_T pInsertNode)
+static int insertInMinPriority(MinStack* pMinStack, P_LISTNODE_T pInsertNode)
 {
     //This function guarantee size not full.
 
@@ -872,6 +872,8 @@ static void insertInMinPriority(MinStack* pMinStack, P_LISTNODE_T pInsertNode)
         pChildList = pMinStack->pArray[childIdx];
         pParList   = pMinStack->pArray[parentIdx];
     }
+
+    return childIdx;
 }
 
 void minStackPush(MinStack* obj, int val)
@@ -891,9 +893,104 @@ void minStackPush(MinStack* obj, int val)
         pInsertNode->next = obj->pHead;
         obj->pHead = pInsertNode;
         // Min Priority Insert.
-        insertInMinPriority(obj, pInsertNode);
+        int pos = insertInMinPriority(obj, pInsertNode);
+        pInsertNode->pos = pos;
+        printf("position: %d\n", pInsertNode->pos);
+        (*pUseNum)++;
 
     }
+}
 
+int minStackGetMin(MinStack* obj)
+{
+    int ret = (obj->pArray[0])->val;
+    return ret;
+}
+
+int minStackTop(MinStack* obj)
+{
+    int ret = (obj->pHead)->val;
+
+    return ret;
+}
+
+
+// Output is top element the position
+static int DeleteInMinPriority(MinStack* pMinStack, int pos)
+{
+    //This function guarantee size not full.
+
+    int *pUseNum = &(pMinStack->useNum);
+    (*pUseNum)--;
+    pMinStack->pArray[pos] = pMinStack->pArray[*pUseNum];
+    int selfIdx   = pos;
+    int parentIdx = (selfIdx == 0) ? (selfIdx) : ((selfIdx-1) >> 1);
+    int childIdx;
+    P_LISTNODE_T pSelfList  = pMinStack->pArray[selfIdx];
+    P_LISTNODE_T pParList   = pMinStack->pArray[parentIdx];
+    P_LISTNODE_T pChildList;
+
+    //in front of is heap.
+    if ((pSelfList-> val < pParList->val) && (selfIdx != 0))
+    {
+        do
+        {
+            P_LISTNODE_T pTemp = pSelfList;
+            pMinStack->pArray[selfIdx]  = pParList;
+            pMinStack->pArray[parentIdx] = pTemp;
+            selfIdx  = parentIdx;
+            parentIdx = (selfIdx == 0) ? (selfIdx) : ((selfIdx-1) >> 1);
+            pSelfList = pMinStack->pArray[selfIdx];
+            pParList   = pMinStack->pArray[parentIdx];
+        } while((pSelfList-> val < pParList->val) && (selfIdx != 0));
+
+        return selfIdx;
+    }
+    else if (((selfIdx << 1) + 1) <= (*pUseNum))
+    {
+        //Compare with child.
+        do
+        {
+            childIdx = (selfIdx << 1) + 1;
+
+            if ((childIdx != (*pUseNum)) && (pMinStack->pArray[childIdx]->val > pMinStack->pArray[childIdx+1]->val))
+                childIdx++;
+
+            pChildList = pMinStack->pArray[childIdx];
+            if (pSelfList->val < pChildList->val)
+                return selfIdx;
+            else
+            {
+                P_LISTNODE_T pTemp = pChildList;
+                pMinStack->pArray[childIdx]  = pSelfList;
+                pMinStack->pArray[selfIdx] = pTemp;
+                selfIdx = childIdx;
+                pSelfList = pMinStack->pArray[selfIdx];
+            }
+
+
+        } while(((selfIdx << 1) + 1) <= (*pUseNum));
+    }
+
+    return childIdx;
+}
+
+void minStackPop(MinStack* obj)
+{
+    NUM_T* pUseNum  = &(obj->useNum);
+
+    if (0 == *pUseNum)
+    {
+        printf("It's empty\n");
+    }
+    else
+    {
+        // Record Stack top Pointer and Delete in stack.
+        P_LISTNODE_T pPopNode = (obj->pHead);
+        (obj->pHead) = (obj->pHead)->next;
+        // Remove in MinPriority.
+        DeleteInMinPriority(obj, pPopNode->pos);
+
+    }
 
 }
