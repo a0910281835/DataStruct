@@ -93,16 +93,18 @@ typedef struct MinStack   MIN_STACK_T;
 typedef struct MinStack * P_MIN_STACK_T;
 
 
+
+extern char * (StrMinStack[]);
+extern int ParserStringToMinStackOperate(char* string);
 extern MinStack* minStackCreate();
 extern void minStackPush(MinStack* obj, int val);
 extern int minStackGetMin(MinStack* obj);
 extern int minStackTop(MinStack* obj);
+extern void minStackPop(MinStack* obj);
+extern void minStackFree(MinStack* obj);
 
 
-//
-//
-//
-//void minStackFree(MinStack* obj) {
-//
-//}
+
+
+
 #endif
