@@ -856,9 +856,14 @@ int ParserStringToMinStackOperate(char* string)
     return -1;
 }
 
+int * ParserStringToArray(char* string)
+{
+}
+
 void MinStackSeqOperate(char *ch[], int size)
 {
     P_MIN_STACK_T pMinStack = NULL;
+    static int sFirstCreate = NO;
 
     int idx = 0;
 
@@ -870,7 +875,9 @@ void MinStackSeqOperate(char *ch[], int size)
         {
             case 0 : //MinStack;
 
-                pMinStack = minStackCreate();
+                if (NO == sFirstCreate)
+                    pMinStack = minStackCreate();
+                sFirstCreate = YES;
 
                 break;
 

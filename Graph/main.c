@@ -215,6 +215,8 @@ int main(void)
     printf("val%2d\n", (int)sizeof(char));
     printf("val%2d\n", (int)sizeof(ch));
 
+    char *b = "[[],[-2],[0],[-3],[],[],[],[]]";
+    printf("%c", b[0]);
     //ret = ParserStringToMinStackOperate(ch[3]);
     //printf("Res%d\n", ret);
 
