@@ -927,7 +927,7 @@ void MinStackSeqOperate(char *ch[], int *array, int size)
 
     int idx = 0;
 
-    for (idx = 0; idx < 160; idx++)
+    for (idx = 0; idx < size; idx++)
     {
         int parserIdx = ParserStringToMinStackOperate(ch[idx]);
         printf("idx : %3d\n", idx);
@@ -997,6 +997,8 @@ void MinStackSeqOperate(char *ch[], int *array, int size)
         }
         printf("\n");
     }
+
+    minStackFree(pMinStack);
 
 
 }
@@ -1094,7 +1096,7 @@ static int DeleteInMinPriority(MinStack* pMinStack, int pos)
     int *pUseNum = &(pMinStack->useNum);
     (*pUseNum)--;
     if (*pUseNum == 0) return -1;
-    printf("now:%2d\n", *pUseNum);
+    //printf("now:%2d\n", *pUseNum);
     pMinStack->pArray[pos] = pMinStack->pArray[*pUseNum];
     int selfIdx   = pos;
     int parentIdx = (selfIdx == 0) ? (selfIdx) : ((selfIdx-1) >> 1);
@@ -1132,7 +1134,7 @@ static int DeleteInMinPriority(MinStack* pMinStack, int pos)
         {
             childIdx = (selfIdx << 1) + 1;
 
-            if ((childIdx != (*pUseNum)) && (pMinStack->pArray[childIdx]->val > pMinStack->pArray[childIdx+1]->val))
+            if (((childIdx + 1) < (*pUseNum)) && (pMinStack->pArray[childIdx]->val > pMinStack->pArray[childIdx+1]->val))
                 childIdx++;
 
             pChildList = pMinStack->pArray[childIdx];
@@ -1149,11 +1151,12 @@ static int DeleteInMinPriority(MinStack* pMinStack, int pos)
             }
 
 
-        } while(((selfIdx << 1) + 1) <= (*pUseNum));
+        } while(((selfIdx << 1) + 1) < (*pUseNum));
     }
     else
     {
-        printf("others\n");
+        childIdx = selfIdx;
+        //printf("others\n");
     }
 
     return childIdx;
@@ -1173,12 +1176,13 @@ void minStackPop(MinStack* obj)
         P_LISTNODE_T pPopNode = (obj->pHead);
         (obj->pHead) = (obj->pHead)->next;
         // Remove in MinPriority.
-        printf("Remove : %2d\n", pPopNode->pos);
+        //printf("Remove : %2d\n", pPopNode->pos);
         int pos = DeleteInMinPriority(obj, pPopNode->pos);
         //printf("Pos : %2d\n", pos);
         if (pos != -1)
         {
-            (obj->pArray[(*pUseNum)-1])->pos = pos;
+            (obj->pArray[(*pUseNum)])->pos = pos;
+            (obj->pArray[(*pUseNum)]) = NULL;
         }
         free(pPopNode);
 
