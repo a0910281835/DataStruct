@@ -915,46 +915,87 @@ int * ParserStringToArray(char* string, int size)
     return array;
 }
 
-void MinStackSeqOperate(char *ch[], int size)
+void MinStackSeqOperate(char *ch[], int *array, int size)
 {
     P_MIN_STACK_T pMinStack = NULL;
     static int sFirstCreate = NO;
+    int stackTopVal = 0;
+    int minVal = 0;
+    int * pUseNum;
+    P_LISTNODE_T *pHead;
+    P_LISTNODE_T pListNode;
 
     int idx = 0;
 
-    for (idx = 0; idx < size; idx++)
+    for (idx = 0; idx < 160; idx++)
     {
         int parserIdx = ParserStringToMinStackOperate(ch[idx]);
+        printf("idx : %3d\n", idx);
 
         switch(parserIdx)
         {
             case 0 : //MinStack;
+                printf("Create minstack\n");
 
                 if (NO == sFirstCreate)
+                {
                     pMinStack = minStackCreate();
+                    pUseNum   = &(pMinStack->useNum);
+                    pHead = &(pMinStack->pHead);
+                }
                 sFirstCreate = YES;
 
                 break;
 
             case 1 : //Push
 
+                printf("push :%2d\n", array[idx]);
+                if (idx == 159)
+                {
+                }
+                minStackPush(pMinStack, array[idx]);
                 break;
 
             case 2 : //Pop
-
+                printf("pop\n");
+                minStackPop(pMinStack);
                 break;
 
             case 3 : //Top
-
+                stackTopVal = minStackTop(pMinStack);
+                printf("top val :%2d\n", stackTopVal);
                 break;
 
             case 4 : //GetMin
-
+                minVal = minStackGetMin(pMinStack);
+                printf("min val :%2d\n", minVal);
                 break;
 
             default :
                 break;
         }
+        printf("StackUseSize   : %2d\n", pMinStack->useNum);
+        printf("StackTotalSize : %2d\n", pMinStack->cellNum);
+        printf("------stack context ------------------\n");
+        pListNode = *pHead;
+        printf("Stack\n");
+        int idx1 = 0;
+        for (idx1 = 0; idx1 < (*pUseNum); idx1++)
+        {
+            printf("%d(%2d)", pListNode->val, pListNode->pos);
+            pListNode = pListNode->next;
+            if (pListNode != NULL)
+                printf(" -> ");
+
+        }
+        printf("\n");
+        printf("MinPriority\n");
+        for (idx1 = 0; idx1 < (*pUseNum); idx1++)
+        {
+            printf("idx : %d ,val : %d(%d)\n", idx1, pMinStack->pArray[idx1]->val, pMinStack->pArray[idx1]->pos);
+
+        }
+        printf("\n");
     }
 
 
@@ -986,8 +1027,13 @@ static int insertInMinPriority(MinStack* pMinStack, P_LISTNODE_T pInsertNode)
 
     P_LISTNODE_T pChildList = pMinStack->pArray[childIdx];
     P_LISTNODE_T pParList   = pMinStack->pArray[parentIdx];
+    //printf("HA\n");
+    //printf("childIdx = %2d\n", childIdx);
+    //printf("parentIdx = %2d\n", parentIdx);
+    //printf("pParlist-val = %3d\n", pParList->val);
     while ((pChildList->val < pParList->val) && (childIdx != 0))
     {
+        //printf("childIdx = %2d\n", childIdx);
         P_LISTNODE_T pTemp = pChildList;
         pMinStack->pArray[childIdx]  = pParList;
         pParList->pos = childIdx;
@@ -1048,7 +1094,7 @@ static int DeleteInMinPriority(MinStack* pMinStack, int pos)
     int *pUseNum = &(pMinStack->useNum);
     (*pUseNum)--;
     if (*pUseNum == 0) return -1;
-    //printf("now:%2d\n", *pUseNum);
+    printf("now:%2d\n", *pUseNum);
     pMinStack->pArray[pos] = pMinStack->pArray[*pUseNum];
     int selfIdx   = pos;
     int parentIdx = (selfIdx == 0) ? (selfIdx) : ((selfIdx-1) >> 1);
@@ -1076,7 +1122,7 @@ static int DeleteInMinPriority(MinStack* pMinStack, int pos)
 
         return selfIdx;
     }
-    else if (((selfIdx << 1) + 1) <= (*pUseNum))
+    else if (((selfIdx << 1) + 1) < (*pUseNum))
     {
         //Compare with child.
         //  |
@@ -1107,7 +1153,7 @@ static int DeleteInMinPriority(MinStack* pMinStack, int pos)
     }
     else
     {
-        //printf("others\n");
+        printf("others\n");
     }
 
     return childIdx;
@@ -1127,10 +1173,13 @@ void minStackPop(MinStack* obj)
         P_LISTNODE_T pPopNode = (obj->pHead);
         (obj->pHead) = (obj->pHead)->next;
         // Remove in MinPriority.
-        //printf("Remove : %2d\n", pPopNode->pos);
+        printf("Remove : %2d\n", pPopNode->pos);
         int pos = DeleteInMinPriority(obj, pPopNode->pos);
         //printf("Pos : %2d\n", pos);
-        if (pos != -1) (obj->pArray[(*pUseNum)-1])->pos = pos;
+        if (pos != -1)
+        {
+            (obj->pArray[(*pUseNum)-1])->pos = pos;
+        }
         free(pPopNode);
 
     }

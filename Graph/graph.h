@@ -98,6 +98,7 @@ extern char * (StrMinStack[]);
 extern int ParserStringToMinStackOperate(char* string);
 extern int Myatoi(const char *s, int size);
 extern int * ParserStringToArray(char* string, int size);
+extern void MinStackSeqOperate(char *ch[], int *array, int size);
 extern MinStack* minStackCreate();
 extern void minStackPush(MinStack* obj, int val);
 extern int minStackGetMin(MinStack* obj);
