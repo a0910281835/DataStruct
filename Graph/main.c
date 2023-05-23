@@ -215,8 +215,20 @@ int main(void)
     printf("val%2d\n", (int)sizeof(char));
     printf("val%2d\n", (int)sizeof(ch));
 
-    char *b = "[[],[-2],[0],[-3],[],[],[],[]]";
+    char *b = "{[],[-2],[0],[-3],[],[],[],[]}";
     printf("%c", b[0]);
+    idx = 0;
+    while (b[idx] != '\0')
+    {
+        printf("%c", b[idx]);
+        idx++;
+    }
+    printf("\n");
+    int *array = ParserStringToArray(b, 8); 
+    for (idx = 0; idx < 8; idx++)
+    {
+        printf("%d\n", array[idx]);
+    }
     //ret = ParserStringToMinStackOperate(ch[3]);
     //printf("Res%d\n", ret);
 

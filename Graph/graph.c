@@ -856,8 +856,63 @@ int ParserStringToMinStackOperate(char* string)
     return -1;
 }
 
-int * ParserStringToArray(char* string)
+static int stringToDigital(char ch)
 {
+    int ret = (int)ch;
+    ret -= 48;
+
+    return ret;
+}
+
+int Myatoi(const char *s, int size)
+{
+    int sign = 1;
+    int sum  = 0;
+    int idx =  0;
+
+    if (s[idx] == '-')
+    {
+        sign = -1;
+        idx++;
+    }
+
+    while (idx < size)
+    {
+        int coeff = stringToDigital(s[idx++]);
+        sum = coeff + (sum * 10);
+    }
+
+    sum = sum * sign;
+
+    return sum;
+}
+
+int * ParserStringToArray(char* string, int size)
+{
+    int *array = malloc(sizeof(int) * size);
+
+    int idx = 0;
+    int arrayCnt = 0;
+    int frontBracketIdx = 0;
+    int lastBracketIdx  = 0;
+
+    while (arrayCnt < size)
+    {
+        if (string[idx] == '[')
+        {
+            frontBracketIdx = idx;
+        }
+        else if (string[idx] == ']')
+        {
+            lastBracketIdx = idx;
+            array[arrayCnt++] = Myatoi(string + (frontBracketIdx+1) , lastBracketIdx-frontBracketIdx-1);
+        }
+
+        idx++;
+
+    }
+
+    return array;
 }
 
 void MinStackSeqOperate(char *ch[], int size)
@@ -881,8 +936,23 @@ void MinStackSeqOperate(char *ch[], int size)
 
                 break;
 
-            case 1 :
+            case 1 : //Push
 
+                break;
+
+            case 2 : //Pop
+
+                break;
+
+            case 3 : //Top
+
+                break;
+
+            case 4 : //GetMin
+
+                break;
+
+            default :
                 break;
         }
     }
