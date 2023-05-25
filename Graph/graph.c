@@ -1243,6 +1243,7 @@ static int isSameValList(P_LISTNODE_T pList1, P_LISTNODE_T pList2)
     return ret;
 
 }
+
 bool isPalindrome(struct ListNode* head)
 {
     P_LISTNODE_T oneStep, secondStep;

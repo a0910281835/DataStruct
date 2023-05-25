@@ -107,6 +107,8 @@ extern void minStackPop(MinStack* obj);
 extern void minStackFree(MinStack* obj);
 
 
+//234. Palindrome Linked List
+extern bool isPalindrome(struct ListNode* head);
 
 
 
