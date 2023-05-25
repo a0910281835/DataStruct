@@ -1201,3 +1201,96 @@ void minStackFree(MinStack* obj)
     }
     free(obj);
 }
+
+//234. Palindrome Linked List
+//Given the head of a singly linked list, return true if it is a palindrome or false otherwise.
+//
+//Example 1:
+//Input: head = [1,2,2,1]
+//Output: true
+//
+//Example 2:
+//Input: head = [1,2]
+//Output: false
+//Constraints:
+//
+//The number of nodes in the list is in the range [1, 105].
+//0 <= Node.val <= 9
+//Follow up: Could you do it in O(n) time and O(1) space?
+//
+//
+static int isSameValList(P_LISTNODE_T pList1, P_LISTNODE_T pList2)
+{
+    int ret = 0;
+    while ((NULL != pList1) && (NULL != pList2))
+    {
+        if (pList1->val != pList2->val)
+        {
+            return ret;
+        }
+        else
+        {
+            pList1 = pList1->next;
+            pList2 = pList2->next;
+        }
+
+
+    }
+
+    if ((NULL == pList1) && (NULL == pList2)) ret = 1;
+
+
+    return ret;
+
+}
+bool isPalindrome(struct ListNode* head)
+{
+    P_LISTNODE_T oneStep, secondStep;
+    P_LISTNODE_T prevNode, resverNode;
+    oneStep  = secondStep = head;
+    prevNode = resverNode = NULL;
+    int isLengthOdd = YES;
+    int idx = 0;
+    bool ret = 0;
+
+    while (1)
+    {
+        for (idx = 0; idx < 2; idx++)
+        {
+            secondStep = secondStep->next;
+
+            if (secondStep == NULL)
+            {
+                isLengthOdd = (idx & 0x1) ? NO : YES;
+                break;
+            }
+        }
+
+        if ((NULL == secondStep) && (isLengthOdd == YES))
+        {
+            oneStep = oneStep->next;
+            ret = isSameValList(oneStep, resverNode);
+            return ret;
+
+        }
+        else if ((NULL == secondStep) && (isLengthOdd == NO))
+        {
+            // Reserve Node
+            resverNode = oneStep;
+            oneStep = oneStep->next;
+            resverNode->next = prevNode;
+            prevNode = resverNode;
+            ret = isSameValList(oneStep, resverNode);
+            return ret;
+
+        }
+
+        // Reserve Node
+        resverNode = oneStep;
+        oneStep = oneStep->next;
+        resverNode->next = prevNode;
+        prevNode = resverNode;
+
+    }
+
+}
