@@ -2346,3 +2346,66 @@ void CalulateModeGroup(int* nums, int numsSize, int *pMax, int *pMin)
 //    int numNeighbors;
 //    struct Node** neighbors;
 //};
+//
+
+static void TwoOrderSequenceMerge(int *fisrt, int *second, int firstSize, int secondSize, int *dest)
+{
+    int firstIdx  = 0;
+    int secondIdx = 0;
+    int destIdx   = 0;
+
+    printf("merge\n");
+    while ((firstIdx < firstSize) && (secondIdx < secondSize))
+    {
+        dest[destIdx++] = (fisrt[firstIdx] <= second[secondIdx]) ? fisrt[firstIdx++] : second[secondIdx++];
+    }
+
+    while (firstIdx < firstSize)
+    {
+        dest[destIdx++] = fisrt[firstIdx++];
+    }
+
+    while (secondIdx < secondSize)
+    {
+        dest[destIdx++] = second[secondIdx++];
+    }
+}
+
+
+static void mergeRecursive(int *array, int *tempArray, int size)
+{
+    if (size > 1)
+    {
+        int leftSize  = (size >> 1);
+        int rightSize = size - leftSize;
+        printf("leftSize : %d\n", leftSize);
+        printf("rightSize : %d\n", rightSize);
+        
+        int idx = 0;
+        printf("array\n");
+        while (idx < size)
+        {
+            printf(" %d ", array[idx]);
+            idx++;
+        }
+        printf("\n");
+
+
+        mergeRecursive(array , tempArray, leftSize);
+        mergeRecursive((array+leftSize), (tempArray+leftSize), rightSize);
+        TwoOrderSequenceMerge(array, (array+leftSize), leftSize, rightSize, tempArray);
+        idx = 0;
+        while (idx < size)
+        {
+            array[idx] = tempArray[idx];
+            idx++;
+        }
+    }
+}
+// Merge Sort 
+void MergeSort(int * array, int size)
+{
+    int *tmepArray = malloc(sizeof(int) * size);
+
+    mergeRecursive(array, tmepArray, size);
+}

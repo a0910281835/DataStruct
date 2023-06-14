@@ -351,10 +351,17 @@ int main(void)
     //}
 
 
-    int prices[] = {0,1,2,4,8,5,6,7,9,3,55,88,77,99,999999999};
-    int ret = longestConsecutive(prices, 15);
-    printf("%2d\n", ret);
+    //int prices[] = {0,1,2,4,8,5,6,7,9,3,55,88,77,99,999999999};
+    //int ret = longestConsecutive(prices, 15);
+    //printf("%2d\n", ret);
 
+    int array[7] = {7, 6, 5, 4, 3, 2, 1};
+    MergeSort(array, 7);
+    int idx = 0;
+    for (idx = 0; idx < 7; idx++)
+    {
+        printf("%d\n", array[idx]);
+    }
 
 
     return 1;
