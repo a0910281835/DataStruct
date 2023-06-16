@@ -2380,7 +2380,7 @@ static void mergeRecursive(int *array, int *tempArray, int size)
         int rightSize = size - leftSize;
         printf("leftSize : %d\n", leftSize);
         printf("rightSize : %d\n", rightSize);
-        
+
         int idx = 0;
         printf("array\n");
         while (idx < size)
@@ -2402,10 +2402,30 @@ static void mergeRecursive(int *array, int *tempArray, int size)
         }
     }
 }
-// Merge Sort 
+// Merge Sort
 void MergeSort(int * array, int size)
 {
     int *tmepArray = malloc(sizeof(int) * size);
 
     mergeRecursive(array, tmepArray, size);
+}
+
+static void findPivotByMidian(int *array, int leftIdx, int rightIdx)
+{
+    int centerIdx = (rightIdx + leftIdx) >> 1;
+    int tempVal = array[leftIdx];
+    array[leftIdx] = (array[leftIdx] <= array[centerIdx]) ? (leftIdx) : (centerIdx);
+}
+
+static void quickSortByRecursive(int *array, int rightIdx, int leftIdx)
+{
+
+    // Find Pivot
+
+}
+//Quick Sort.
+void QuickSort(int *array, int size)
+{
+    // InterFace
+    quickSortByRecursive(array, 0, size-1);
 }
