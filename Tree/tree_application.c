@@ -2410,17 +2410,58 @@ void MergeSort(int * array, int size)
     mergeRecursive(array, tmepArray, size);
 }
 
-static void findPivotByMidian(int *array, int leftIdx, int rightIdx)
+static int findPivotfrom3pos(int *array, int leftIdx, int rightIdx)
 {
     int centerIdx = (rightIdx + leftIdx) >> 1;
-    int tempVal = array[leftIdx];
-    array[leftIdx] = (array[leftIdx] <= array[centerIdx]) ? (leftIdx) : (centerIdx);
+
+    int tempVal = array[leftIdx] + array[centerIdx];
+    array[leftIdx] = (array[leftIdx] <= array[centerIdx]) ? array[leftIdx] : array[centerIdx];
+    array[centerIdx] = tempVal -  array[leftIdx];
+
+    tempVal = array[leftIdx] + array[rightIdx];
+    array[leftIdx] = (array[leftIdx] <= array[rightIdx]) ? array[leftIdx] : array[rightIdx];
+    array[rightIdx] = tempVal -  array[leftIdx];
+
+    tempVal = array[centerIdx] + array[rightIdx];
+    array[centerIdx] = (array[centerIdx] <= array[rightIdx]) ? array[centerIdx] : array[rightIdx];
+    array[rightIdx] = tempVal -  array[centerIdx];
+
+    return centerIdx;
 }
 
-static void quickSortByRecursive(int *array, int rightIdx, int leftIdx)
+static void dividTwoPart(int *array, int leftIdx, int rightIdx, int pivot)
+{
+    int lessThanIdx = leftIdx;
+    int moreThanIdx = rightIdx;
+
+    if ( lessThanIdx < moreThanIdx)
+    {
+        //XXX : if all array equal pivot than all need to swap in while, that is optimize this case
+        while (array[lessThanIdx] < pivot) lessThanIdx++;
+        while (pivot < array[moreThanIdx]) moreThanIdx++;
+        int temp = array[lessThanIdx];
+        array[lessThanIdx] = array[moreThanIdx]
+        array[moreThanIdx] = temp;
+    }
+
+}
+
+static void quickSortByRecursive(int *array, int leftIdx, int rightIdx)
 {
 
     // Find Pivot
+    if ((rightIdx - leftIdx + 1)  >= 2)
+    {
+        int pivotIdx = findPivotfrom3pos(array, leftIdx, rightIdx);
+
+        int temp = array[rightIdx-1];
+        array[rightIdx-1] = array[pivotIdx];
+        array[pivotIdx] = temp;
+
+
+
+    }
+
 
 }
 //Quick Sort.

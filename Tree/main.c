@@ -356,12 +356,13 @@ int main(void)
     //printf("%2d\n", ret);
 
     int array[7] = {7, 6, 5, 4, 3, 2, 1};
-    MergeSort(array, 7);
-    int idx = 0;
-    for (idx = 0; idx < 7; idx++)
-    {
-        printf("%d\n", array[idx]);
-    }
+    //MergeSort(array, 7);
+    QuickSort(array, 7);
+    //int idx = 0;
+    //for (idx = 0; idx < 7; idx++)
+    //{
+    //    printf("%d\n", array[idx]);
+    //}
 
 
     return 1;
