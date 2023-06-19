@@ -2454,6 +2454,7 @@ static int dividTwoPart(int *array, int leftIdx, int rightIdx, int pivotIdx)
    if (lessThanIdx == moreThanIdx)
    {
        lessThanIdx = (array[lessThanIdx] < array[pivotIdx]) ? (lessThanIdx + 1) : (lessThanIdx);
+       printf("break : %d\n", lessThanIdx);
    }
 
 
@@ -2479,13 +2480,27 @@ static void quickSortByRecursive(int *array, int leftIdx, int rightIdx)
         int pivotIdx = findPivotfrom3pos(array, leftIdx, rightIdx);
         printf("pivotVal : %d\n", array[pivotIdx]);
 
-        //XXX : Pivot Put the last.
-        swapByMyself(&(array[pivotIdx]), &(array[rightIdx-1]));
-        pivotIdx = rightIdx-1;
-        int changeIdx = dividTwoPart(array, leftIdx+1, rightIdx-2, pivotIdx);
-        swapByMyself(&(array[pivotIdx]), &(array[changeIdx]));
-        quickSortByRecursive(array, 0, changeIdx-1);
-        quickSortByRecursive(array, changeIdx+1, rightIdx);
+        if ((rightIdx - leftIdx + 1) > 3)
+        {
+            //XXX : Pivot Put the last.
+            swapByMyself(&(array[pivotIdx]), &(array[rightIdx-1]));
+            pivotIdx = rightIdx-1;
+            printf("find pivot and change array\n");
+            idx = 0;
+            for (idx = 0; idx < 8; idx++)
+            {
+                printf("%d  ", array[idx]);
+            }
+            printf("\n");
+            int changeIdx = dividTwoPart(array, leftIdx+1, rightIdx-2, pivotIdx);
+            swapByMyself(&(array[pivotIdx]), &(array[changeIdx]));
+
+
+
+
+            quickSortByRecursive(array, 0, changeIdx-1);
+            quickSortByRecursive(array, changeIdx+1, rightIdx);
+        }
 
     }
 
