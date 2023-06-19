@@ -2410,6 +2410,14 @@ void MergeSort(int * array, int size)
     mergeRecursive(array, tmepArray, size);
 }
 
+
+static void swapByMyself(int *first, int *second)
+{
+    int temp = *first;
+    *first   = *second;
+    *second  = temp;
+}
+
 static int findPivotfrom3pos(int *array, int leftIdx, int rightIdx)
 {
     int centerIdx = (rightIdx + leftIdx) >> 1;
@@ -2429,20 +2437,27 @@ static int findPivotfrom3pos(int *array, int leftIdx, int rightIdx)
     return centerIdx;
 }
 
-static void dividTwoPart(int *array, int leftIdx, int rightIdx, int pivot)
+static int dividTwoPart(int *array, int leftIdx, int rightIdx, int pivotIdx)
 {
     int lessThanIdx = leftIdx;
     int moreThanIdx = rightIdx;
 
-    if ( lessThanIdx < moreThanIdx)
+
+   while ( lessThanIdx < moreThanIdx)
     {
         //XXX : if all array equal pivot than all need to swap in while, that is optimize this case
-        while (array[lessThanIdx] < pivot) lessThanIdx++;
-        while (pivot < array[moreThanIdx]) moreThanIdx++;
-        int temp = array[lessThanIdx];
-        array[lessThanIdx] = array[moreThanIdx]
-        array[moreThanIdx] = temp;
+        while ((array[lessThanIdx] < array[pivotIdx]) && (lessThanIdx < rightIdx)) lessThanIdx++;
+        while ((array[pivotIdx] < array[moreThanIdx]) && (leftIdx < moreThanIdx))  moreThanIdx--;
+        if (lessThanIdx < moreThanIdx) swapByMyself(&(array[lessThanIdx]), &(array[moreThanIdx]));
     }
+
+   if (lessThanIdx == moreThanIdx)
+   {
+       lessThanIdx = (array[lessThanIdx] < array[pivotIdx]) ? (lessThanIdx + 1) : (lessThanIdx);
+   }
+
+
+    return lessThanIdx;
 
 }
 
@@ -2452,13 +2467,25 @@ static void quickSortByRecursive(int *array, int leftIdx, int rightIdx)
     // Find Pivot
     if ((rightIdx - leftIdx + 1)  >= 2)
     {
+        printf("this array\n");
+        int idx = 0;
+        for (idx = 0; idx < 8; idx++)
+        {
+            printf("%d  ", array[idx]);
+        }
+        printf("\n");
+
+        printf("recursive : left -> right : %2d -> %2d\n", leftIdx, rightIdx);
         int pivotIdx = findPivotfrom3pos(array, leftIdx, rightIdx);
+        printf("pivotVal : %d\n", array[pivotIdx]);
 
-        int temp = array[rightIdx-1];
-        array[rightIdx-1] = array[pivotIdx];
-        array[pivotIdx] = temp;
-
-
+        //XXX : Pivot Put the last.
+        swapByMyself(&(array[pivotIdx]), &(array[rightIdx-1]));
+        pivotIdx = rightIdx-1;
+        int changeIdx = dividTwoPart(array, leftIdx+1, rightIdx-2, pivotIdx);
+        swapByMyself(&(array[pivotIdx]), &(array[changeIdx]));
+        quickSortByRecursive(array, 0, changeIdx-1);
+        quickSortByRecursive(array, changeIdx+1, rightIdx);
 
     }
 

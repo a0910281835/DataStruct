@@ -355,14 +355,14 @@ int main(void)
     //int ret = longestConsecutive(prices, 15);
     //printf("%2d\n", ret);
 
-    int array[7] = {7, 6, 5, 4, 3, 2, 1};
+    int array[8] = {7, 6, 5, 4, 3, 2, 1, 0};
     //MergeSort(array, 7);
-    QuickSort(array, 7);
-    //int idx = 0;
-    //for (idx = 0; idx < 7; idx++)
-    //{
-    //    printf("%d\n", array[idx]);
-    //}
+    QuickSort(array, 8);
+    int idx = 0;
+    for (idx = 0; idx < 8; idx++)
+    {
+        printf("%d\n", array[idx]);
+    }
 
 
     return 1;
