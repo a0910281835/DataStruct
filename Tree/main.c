@@ -2,6 +2,7 @@
 #include "tree_application.h"
 #include "stack_array.h"
 #include "queue_array.h"
+#include "link_list.h"
 
 
 char *(DECIDE[2]) = {"NO", "YES" };
@@ -363,6 +364,22 @@ int main(void)
     {
         printf("%d\n", array[idx]);
     }
+
+    T_WAITTING_PRIORITY_QUEUE * pWaitQueue = CreateWaittingQueue();
+
+    printf("empty : %2d \n", IsWQEmpty(pWaitQueue));
+
+    PT_SLEEP_THREAD_NODE pNode = malloc(sizeof(T_SLEEP_THREAD_NODE));
+    pWaitQueue->pHead = pNode;
+    pWaitQueue->pTail = pNode;
+    printf("empty : %2d \n", IsWQEmpty(pWaitQueue));
+    //pHead
+
+
+
+
+
+
 
 
     return 1;
