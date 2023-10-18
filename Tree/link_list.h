@@ -7,7 +7,7 @@
 #define bool char
 
 
-typedef  T_THREAD * PT_THREAD; 
+typedef  T_THREAD * PT_THREAD;
 
 typedef struct T_SLEEP_THREAD_NODE
 {
@@ -32,6 +32,8 @@ bool IsWQEmpty(T_WAITTING_PRIORITY_QUEUE *pWattingQueu);
 
 T_WAITTING_PRIORITY_QUEUE * CreateWaittingQueue(void);
 bool DeleteWaittingQueue(T_WAITTING_PRIORITY_QUEUE *pWattingQueue);
+PT_SLEEP_THREAD_NODE CreateDoubleListNode(T_THREAD *pT, int timing);
+void InsertSleepList(T_WAITTING_PRIORITY_QUEUE *pWattingQueue, T_THREAD *pThread, int sleepTiming);
 
 
 

@@ -369,11 +369,9 @@ int main(void)
 
     printf("empty : %2d \n", IsWQEmpty(pWaitQueue));
 
-    PT_SLEEP_THREAD_NODE pNode = malloc(sizeof(T_SLEEP_THREAD_NODE));
-    pWaitQueue->pHead = pNode;
-    pWaitQueue->pTail = pNode;
-    printf("empty : %2d \n", IsWQEmpty(pWaitQueue));
-    //pHead
+    PT_THREAD pT = malloc(sizeof(T_THREAD));
+    InsertSleepList(pWaitQueue, pT, 20);
+    printf("val : %d\n " , pWaitQueue->pHead->when);
 
 
 
