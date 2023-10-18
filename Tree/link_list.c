@@ -46,9 +46,24 @@ PT_SLEEP_THREAD_NODE CreateDoubleListNode(T_THREAD *pT, int timing)
 }
 
 
+
+static bool comparePrevNode(PT_SLEEP_THREAD_NODE pBeCompared, PT_SLEEP_THREAD_NODE pCompare)
+{
+    //. pBeCompared >= pCompare  ret :  false
+    //. pBeCompared < pCompare   ret :  true
+    //
+    bool ret = false;
+    if (pBeCompared->when >= pCompare->when)
+        ret = false;
+    else
+        ret = true;
+    return ret;
+}
+
 void InsertSleepList(T_WAITTING_PRIORITY_QUEUE *pWattingQueue, T_THREAD *pThread, int sleepTiming)
 {
     PT_SLEEP_THREAD_NODE pNode = CreateDoubleListNode(pThread, sleepTiming);
+
     if (IsWQEmpty(pWattingQueue))
     {
         pWattingQueue->pHead = pNode;
@@ -56,8 +71,21 @@ void InsertSleepList(T_WAITTING_PRIORITY_QUEUE *pWattingQueue, T_THREAD *pThread
     }
     else
     {
-        printf("waiting queue is not idle\n");
+        //bool unnessarySortFlag = false;
+        //printf("waiting queue is not idle\n");
+        //pNode->next = (pWattingQueue->pHead);
+        //(pWattingQueue->pHead)->prev = pNode;
+        //(pWattingQueue->pHead) = pNode;
+        //unnessarySortFlag = true;
 
+        PT_SLEEP_THREAD_NODE pCurrent = pWattingQueue->pTail;
+
+        while (pCurrent != NULL)
+        {
+
+        }
     }
+
+    //Sorting
 
 }

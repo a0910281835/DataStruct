@@ -372,7 +372,10 @@ int main(void)
     PT_THREAD pT = malloc(sizeof(T_THREAD));
     InsertSleepList(pWaitQueue, pT, 20);
     printf("val : %d\n " , pWaitQueue->pHead->when);
-
+    pT = malloc(sizeof(T_THREAD));
+    InsertSleepList(pWaitQueue, pT, 50);
+    printf("val : %d\n " , pWaitQueue->pHead->when);
+    printf("val : %d\n " , (pWaitQueue->pHead)->next->when);
 
 
 

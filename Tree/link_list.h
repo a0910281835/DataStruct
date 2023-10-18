@@ -4,26 +4,26 @@
 
 
 #define T_THREAD int
-#define bool char
 
 
 typedef  T_THREAD * PT_THREAD;
+
+typedef struct T_SLEEP_THREAD_NODE * PT_SLEEP_THREAD_NODE;
 
 typedef struct T_SLEEP_THREAD_NODE
 {
     int when;
     T_THREAD *pThread;
-    T_THREAD * next;
-    T_THREAD * prev;
+    PT_SLEEP_THREAD_NODE    next;
+    PT_SLEEP_THREAD_NODE prev;
 }T_SLEEP_THREAD_NODE;
 
 
-typedef struct T_SLEEP_THREAD_NODE * PT_SLEEP_THREAD_NODE;
 
 typedef struct T_WAITTING_PRIORITY_QUEUE
 {
-    PT_SLEEP_THREAD_NODE pHead;
-    PT_SLEEP_THREAD_NODE pTail;
+    PT_SLEEP_THREAD_NODE pHead;//.output
+    PT_SLEEP_THREAD_NODE pTail;//.input
 
 }T_WAITTING_PRIORITY_QUEUE;
 

@@ -29,6 +29,13 @@ typedef enum
     STACK_CPY_TO_OUTPUT
 }CPY_MODE_T;
 
+typedef enum bool
+{
+    false = 0,
+    true  = 1,
+}bool;
+
+
 #define NUM_T int
 
 extern void PrintfCustomElement(CUSTOM_ELEMENT_TYPE element);
