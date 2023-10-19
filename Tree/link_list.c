@@ -49,17 +49,20 @@ PT_SLEEP_THREAD_NODE CreateDoubleListNode(T_THREAD *pT, int timing)
 
 static bool comparePrevNode(PT_SLEEP_THREAD_NODE pBeCompared, PT_SLEEP_THREAD_NODE pCompare)
 {
-    //. pBeCompared >= pCompare  ret :  false
-    //. pBeCompared < pCompare   ret :  true
+    //. pBeCompared > pCompare  ret :  true
+    //. pBeCompared <= pCompare   ret : false
     //
     bool ret = false;
     if (pBeCompared->when >= pCompare->when)
-        ret = false;
-    else
         ret = true;
+    else
+        ret = false;
     return ret;
 }
 
+
+
+// "when" is less , proirity is high. then sorting to head.
 void InsertSleepList(T_WAITTING_PRIORITY_QUEUE *pWattingQueue, T_THREAD *pThread, int sleepTiming)
 {
     PT_SLEEP_THREAD_NODE pNode = CreateDoubleListNode(pThread, sleepTiming);
@@ -72,20 +75,52 @@ void InsertSleepList(T_WAITTING_PRIORITY_QUEUE *pWattingQueue, T_THREAD *pThread
     else
     {
         //bool unnessarySortFlag = false;
-        //printf("waiting queue is not idle\n");
+        printf("waiting queue is not idle\n");
         //pNode->next = (pWattingQueue->pHead);
         //(pWattingQueue->pHead)->prev = pNode;
         //(pWattingQueue->pHead) = pNode;
         //unnessarySortFlag = true;
 
         PT_SLEEP_THREAD_NODE pCurrent = pWattingQueue->pTail;
+        bool moreThanFlag = comparePrevNode(pCurrent, pNode);
 
-        while (pCurrent != NULL)
+        while (true == moreThanFlag)
         {
 
+            if ((pCurrent->prev) != NULL)
+            {
+                pCurrent = pCurrent->prev;
+            }
+            else
+            {
+                break;
+            }
+
+            moreThanFlag = comparePrevNode(pCurrent, pNode);
+        }
+
+        // .exit while has two cases
+        //
+
+
+        // . this element's "when" is smaller , then sorting to head
+        if (moreThanFlag == true)
+        {
+            pCurrent->prev = pNode;
+            pNode->next = pCurrent;
+            pWattingQueue->pHead = pNode;
+        }
+        else // . pCurrent < pNode
+        {
+            if (NULL != pCurrent->next)
+            {
+                (pCurrent->next)->prev = pNode;
+                pNode->next = (pCurrent->next);
+            }
+
+            pCurrent->next = pNode;
+            pNode->prev = pCurrent;
         }
     }
-
-    //Sorting
 
 }

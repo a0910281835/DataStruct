@@ -374,6 +374,7 @@ int main(void)
     printf("val : %d\n " , pWaitQueue->pHead->when);
     pT = malloc(sizeof(T_THREAD));
     InsertSleepList(pWaitQueue, pT, 50);
+    InsertSleepList(pWaitQueue, pT, 30);
     printf("val : %d\n " , pWaitQueue->pHead->when);
     printf("val : %d\n " , (pWaitQueue->pHead)->next->when);
 
