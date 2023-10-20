@@ -74,19 +74,11 @@ void InsertSleepList(T_WAITTING_PRIORITY_QUEUE *pWattingQueue, T_THREAD *pThread
     }
     else
     {
-        //bool unnessarySortFlag = false;
-        printf("waiting queue is not idle\n");
-        //pNode->next = (pWattingQueue->pHead);
-        //(pWattingQueue->pHead)->prev = pNode;
-        //(pWattingQueue->pHead) = pNode;
-        //unnessarySortFlag = true;
-
         PT_SLEEP_THREAD_NODE pCurrent = pWattingQueue->pTail;
         bool moreThanFlag = comparePrevNode(pCurrent, pNode);
 
         while (true == moreThanFlag)
         {
-
             if ((pCurrent->prev) != NULL)
             {
                 pCurrent = pCurrent->prev;
@@ -100,9 +92,6 @@ void InsertSleepList(T_WAITTING_PRIORITY_QUEUE *pWattingQueue, T_THREAD *pThread
         }
 
         // .exit while has two cases
-        //
-
-
         // . this element's "when" is smaller , then sorting to head
         if (moreThanFlag == true)
         {
@@ -124,3 +113,20 @@ void InsertSleepList(T_WAITTING_PRIORITY_QUEUE *pWattingQueue, T_THREAD *pThread
     }
 
 }
+
+void TravelWatingQueue(T_WAITTING_PRIORITY_QUEUE *pWattingQueue)
+{
+    PT_SLEEP_THREAD_NODE pTravelNode = pWattingQueue->pHead;
+    int idx = 0;
+    while (NULL != pTravelNode)
+    {
+        printf("idx : %d , when : %d\n", idx++, pTravelNode->when);
+        pTravelNode = pTravelNode->next;
+    }
+
+}
+
+
+T_THREAD * PopWaittingQueue(T_WAITTING_PRIORITY_QUEUE *pWattingQueue);
+
+

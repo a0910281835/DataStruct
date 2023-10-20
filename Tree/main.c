@@ -375,13 +375,12 @@ int main(void)
     pT = malloc(sizeof(T_THREAD));
     InsertSleepList(pWaitQueue, pT, 50);
     InsertSleepList(pWaitQueue, pT, 30);
-    printf("val : %d\n " , pWaitQueue->pHead->when);
-    printf("val : %d\n " , (pWaitQueue->pHead)->next->when);
+    printf("val : %d\n" , pWaitQueue->pHead->when);
+    printf("val : %d\n" , (pWaitQueue->pHead)->next->when);
 
 
 
-
-
+    TravelWatingQueue(pWaitQueue);
 
 
     return 1;
