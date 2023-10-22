@@ -370,16 +370,25 @@ int main(void)
     printf("empty : %2d \n", IsWQEmpty(pWaitQueue));
 
     PT_THREAD pT = malloc(sizeof(T_THREAD));
+    *pT = 24;//this is PID
     InsertSleepList(pWaitQueue, pT, 20);
     printf("val : %d\n " , pWaitQueue->pHead->when);
     pT = malloc(sizeof(T_THREAD));
+    *pT = 25;
     InsertSleepList(pWaitQueue, pT, 50);
     InsertSleepList(pWaitQueue, pT, 30);
     printf("val : %d\n" , pWaitQueue->pHead->when);
     printf("val : %d\n" , (pWaitQueue->pHead)->next->when);
 
-
-
+    TravelWatingQueue(pWaitQueue);
+    pT = PopWaittingQueue(pWaitQueue);
+    printf("pid : %d\n", *pT);
+    TravelWatingQueue(pWaitQueue);
+    pT = PopWaittingQueue(pWaitQueue);
+    printf("pid : %d\n", *pT);
+    TravelWatingQueue(pWaitQueue);
+    pT = PopWaittingQueue(pWaitQueue);
+    printf("pid : %d\n", *pT);
     TravelWatingQueue(pWaitQueue);
 
 

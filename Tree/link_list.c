@@ -20,9 +20,11 @@ bool IsWQEmpty(T_WAITTING_PRIORITY_QUEUE *pWattingQueue)
 
 bool DeleteWaittingQueue(T_WAITTING_PRIORITY_QUEUE *pWattingQueue)
 {
+    bool ret = false;
     if (IsWQEmpty(pWattingQueue))
     {
         free(pWattingQueue);
+        ret = true;
     }
     else
     {
@@ -31,6 +33,7 @@ bool DeleteWaittingQueue(T_WAITTING_PRIORITY_QUEUE *pWattingQueue)
             printf(" error \n");
         }
     }
+    return ret;
 
 
 }
@@ -116,17 +119,49 @@ void InsertSleepList(T_WAITTING_PRIORITY_QUEUE *pWattingQueue, T_THREAD *pThread
 
 void TravelWatingQueue(T_WAITTING_PRIORITY_QUEUE *pWattingQueue)
 {
-    PT_SLEEP_THREAD_NODE pTravelNode = pWattingQueue->pHead;
-    int idx = 0;
-    while (NULL != pTravelNode)
+    if  (true == IsWQEmpty(pWattingQueue))
     {
-        printf("idx : %d , when : %d\n", idx++, pTravelNode->when);
-        pTravelNode = pTravelNode->next;
+        printf("is empty now\n");
+
+    }
+    else
+    {
+        PT_SLEEP_THREAD_NODE pTravelNode = pWattingQueue->pHead;
+        int idx = 0;
+        while (NULL != pTravelNode)
+        {
+            printf("idx : %d , when : %d\n", idx++, pTravelNode->when);
+            pTravelNode = pTravelNode->next;
+        }
     }
 
 }
 
 
-T_THREAD * PopWaittingQueue(T_WAITTING_PRIORITY_QUEUE *pWattingQueue);
+T_THREAD * PopWaittingQueue(T_WAITTING_PRIORITY_QUEUE *pWattingQueue)
+{
+    PT_SLEEP_THREAD_NODE pPopNode =  pWattingQueue->pHead;
+    T_THREAD *pT = NULL;
+
+    if  (false == IsWQEmpty(pWattingQueue))
+    {
+        // . Disconn PopNode with Waitting Queue
+        pWattingQueue->pHead =  pPopNode->next;
+        if (pWattingQueue->pHead != NULL)
+        {
+            (pWattingQueue->pHead)->prev = NULL;
+        }
+        else // Only Has one element
+        {
+            pWattingQueue->pTail = NULL;
+        }
+        pPopNode->next = NULL;
+
+        pT = pPopNode->pThread;
+        free(pPopNode);
+    }
+
+    return pT;
+}
 
 
