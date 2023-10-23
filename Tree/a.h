@@ -6,10 +6,11 @@ typedef int THREAD;
 class THREAD_NODE
 {
     public :
-        THREAD_NODE(THREAD *pT) : thread(pT), prev(NULL), next(NULL) {};
+        THREAD_NODE(THREAD *pT, int timing) : thread(pT), prev(NULL), next(NULL), when(timing) {};
         THREAD* thread;
         THREAD_NODE *prev;
         THREAD_NODE *next;
+        int when;
 };
 
 class THREAD_LIST
@@ -19,6 +20,9 @@ class THREAD_LIST
         THREAD_NODE * pHead;
         THREAD_NODE * pTail;
         bool IsEmpty();
+        void InsertSleepList(THREAD *pThread, int sleepTiming);
+        THREAD* PopWaittingQueue(void);
+        void TravelWatingQueue();
 };
 
 
