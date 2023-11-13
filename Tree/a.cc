@@ -19,7 +19,7 @@ bool THREAD_LIST :: IsEmpty()
 
 void THREAD_LIST :: InsertSleepList(THREAD *pThread, int sleepTiming)
 {
-    // Construct  Node to Insert 
+    // Construct  Node to Insert
     THREAD_NODE *pNode = new THREAD_NODE(pThread, sleepTiming);
 
     //
@@ -56,7 +56,7 @@ void THREAD_LIST :: InsertSleepList(THREAD *pThread, int sleepTiming)
                 pNode->next = (pCurrent->next);
 
             }
-            pCurrent->next = pNode; 
+            pCurrent->next = pNode;
             pNode->prev = pCurrent;
         }
         else

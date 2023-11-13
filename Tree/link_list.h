@@ -38,6 +38,20 @@ void TravelWatingQueue(T_WAITTING_PRIORITY_QUEUE *pWattingQueue);
 T_THREAD * PopWaittingQueue(T_WAITTING_PRIORITY_QUEUE *pWattingQueue);
 
 
+// leetcode 146 LRU algorithm
+//
+// hashing and double link list
+typedef struct LRUCache
+{
+
+
+}T_LRU_CACHE;
+
+LRUCache* lRUCacheCreate(int capacity);
+int lRUCacheGet(LRUCache* obj, int key);
+void lRUCachePut(LRUCache* obj, int key, int value);
+void lRUCacheFree(LRUCache* obj);
+
 
 
 #endif
