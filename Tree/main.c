@@ -148,19 +148,19 @@ int main(void)
     //         /  \   .
     //        15   7
 
-    P_TREE_NODE_T pHead = malloc(sizeof(TREE_NODE_T));
-    pHead->val = -10;
-    pHead->left = malloc(sizeof(TREE_NODE_T));
-    (pHead->left)->val = 9;
-    pHead->right = malloc(sizeof(TREE_NODE_T));
-    (pHead->right)->val = 20;
-    (pHead->right)->left = malloc(sizeof(TREE_NODE_T));
-    ((pHead->right)->left)->val  = 15;
-    (pHead->right)->right = malloc(sizeof(TREE_NODE_T));
-    (pHead->right)->right->val = 7;
+    //P_TREE_NODE_T pHead = malloc(sizeof(TREE_NODE_T));
+    //pHead->val = -10;
+    //pHead->left = malloc(sizeof(TREE_NODE_T));
+    //(pHead->left)->val = 9;
+    //pHead->right = malloc(sizeof(TREE_NODE_T));
+    //(pHead->right)->val = 20;
+    //(pHead->right)->left = malloc(sizeof(TREE_NODE_T));
+    //((pHead->right)->left)->val  = 15;
+    //(pHead->right)->right = malloc(sizeof(TREE_NODE_T));
+    //(pHead->right)->right->val = 7;
 
-    int v = maxPathSum(pHead);
-    printf("%3d\n", v);
+    //int v = maxPathSum(pHead);
+    //printf("%3d\n", v);
 
 
     //int returnSize = 0;
@@ -356,41 +356,48 @@ int main(void)
     //int ret = longestConsecutive(prices, 15);
     //printf("%2d\n", ret);
 
-    int array[8] = {7, 6, 5, 4, 3, 2, 1, 0};
-    //MergeSort(array, 7);
-    QuickSort(array, 8);
-    int idx = 0;
-    for (idx = 0; idx < 8; idx++)
-    {
-        printf("%d\n", array[idx]);
-    }
+    //int array[8] = {7, 6, 5, 4, 3, 2, 1, 0};
+    ////MergeSort(array, 7);
+    //QuickSort(array, 8);
+    //int idx = 0;
+    //for (idx = 0; idx < 8; idx++)
+    //{
+    //    printf("%d\n", array[idx]);
+    //}
 
-    T_WAITTING_PRIORITY_QUEUE * pWaitQueue = CreateWaittingQueue();
+    //T_WAITTING_PRIORITY_QUEUE * pWaitQueue = CreateWaittingQueue();
 
-    printf("empty : %2d \n", IsWQEmpty(pWaitQueue));
+    //printf("empty : %2d \n", IsWQEmpty(pWaitQueue));
 
-    PT_THREAD pT = malloc(sizeof(T_THREAD));
-    *pT = 24;//this is PID
-    InsertSleepList(pWaitQueue, pT, 20);
-    printf("val : %d\n " , pWaitQueue->pHead->when);
-    pT = malloc(sizeof(T_THREAD));
-    *pT = 25;
-    InsertSleepList(pWaitQueue, pT, 50);
-    InsertSleepList(pWaitQueue, pT, 30);
-    printf("val : %d\n" , pWaitQueue->pHead->when);
-    printf("val : %d\n" , (pWaitQueue->pHead)->next->when);
+    //PT_THREAD pT = malloc(sizeof(T_THREAD));
+    //*pT = 24;//this is PID
+    //InsertSleepList(pWaitQueue, pT, 20);
+    //printf("val : %d\n " , pWaitQueue->pHead->when);
+    //pT = malloc(sizeof(T_THREAD));
+    //*pT = 25;
+    //InsertSleepList(pWaitQueue, pT, 50);
+    //InsertSleepList(pWaitQueue, pT, 30);
+    //printf("val : %d\n" , pWaitQueue->pHead->when);
+    //printf("val : %d\n" , (pWaitQueue->pHead)->next->when);
 
-    TravelWatingQueue(pWaitQueue);
-    pT = PopWaittingQueue(pWaitQueue);
-    printf("pid : %d\n", *pT);
-    TravelWatingQueue(pWaitQueue);
-    pT = PopWaittingQueue(pWaitQueue);
-    printf("pid : %d\n", *pT);
-    TravelWatingQueue(pWaitQueue);
-    pT = PopWaittingQueue(pWaitQueue);
-    printf("pid : %d\n", *pT);
-    TravelWatingQueue(pWaitQueue);
+    //TravelWatingQueue(pWaitQueue);
+    //pT = PopWaittingQueue(pWaitQueue);
+    //printf("pid : %d\n", *pT);
+    //TravelWatingQueue(pWaitQueue);
+    //pT = PopWaittingQueue(pWaitQueue);
+    //printf("pid : %d\n", *pT);
+    //TravelWatingQueue(pWaitQueue);
+    //pT = PopWaittingQueue(pWaitQueue);
+    //printf("pid : %d\n", *pT);
+    //TravelWatingQueue(pWaitQueue);
 
+    // Leetcode LRU cache Test
+    //
+    // 1. Node Test
+    int key   = 5;
+    int value = 20;
+    PT_CACHE_NODE pNode = CreateNode(key, value);
+    printf("key:%2d, value:%2d\n", pNode->key, pNode->value);
 
     return 1;
 }

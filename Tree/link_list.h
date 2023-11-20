@@ -57,23 +57,21 @@ typedef struct T_CACHE_NODE
 PT_CACHE_NODE CreateNode(int key, int value);
 void DeleteNode(PT_CACHE_NODE pNode);
 
-
-
 // Double link list with operation
 typedef struct T_DOUBLE_LINK_LIST * PT_DOUBLE_LINK_LIST;
 typedef struct T_DOUBLE_LINK_LIST
 {
-    PT_CACHE_NODE pHead;
-    PT_CACHE_NODE pTail;
+    PT_CACHE_NODE pHead; // output position
+    PT_CACHE_NODE pTail; // input  position
     int size;
 
 }T_DOUBLE_LINK_LIST;
 
-T_DOUBLE_LINK_LIST * CreateDoubleList(void);
-bool IsDoubleListEmpty(T_DOUBLE_LINK_LIST * pFifo);
-bool IsDoubleListFull(T_DOUBLE_LINK_LIST * pFifo);
-void InsertInDoubleList(T_DOUBLE_LINK_LIST * pFifo, PT_CACHE_NODE pNode);
-PT_CACHE_NODE PopInDoubleList(T_DOUBLE_LINK_LIST * pFifo);
+PT_DOUBLE_LINK_LIST  CreateDoubleList(void);
+bool IsDoubleListEmpty(PT_DOUBLE_LINK_LIST pDouList);
+bool IsDoubleListFull(PT_DOUBLE_LINK_LIST pFifo);
+void InsertInDoubleList(PT_DOUBLE_LINK_LIST pFifo, PT_CACHE_NODE pNode);
+PT_CACHE_NODE PopInDoubleList(PT_DOUBLE_LINK_LIST pFifo);
 
 
 typedef struct T_CACHE_NODE ** PT_HASH_TABLE;

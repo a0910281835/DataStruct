@@ -174,8 +174,50 @@ T_THREAD * PopWaittingQueue(T_WAITTING_PRIORITY_QUEUE *pWattingQueue)
 //
 // LRUCache(int capacity) Initialize the LRU cache with positive size capacity.
 // int get(int key) Return the value of the key if the key exists, otherwise return -1.
-// void put(int key, int value) Update the value of the key if the key exists. Otherwise, add the key-value pair to the cache. If the number of keys exceeds the capacity from this operation, evict the least recently used key.
+// void put(int key, int value) Update the value of the key if the key exists. Otherwise, add the key-value pair to the cache.
+// If the number of keys exceeds the capacity from this operation, evict the least recently used key.
 // The functions get and put must each run in O(1) average time complexity.
 //
-//
-//
+// Node operation
+PT_CACHE_NODE CreateNode(int key, int value)
+{
+    PT_CACHE_NODE pNode = malloc(sizeof(T_CACHE_NODE));
+    pNode->key           = key;
+    pNode->value         = value;
+    pNode->pPrev         = NULL;
+    pNode->pNext         = NULL;
+    pNode->pConflictNext = NULL;
+    return pNode;
+}
+void DeleteNode(PT_CACHE_NODE pNode)
+{
+    // Remark :  prev, next and confilict are free by user
+    pNode->pPrev         = NULL;
+    pNode->pNext         = NULL;
+    pNode->pConflictNext = NULL;
+    free(pNode);
+    pNode = NULL;
+}
+
+
+// Double link list operation
+PT_DOUBLE_LINK_LIST  CreateDoubleList(void)
+{
+    PT_DOUBLE_LINK_LIST pDouList = malloc(sizeof(T_DOUBLE_LINK_LIST));
+    pDouList->pHead = NULL;
+    pDouList->pTail = NULL;
+    pDouList->size  = 0;
+    return pDouList;
+}
+
+bool IsDoubleListEmpty(PT_DOUBLE_LINK_LIST pDouList)
+{
+    bool ret = false;
+    if (0 == pDouList->size) ret = true;
+
+    return ret;
+}
+
+bool IsDoubleListFull(PT_DOUBLE_LINK_LIST pFifo);
+void InsertInDoubleList(PT_DOUBLE_LINK_LIST pFifo, PT_CACHE_NODE pNode);
+PT_CACHE_NODE PopInDoubleList(PT_DOUBLE_LINK_LIST pFifo);
