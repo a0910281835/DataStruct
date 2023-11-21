@@ -64,13 +64,14 @@ typedef struct T_DOUBLE_LINK_LIST
     PT_CACHE_NODE pHead; // output position
     PT_CACHE_NODE pTail; // input  position
     int size;
+    const int capacity;
 
 }T_DOUBLE_LINK_LIST;
 
-PT_DOUBLE_LINK_LIST  CreateDoubleList(void);
+PT_DOUBLE_LINK_LIST  CreateDoubleList(int capacity);
 bool IsDoubleListEmpty(PT_DOUBLE_LINK_LIST pDouList);
 bool IsDoubleListFull(PT_DOUBLE_LINK_LIST pFifo);
-void InsertInDoubleList(PT_DOUBLE_LINK_LIST pFifo, PT_CACHE_NODE pNode);
+void InsertInDoubleList(PT_DOUBLE_LINK_LIST pDouList, PT_CACHE_NODE pNode);
 PT_CACHE_NODE PopInDoubleList(PT_DOUBLE_LINK_LIST pFifo);
 
 

@@ -201,12 +201,20 @@ void DeleteNode(PT_CACHE_NODE pNode)
 
 
 // Double link list operation
-PT_DOUBLE_LINK_LIST  CreateDoubleList(void)
+PT_DOUBLE_LINK_LIST  CreateDoubleList(int capacity)
 {
     PT_DOUBLE_LINK_LIST pDouList = malloc(sizeof(T_DOUBLE_LINK_LIST));
     pDouList->pHead = NULL;
     pDouList->pTail = NULL;
     pDouList->size  = 0;
+    // Avoid Modify const variable using error method.
+    // method1 :
+    //int *ptr = (int *)(&(pDouList->capacity));
+    // method2
+    const int *ptr = &(pDouList->capacity);
+    int *ptr2 = (int * )ptr;
+    *ptr2 = capacity;
+
     return pDouList;
 }
 
@@ -218,6 +226,32 @@ bool IsDoubleListEmpty(PT_DOUBLE_LINK_LIST pDouList)
     return ret;
 }
 
-bool IsDoubleListFull(PT_DOUBLE_LINK_LIST pFifo);
-void InsertInDoubleList(PT_DOUBLE_LINK_LIST pFifo, PT_CACHE_NODE pNode);
+bool IsDoubleListFull(PT_DOUBLE_LINK_LIST pDouList)
+{
+    bool ret = false;
+    if (pDouList->capacity == pDouList->size) ret = true;
+
+    return ret;
+}
+void InsertInDoubleList(PT_DOUBLE_LINK_LIST pDouList, PT_CACHE_NODE pNode)
+{
+    bool fullFlag = IsDoubleListFull(pDouList);
+
+    if (!fullFlag)
+    {
+        bool emptyFlag = IsDoubleListEmpty(pDouList);
+
+        if (emptyFlag)
+
+    }
+    else
+    {
+        printf("Double list is full and size : %d\n", pDouList->capacity);
+    }
+
+
+
+
+
+}
 PT_CACHE_NODE PopInDoubleList(PT_DOUBLE_LINK_LIST pFifo);
