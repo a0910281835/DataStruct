@@ -233,15 +233,28 @@ bool IsDoubleListFull(PT_DOUBLE_LINK_LIST pDouList)
 
     return ret;
 }
-void InsertInDoubleList(PT_DOUBLE_LINK_LIST pDouList, PT_CACHE_NODE pNode)
-{
-    bool fullFlag = IsDoubleListFull(pDouList);
 
-    if (!fullFlag)
+bool InsertInDoubleList(PT_DOUBLE_LINK_LIST pDouList, PT_CACHE_NODE pNode)
+{
+    bool insertSuccFlag = !(IsDoubleListFull(pDouList));
+
+    if (insertSuccFlag)
     {
         bool emptyFlag = IsDoubleListEmpty(pDouList);
+        (pDouList->size)++;
 
         if (emptyFlag)
+        {
+            pDouList->pHead = pNode;
+            pDouList->pTail = pNode;
+        }
+        else
+        {
+            PT_CACHE_NODE pTailNode = pDouList->pTail;
+            pTailNode->pNext = pNode;
+            pNode->pPrev     = pTailNode;
+            pDouList->pTail  = pNode;
+        }
 
     }
     else
@@ -249,9 +262,38 @@ void InsertInDoubleList(PT_DOUBLE_LINK_LIST pDouList, PT_CACHE_NODE pNode)
         printf("Double list is full and size : %d\n", pDouList->capacity);
     }
 
+    return insertSuccFlag;
+}
 
+PT_CACHE_NODE PopInDoubleList(PT_DOUBLE_LINK_LIST pDouList)
+{
+    bool emptyFlag = IsDoubleListEmpty(pDouList);
 
+    PT_CACHE_NODE pPopNode = NULL;
+    if (!emptyFlag)
+    {
+        //. can pop element
+        (pDouList->size)--;
+        pPopNode = pDouList->pHead;
+        pDouList->pHead = pPopNode->pNext;
 
+        emptyFlag = IsDoubleListEmpty(pDouList);
+
+        if (!emptyFlag)
+        {
+            (pDouList->pHead)->pPrev = NULL;
+        }
+        else
+        {
+            pDouList->pTail = NULL;
+        }
+        pPopNode->pNext = NULL;
+    }
+    else
+    {
+        printf("can't pop because double list is empty now\n");
+    }
+
+    return pPopNode;
 
 }
-PT_CACHE_NODE PopInDoubleList(PT_DOUBLE_LINK_LIST pFifo);
