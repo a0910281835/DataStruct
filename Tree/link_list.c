@@ -230,6 +230,8 @@ bool IsDoubleListFull(PT_DOUBLE_LINK_LIST pDouList)
 {
     bool ret = false;
     if (pDouList->capacity == pDouList->size) ret = true;
+    printf("full size:%d\n", pDouList->capacity);
+    printf("Now size:%d\n", pDouList->size);
 
     return ret;
 }
@@ -297,3 +299,22 @@ PT_CACHE_NODE PopInDoubleList(PT_DOUBLE_LINK_LIST pDouList)
     return pPopNode;
 
 }
+
+void CreateHashTable(PT_HASH_TABLE pHashTable, int capacity)
+{
+    pHashTable  = malloc(sizeof(PT_CACHE_NODE)* capacity);
+
+    int idx = 0;
+
+    for (idx = 0; idx < capacity; idx++)
+    {
+        pHashTable[idx] = NULL;
+    }
+}
+
+PT_CACHE_NODE FindHashTable(PT_HASH_TABLE pHashTable, int key)
+{
+
+
+}
+void InsetHashTable(PT_HASH_TABLE pHashTable, int key, int value);

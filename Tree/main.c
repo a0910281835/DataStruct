@@ -399,5 +399,21 @@ int main(void)
     PT_CACHE_NODE pNode = CreateNode(key, value);
     printf("key:%2d, value:%2d\n", pNode->key, pNode->value);
 
+    PT_DOUBLE_LINK_LIST pDoubleList = CreateDoubleList(2);
+    bool ret = IsDoubleListEmpty(pDoubleList);
+    printf("Double list is empty : %1d\n", ret);
+    printf("Insert Node\n");
+    InsertInDoubleList(pDoubleList, pNode);
+    ret = IsDoubleListEmpty(pDoubleList);
+    printf("Double list is empty : %1d\n", ret);
+
+    printf("Insert Node\n");
+    pNode = CreateNode(4, 11);
+    InsertInDoubleList(pDoubleList, pNode);
+    printf("Is full now?");
+    ret = IsDoubleListFull(pDoubleList);
+    printf("Double list is full : %1d\n", ret);
+
+
     return 1;
 }

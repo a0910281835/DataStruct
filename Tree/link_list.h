@@ -72,10 +72,12 @@ PT_DOUBLE_LINK_LIST  CreateDoubleList(int capacity);
 bool IsDoubleListEmpty(PT_DOUBLE_LINK_LIST pDouList);
 bool IsDoubleListFull(PT_DOUBLE_LINK_LIST pFifo);
 PT_CACHE_NODE PopInDoubleList(PT_DOUBLE_LINK_LIST pDouList);
-PT_CACHE_NODE PopInDoubleList(PT_DOUBLE_LINK_LIST pFifo);
+bool InsertInDoubleList(PT_DOUBLE_LINK_LIST pDouList, PT_CACHE_NODE pNode);
 
 
 typedef struct T_CACHE_NODE ** PT_HASH_TABLE;
+
+void CreateHashTable(PT_HASH_TABLE pHashTable, int capacity);
 PT_CACHE_NODE FindHashTable(PT_HASH_TABLE pHashTable, int key);
 void InsetHashTable(PT_HASH_TABLE pHashTable, int key, int value);
 
