@@ -302,18 +302,29 @@ PT_CACHE_NODE PopInDoubleList(PT_DOUBLE_LINK_LIST pDouList)
 
 void CreateHashTable(PT_HASH_TABLE pHashTable, int capacity)
 {
-    pHashTable  = malloc(sizeof(PT_CACHE_NODE)* capacity);
 
+    pHashTable  = malloc(sizeof(T_HASH_TABLE));
+    pHashTable->pHashMapping = malloc(sizeof(PT_CACHE_NODE) * capacity);
     int idx = 0;
 
     for (idx = 0; idx < capacity; idx++)
     {
-        pHashTable[idx] = NULL;
+        (pHashTable->pHashMapping)[idx] = NULL;
     }
+
+    const int *ptr = &(pHashTable->capacity);
+    int *ptr2 = (int *)ptr;
+    *ptr2 = capacity;
+    ptr2 = NULL;
 }
 
 PT_CACHE_NODE FindHashTable(PT_HASH_TABLE pHashTable, int key)
 {
+    int capacity = pHashTable->capacity;
+
+    int mappingIdx = key % capacity;
+
+    PT_CACHE_NODE checkNode = pHashTable->pHashMapping[mappingIdx];
 
 
 }
