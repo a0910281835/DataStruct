@@ -324,8 +324,27 @@ PT_CACHE_NODE FindHashTable(PT_HASH_TABLE pHashTable, int key)
 
     int mappingIdx = key % capacity;
 
-    PT_CACHE_NODE checkNode = pHashTable->pHashMapping[mappingIdx];
+    PT_CACHE_NODE pCheckNode = (pHashTable->pHashMapping)[mappingIdx];
+
+    bool findNodeFlag = false;
+
+    while (pCheckNode != NULL)
+    {
+        if (key == (pCheckNode->key))
+        {
+            findNodeFlag = true;
+            break;
+        }
+
+        pCheckNode = pCheckNode->pConflictNext;
+    }
+
+    return pCheckNode;
+}
+
+// This function don't check hashtable with this node, But need to support create Node and return.
+PT_CACHE_NODE InsetHashTable(PT_HASH_TABLE pHashTable, int key, int value)
+{
 
 
 }
-void InsetHashTable(PT_HASH_TABLE pHashTable, int key, int value);

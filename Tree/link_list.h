@@ -86,10 +86,7 @@ typedef struct T_HASH_TABLE
 
 void CreateHashTable(PT_HASH_TABLE pHashTable, int capacity);
 PT_CACHE_NODE FindHashTable(PT_HASH_TABLE pHashTable, int key);
-void InsetHashTable(PT_HASH_TABLE pHashTable, int key, int value);
-
-
-
+PT_CACHE_NODE InsetHashTable(PT_HASH_TABLE pHashTable, int key, int value);
 
 typedef struct LRUCache
 {
