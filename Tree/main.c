@@ -7,10 +7,16 @@
 
 char *(DECIDE[2]) = {"NO", "YES" };
 
+char * transWordYesOrNo(bool ret)
+{
+    return (DECIDE[ret]);
+}
 
 
 int main(void)
 {
+
+
 
     //BINTREE_HEAD pHead  = NULL;
     //P_BINNODE_T current = NULL;
@@ -397,22 +403,31 @@ int main(void)
     int key   = 5;
     int value = 20;
     PT_CACHE_NODE pNode = CreateNode(key, value);
-    printf("key:%2d, value:%2d\n", pNode->key, pNode->value);
+    printf("Create Node with key:%2d, value:%2d\n", pNode->key, pNode->value);
 
     PT_DOUBLE_LINK_LIST pDoubleList = CreateDoubleList(2);
     bool ret = IsDoubleListEmpty(pDoubleList);
-    printf("Double list is empty : %1d\n", ret);
+    printf("Double list is empty : %s\n", transWordYesOrNo(ret));
     printf("Insert Node\n");
     InsertInDoubleList(pDoubleList, pNode);
     ret = IsDoubleListEmpty(pDoubleList);
-    printf("Double list is empty : %1d\n", ret);
+    printf("Double list is empty : %s\n", transWordYesOrNo(ret));
 
     printf("Insert Node\n");
     pNode = CreateNode(4, 11);
     InsertInDoubleList(pDoubleList, pNode);
-    printf("Is full now?");
+    printf("Is full now?\n");
     ret = IsDoubleListFull(pDoubleList);
-    printf("Double list is full : %1d\n", ret);
+    printf("Double list is full : %s\n", transWordYesOrNo(ret));
+
+    TravelDoubleList(pDoubleList);
+    printf("current node key and value : %2d, %2d\n", pNode->key, pNode->value);
+    printf("------------Take Out Node By Special method \n");
+    PT_CACHE_NODE pNode2 = TakeOutNodeInDoubleList(pNode, pDoubleList);
+    printf("current node2 key and value : %2d, %2d\n", pNode2->key, pNode2->value);
+    TravelDoubleList(pDoubleList);
+
+
 
 
     return 1;

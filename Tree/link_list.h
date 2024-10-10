@@ -40,9 +40,9 @@ T_THREAD * PopWaittingQueue(T_WAITTING_PRIORITY_QUEUE *pWattingQueue);
 
 // leetcode 146 LRU algorithm
 //
-// hashing and double link list
+// the following is structure of hashing and double link list
 
-//  Define Node Struct and operation
+//-----------  Define Node Struct and operation start
 typedef struct T_CACHE_NODE * PT_CACHE_NODE;
 typedef struct T_CACHE_NODE
 {
@@ -56,7 +56,9 @@ typedef struct T_CACHE_NODE
 
 PT_CACHE_NODE CreateNode(int key, int value);
 void DeleteNode(PT_CACHE_NODE pNode);
-
+//-----------  Define Node Struct and operation end
+//
+//
 // Double link list with operation
 typedef struct T_DOUBLE_LINK_LIST * PT_DOUBLE_LINK_LIST;
 typedef struct T_DOUBLE_LINK_LIST
@@ -73,6 +75,8 @@ bool IsDoubleListEmpty(PT_DOUBLE_LINK_LIST pDouList);
 bool IsDoubleListFull(PT_DOUBLE_LINK_LIST pFifo);
 PT_CACHE_NODE PopInDoubleList(PT_DOUBLE_LINK_LIST pDouList);
 bool InsertInDoubleList(PT_DOUBLE_LINK_LIST pDouList, PT_CACHE_NODE pNode);
+PT_CACHE_NODE TakeOutNodeInDoubleList(PT_CACHE_NODE pPopNode, PT_DOUBLE_LINK_LIST pDouList);
+void TravelDoubleList(PT_DOUBLE_LINK_LIST pDouList);
 
 
 typedef struct T_HASH_TABLE * PT_HASH_TABLE;

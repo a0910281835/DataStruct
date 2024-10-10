@@ -1,4 +1,5 @@
 #include "link_list.h"
+//#define _PRINTF
 //typedef struct T_THREAD * PT_THREAD;
 
 T_WAITTING_PRIORITY_QUEUE * CreateWaittingQueue(void)
@@ -30,7 +31,9 @@ bool DeleteWaittingQueue(T_WAITTING_PRIORITY_QUEUE *pWattingQueue)
     {
         while (1)
         {
+#if defined(_PRINTF)
             printf(" error \n");
+#endif
         }
     }
     return ret;
@@ -121,7 +124,9 @@ void TravelWatingQueue(T_WAITTING_PRIORITY_QUEUE *pWattingQueue)
 {
     if  (true == IsWQEmpty(pWattingQueue))
     {
+#if defined(_PRINTF)
         printf("is empty now\n");
+#endif
 
     }
     else
@@ -130,7 +135,9 @@ void TravelWatingQueue(T_WAITTING_PRIORITY_QUEUE *pWattingQueue)
         int idx = 0;
         while (NULL != pTravelNode)
         {
+#if defined(_PRINTF)
             printf("idx : %d , when : %d\n", idx++, pTravelNode->when);
+#endif
             pTravelNode = pTravelNode->next;
         }
     }
@@ -178,6 +185,8 @@ T_THREAD * PopWaittingQueue(T_WAITTING_PRIORITY_QUEUE *pWattingQueue)
 // If the number of keys exceeds the capacity from this operation, evict the least recently used key.
 // The functions get and put must each run in O(1) average time complexity.
 //
+
+//-------------------------------Node Structure--------------------------------------------------
 // Node operation
 PT_CACHE_NODE CreateNode(int key, int value)
 {
@@ -230,8 +239,10 @@ bool IsDoubleListFull(PT_DOUBLE_LINK_LIST pDouList)
 {
     bool ret = false;
     if (pDouList->capacity == pDouList->size) ret = true;
+#if defined(_PRINTF)
     printf("full size:%d\n", pDouList->capacity);
     printf("Now size:%d\n", pDouList->size);
+#endif
 
     return ret;
 }
@@ -261,7 +272,9 @@ bool InsertInDoubleList(PT_DOUBLE_LINK_LIST pDouList, PT_CACHE_NODE pNode)
     }
     else
     {
+#if defined(_PRINTF)
         printf("Double list is full and size : %d\n", pDouList->capacity);
+#endif
     }
 
     return insertSuccFlag;
@@ -293,12 +306,64 @@ PT_CACHE_NODE PopInDoubleList(PT_DOUBLE_LINK_LIST pDouList)
     }
     else
     {
+#if defined(_PRINTF)
         printf("can't pop because double list is empty now\n");
+#endif
     }
 
     return pPopNode;
-
 }
+
+// This function that very nice to relaize how to restart the value
+PT_CACHE_NODE TakeOutNodeInDoubleList(PT_CACHE_NODE pPopNode, PT_DOUBLE_LINK_LIST pDouList)
+{
+    //Check This Node is head or tail and cancel connect
+    pDouList->size--;
+    if (pDouList->pHead == pPopNode)
+    {
+        pDouList->pHead = pPopNode->pNext;
+    }
+    if (pDouList->pTail == pPopNode)
+    {
+        pDouList->pTail = pPopNode->pPrev;
+    }
+
+    //Cancel Node relation of prev and next and Connect prev and next
+    PT_CACHE_NODE pNodePrev = pPopNode->pPrev;
+    PT_CACHE_NODE pNodeNext = pPopNode->pNext;
+
+    if (pNodePrev != NULL)
+    {
+        pNodePrev->pNext = pNodeNext;
+    }
+    if (pNodeNext != NULL)
+    {
+        pNodeNext->pPrev = pNodePrev;
+    }
+
+
+    pPopNode->pNext = NULL;
+    pPopNode->pPrev = NULL;
+
+    return pPopNode;
+}
+
+void TravelDoubleList(PT_DOUBLE_LINK_LIST pDouList)
+{
+    PT_CACHE_NODE pTraveNode = pDouList->pHead;
+    int idx = 1;
+
+    printf("-----Show The Double list element---\n");
+    while (NULL != pTraveNode)
+    {
+        printf("idx: %1d , key: %1d, value: %1d\n", idx, pTraveNode->key, pTraveNode->value);
+        pTraveNode = pTraveNode->pNext;
+        idx++;
+    }
+    printf("----------------------------------\n");
+}
+
+
 
 void CreateHashTable(PT_HASH_TABLE pHashTable, int capacity)
 {
