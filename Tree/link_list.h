@@ -57,9 +57,8 @@ typedef struct T_CACHE_NODE
 PT_CACHE_NODE CreateNode(int key, int value);
 void DeleteNode(PT_CACHE_NODE pNode);
 //-----------  Define Node Struct and operation end
-//
-//
-// Double link list with operation
+
+//------------- Double link list with operation start
 typedef struct T_DOUBLE_LINK_LIST * PT_DOUBLE_LINK_LIST;
 typedef struct T_DOUBLE_LINK_LIST
 {
@@ -77,10 +76,10 @@ PT_CACHE_NODE PopInDoubleList(PT_DOUBLE_LINK_LIST pDouList);
 bool InsertInDoubleList(PT_DOUBLE_LINK_LIST pDouList, PT_CACHE_NODE pNode);
 PT_CACHE_NODE TakeOutNodeInDoubleList(PT_CACHE_NODE pPopNode, PT_DOUBLE_LINK_LIST pDouList);
 void TravelDoubleList(PT_DOUBLE_LINK_LIST pDouList);
+//------------- Double link list with operation end
 
-
+// -----------  Hash Mapping with Operation start
 typedef struct T_HASH_TABLE * PT_HASH_TABLE;
-
 typedef struct T_HASH_TABLE
 {
     const int capacity;
@@ -89,8 +88,11 @@ typedef struct T_HASH_TABLE
 }T_HASH_TABLE;
 
 void CreateHashTable(PT_HASH_TABLE pHashTable, int capacity);
-PT_CACHE_NODE FindHashTable(PT_HASH_TABLE pHashTable, int key);
-PT_CACHE_NODE InsetHashTable(PT_HASH_TABLE pHashTable, int key, int value);
+PT_CACHE_NODE FindHashTable(PT_HASH_TABLE pHashTable, int key, bool* pFindNodeFlag);
+void InsetHashTable(PT_HASH_TABLE pHashTable, PT_CACHE_NODE pNode);
+void DeleteNodeInHash(PT_HASH_TABLE pHashTable, PT_CACHE_NODE pNode);
+
+// -----------  Hash Mapping with Operation end
 
 typedef struct LRUCache
 {

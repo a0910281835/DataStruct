@@ -367,7 +367,7 @@ void TravelDoubleList(PT_DOUBLE_LINK_LIST pDouList)
 
 void CreateHashTable(PT_HASH_TABLE pHashTable, int capacity)
 {
-
+    // Capacity use odd or prime number
     pHashTable  = malloc(sizeof(T_HASH_TABLE));
     pHashTable->pHashMapping = malloc(sizeof(PT_CACHE_NODE) * capacity);
     int idx = 0;
@@ -383,7 +383,8 @@ void CreateHashTable(PT_HASH_TABLE pHashTable, int capacity)
     ptr2 = NULL;
 }
 
-PT_CACHE_NODE FindHashTable(PT_HASH_TABLE pHashTable, int key)
+// Find Node and if not the pointer point to NULL. 
+PT_CACHE_NODE FindHashTable(PT_HASH_TABLE pHashTable, int key, bool* pFindNodeFlag)
 {
     int capacity = pHashTable->capacity;
 
@@ -391,13 +392,13 @@ PT_CACHE_NODE FindHashTable(PT_HASH_TABLE pHashTable, int key)
 
     PT_CACHE_NODE pCheckNode = (pHashTable->pHashMapping)[mappingIdx];
 
-    bool findNodeFlag = false;
+    *pFindNodeFlag = false;
 
     while (pCheckNode != NULL)
     {
         if (key == (pCheckNode->key))
         {
-            findNodeFlag = true;
+            *pFindNodeFlag = true;
             break;
         }
 
@@ -408,8 +409,51 @@ PT_CACHE_NODE FindHashTable(PT_HASH_TABLE pHashTable, int key)
 }
 
 // This function don't check hashtable with this node, But need to support create Node and return.
-PT_CACHE_NODE InsetHashTable(PT_HASH_TABLE pHashTable, int key, int value)
+void InsetHashTable(PT_HASH_TABLE pHashTable, PT_CACHE_NODE pNode)
 {
+    bool findNodeFlag = false;
+    int key = pNode->key;
+    FindHashTable(pHashTable, key, &(findNodeFlag));
 
+    if (!findNodeFlag)
+    {
+        int mappingIdx = key % (pHashTable->capacity);
+        PT_CACHE_NODE pFirstKeyNode = (pHashTable->pHashMapping)[mappingIdx];
+        pNode->pConflictNext = pFirstKeyNode;
+        (pHashTable->pHashMapping)[mappingIdx] = pNode;
+    }
+}
 
+void DeleteNodeInHash(PT_HASH_TABLE pHashTable, PT_CACHE_NODE pNode)
+{
+    //This Node must be exist in Hash, then This Hash is not empty for this key
+    int capacity = pHashTable->capacity;
+    int key = pNode->key;
+    int mappingIdx = key % capacity;
+    PT_CACHE_NODE pCurrentNode = (pHashTable->pHashMapping)[mappingIdx];
+
+    if (pCurrentNode->key == key)
+    {
+        //Start Point is This Node
+        (pHashTable->pHashMapping)[mappingIdx] = pCurrentNode->pConflictNext;
+        pCurrentNode->pConflictNext = NULL;
+    }
+    else
+    {
+        PT_CACHE_NODE pNextKey = pCurrentNode->pConflictNext;
+        while (pNextKey != NULL)
+        {
+            if (pNextKey->key == key)
+            {
+                // Delete the connect
+                pCurrentNode->pConflictNext = pNextKey->pConflictNext;
+                break;
+            }
+            pCurrentNode = pNextKey;
+            pNextKey = pCurrentNode->pConflictNext;
+        }
+
+        pNode->pConflictNext = NULL;
+    }
+    
 }
