@@ -363,12 +363,22 @@ void TravelDoubleList(PT_DOUBLE_LINK_LIST pDouList)
     printf("----------------------------------\n");
 }
 
+int transOddNum(int capacity)
+{
+    if (!(capacity & 0x1))
+    {
+        capacity++;
+    }
+
+    return capacity;
+}
 
 
-void CreateHashTable(PT_HASH_TABLE pHashTable, int capacity)
+
+PT_HASH_TABLE CreateHashTable(int capacity)
 {
     // Capacity use odd or prime number
-    pHashTable  = malloc(sizeof(T_HASH_TABLE));
+    PT_HASH_TABLE pHashTable = malloc(sizeof(T_HASH_TABLE));
     pHashTable->pHashMapping = malloc(sizeof(PT_CACHE_NODE) * capacity);
     int idx = 0;
 
@@ -381,6 +391,7 @@ void CreateHashTable(PT_HASH_TABLE pHashTable, int capacity)
     int *ptr2 = (int *)ptr;
     *ptr2 = capacity;
     ptr2 = NULL;
+    return pHashTable;
 }
 
 // Find Node and if not the pointer point to NULL. 
