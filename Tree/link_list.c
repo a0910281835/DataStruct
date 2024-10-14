@@ -468,3 +468,40 @@ void DeleteNodeInHash(PT_HASH_TABLE pHashTable, PT_CACHE_NODE pNode)
     }
     
 }
+
+
+LRUCache* lRUCacheCreate(int capacity)
+{
+    LRUCache* pLruCachae = malloc(sizeof(LRUCache));
+    // Hash using odd number
+    int hashCap = transOddNum(capacity);
+    pLruCachae->pHashTable = CreateHashTable(hashCap);
+    pLruCachae->pDoublist = CreateDoubleList(capacity);
+
+    return pLruCachae;
+}
+
+void lRUCachePut(LRUCache* obj, int key, int value)
+{
+    // Create Node
+    // Check Double is full or not
+    // kick Out last key in Hash and DoubleList
+    // Insert This Node in Hash and DoubleList
+    //
+
+    PT_CACHE_NODE pNode = CreateNode(key, value);
+    bool fullFlag       = IsDoubleListFull(obj->pDoublist);
+
+    if (fullFlag)
+    {
+        PT_CACHE_NODE pPopNode = PopInDoubleList(obj->pDoublist);
+        DeleteNodeInHash((obj->pHashTable), pPopNode);
+
+    }
+    else
+    {
+
+    }
+
+
+}

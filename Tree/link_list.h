@@ -71,7 +71,7 @@ typedef struct T_DOUBLE_LINK_LIST
 
 PT_DOUBLE_LINK_LIST  CreateDoubleList(int capacity);
 bool IsDoubleListEmpty(PT_DOUBLE_LINK_LIST pDouList);
-bool IsDoubleListFull(PT_DOUBLE_LINK_LIST pFifo);
+bool IsDoubleListFull(PT_DOUBLE_LINK_LIST pDouList);
 PT_CACHE_NODE PopInDoubleList(PT_DOUBLE_LINK_LIST pDouList);
 bool InsertInDoubleList(PT_DOUBLE_LINK_LIST pDouList, PT_CACHE_NODE pNode);
 PT_CACHE_NODE TakeOutNodeInDoubleList(PT_CACHE_NODE pPopNode, PT_DOUBLE_LINK_LIST pDouList);

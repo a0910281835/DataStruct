@@ -465,6 +465,12 @@ int main(void)
         pTestNode = pTestNode->pConflictNext;
     }
 
+    //-----Cache function Operation Test------------------
+
+
+    int capacity = 4;
+    LRUCache* pLruCache = lRUCacheCreate(capacity);
+    printf("hash cap : %1d, doublelist cap : %1d and size : %1d\n",(pLruCache->pHashTable)->capacity, (pLruCache->pDoublist)->capacity, (pLruCache->pDoublist)->size);
 
 
 
