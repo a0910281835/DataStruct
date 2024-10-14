@@ -394,7 +394,7 @@ PT_HASH_TABLE CreateHashTable(int capacity)
     return pHashTable;
 }
 
-// Find Node and if not the pointer point to NULL. 
+// Find Node and if not the pointer point to NULL.
 PT_CACHE_NODE FindHashTable(PT_HASH_TABLE pHashTable, int key, bool* pFindNodeFlag)
 {
     int capacity = pHashTable->capacity;
@@ -466,9 +466,27 @@ void DeleteNodeInHash(PT_HASH_TABLE pHashTable, PT_CACHE_NODE pNode)
 
         pNode->pConflictNext = NULL;
     }
-    
+
 }
 
+void TravelHashMapping(PT_HASH_TABLE pHashTable)
+{
+    int hashSize = pHashTable->capacity;
+    int idx = 0;
+    for (idx = 0; idx < hashSize; idx++)
+    {
+
+        PT_CACHE_NODE pThisLinkNode = pHashTable->pHashMapping[idx];
+        printf("------idx : %1d\n", idx);
+        while (NULL != pThisLinkNode)
+        {
+            printf("key : %1d, value : %1d\n", pThisLinkNode->key, pThisLinkNode->value);
+            pThisLinkNode = pThisLinkNode->pConflictNext;
+        }
+    }
+    printf("-----end---\n");
+
+}
 
 LRUCache* lRUCacheCreate(int capacity)
 {
@@ -483,11 +501,14 @@ LRUCache* lRUCacheCreate(int capacity)
 
 void lRUCachePut(LRUCache* obj, int key, int value)
 {
-    // Create Node
-    // Check Double is full or not
-    // kick Out last key in Hash and DoubleList
-    // Insert This Node in Hash and DoubleList
+    //-----------------------------------------------
+    //Condtion 1 : if this node not exist in This Cache
+    // step 1 : Create Node
+    // step 2 : Check Double is full or not
+    // step 3 : kick Out last key in Hash and DoubleList
+    // step 4 : Insert This Node in Hash and DoubleList
     //
+    //Condtion 2 : if this Node exist Update this Node inform
 
     PT_CACHE_NODE pNode = CreateNode(key, value);
     bool fullFlag       = IsDoubleListFull(obj->pDoublist);
@@ -496,12 +517,21 @@ void lRUCachePut(LRUCache* obj, int key, int value)
     {
         PT_CACHE_NODE pPopNode = PopInDoubleList(obj->pDoublist);
         DeleteNodeInHash((obj->pHashTable), pPopNode);
-
-    }
-    else
-    {
-
+        printf("delete least not used node key :%1d, value:%1d\n", pPopNode->key, pPopNode->value);
+        DeleteNode(pPopNode);
     }
 
-
+    InsetHashTable((obj->pHashTable), pNode);
+    InsertInDoubleList((obj->pDoublist), pNode);
 }
+
+
+int lRUCacheGet(LRUCache* obj, int key)
+{
+    //Slow Thinking
+    //Purpose : Update key information
+    //Step1 : check this Key exist in Cache by hash and if not exist then return -1
+    //if exist then Grap The Node and kick out DoubleList and then Inset DoubleList
+    //
+}
+

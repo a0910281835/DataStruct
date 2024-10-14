@@ -397,7 +397,7 @@ int main(void)
     //printf("pid : %d\n", *pT);
     //TravelWatingQueue(pWaitQueue);
 
-    // Leetcode LRU cache Test
+    //---------------------------------- Leetcode LRU cache Test-------------------------------------------------------------
     //
     // 1. Node Test
     int key   = 5;
@@ -468,9 +468,14 @@ int main(void)
     //-----Cache function Operation Test------------------
 
 
-    int capacity = 4;
+    int capacity = 2;
     LRUCache* pLruCache = lRUCacheCreate(capacity);
     printf("hash cap : %1d, doublelist cap : %1d and size : %1d\n",(pLruCache->pHashTable)->capacity, (pLruCache->pDoublist)->capacity, (pLruCache->pDoublist)->size);
+    lRUCachePut(pLruCache, 1, 11);
+    lRUCachePut(pLruCache, 2, 12);
+    lRUCachePut(pLruCache, 3, 13);
+    lRUCachePut(pLruCache, 4, 14);
+    TravelHashMapping(pLruCache->pHashTable);
 
 
 

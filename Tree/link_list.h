@@ -91,6 +91,7 @@ PT_HASH_TABLE CreateHashTable(int capacity);
 PT_CACHE_NODE FindHashTable(PT_HASH_TABLE pHashTable, int key, bool* pFindNodeFlag);
 void InsetHashTable(PT_HASH_TABLE pHashTable, PT_CACHE_NODE pNode);
 void DeleteNodeInHash(PT_HASH_TABLE pHashTable, PT_CACHE_NODE pNode);
+void TravelHashMapping(PT_HASH_TABLE pHashTable);
 
 // -----------  Hash Mapping with Operation end
 
