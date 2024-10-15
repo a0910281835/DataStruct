@@ -471,12 +471,23 @@ int main(void)
     int capacity = 2;
     LRUCache* pLruCache = lRUCacheCreate(capacity);
     printf("hash cap : %1d, doublelist cap : %1d and size : %1d\n",(pLruCache->pHashTable)->capacity, (pLruCache->pDoublist)->capacity, (pLruCache->pDoublist)->size);
-    lRUCachePut(pLruCache, 1, 11);
-    lRUCachePut(pLruCache, 2, 12);
-    lRUCachePut(pLruCache, 3, 13);
-    lRUCachePut(pLruCache, 4, 14);
+    lRUCachePut(pLruCache, 1, 1);
+    lRUCachePut(pLruCache, 2, 2);
+    key = lRUCacheGet(pLruCache, 1);
+    printf("key : %1d\n", key);
+    lRUCachePut(pLruCache, 3, 3);
+    key = lRUCacheGet(pLruCache, 2);
+    printf("key : %1d\n", key);
+    lRUCachePut(pLruCache, 4, 4);
+    key = lRUCacheGet(pLruCache, 1);
+    printf("key : %1d\n", key);
+    key = lRUCacheGet(pLruCache, 3);
+    printf("key : %1d\n", key);
+    key = lRUCacheGet(pLruCache, 4);
+    printf("key : %1d\n", key);
     TravelHashMapping(pLruCache->pHashTable);
 
+    lRUCacheFree(pLruCache);
 
 
 

@@ -353,14 +353,20 @@ void TravelDoubleList(PT_DOUBLE_LINK_LIST pDouList)
     PT_CACHE_NODE pTraveNode = pDouList->pHead;
     int idx = 1;
 
+#if defined(_PRINTF)
     printf("-----Show The Double list element---\n");
+#endif
     while (NULL != pTraveNode)
     {
+#if defined(_PRINTF)
         printf("idx: %1d , key: %1d, value: %1d\n", idx, pTraveNode->key, pTraveNode->value);
+#endif
         pTraveNode = pTraveNode->pNext;
         idx++;
     }
+#if defined(_PRINTF)
     printf("----------------------------------\n");
+#endif
 }
 
 int transOddNum(int capacity)
@@ -477,14 +483,20 @@ void TravelHashMapping(PT_HASH_TABLE pHashTable)
     {
 
         PT_CACHE_NODE pThisLinkNode = pHashTable->pHashMapping[idx];
+#if defined(_PRINTF)
         printf("------idx : %1d\n", idx);
+#endif
         while (NULL != pThisLinkNode)
         {
+#if defined(_PRINTF)
             printf("key : %1d, value : %1d\n", pThisLinkNode->key, pThisLinkNode->value);
+#endif
             pThisLinkNode = pThisLinkNode->pConflictNext;
         }
     }
+#if defined(_PRINTF)
     printf("-----end---\n");
+#endif
 
 }
 
@@ -510,19 +522,26 @@ void lRUCachePut(LRUCache* obj, int key, int value)
     //
     //Condtion 2 : if this Node exist Update this Node inform
 
-    PT_CACHE_NODE pNode = CreateNode(key, value);
-    bool fullFlag       = IsDoubleListFull(obj->pDoublist);
+    int retFindFlag = lRUCacheGet(obj, key);
 
-    if (fullFlag)
+    if (retFindFlag < 0)
     {
-        PT_CACHE_NODE pPopNode = PopInDoubleList(obj->pDoublist);
-        DeleteNodeInHash((obj->pHashTable), pPopNode);
-        printf("delete least not used node key :%1d, value:%1d\n", pPopNode->key, pPopNode->value);
-        DeleteNode(pPopNode);
-    }
+        PT_CACHE_NODE pNode = CreateNode(key, value);
+        bool fullFlag       = IsDoubleListFull(obj->pDoublist);
 
-    InsetHashTable((obj->pHashTable), pNode);
-    InsertInDoubleList((obj->pDoublist), pNode);
+        if (fullFlag)
+        {
+            PT_CACHE_NODE pPopNode = PopInDoubleList(obj->pDoublist);
+            DeleteNodeInHash((obj->pHashTable), pPopNode);
+#if defined(_PRINTF)
+            printf("delete least not used node key :%1d, value:%1d\n", pPopNode->key, pPopNode->value);
+#endif
+            DeleteNode(pPopNode);
+        }
+
+        InsetHashTable((obj->pHashTable), pNode);
+        InsertInDoubleList((obj->pDoublist), pNode);
+    }
 }
 
 
@@ -533,5 +552,58 @@ int lRUCacheGet(LRUCache* obj, int key)
     //Step1 : check this Key exist in Cache by hash and if not exist then return -1
     //if exist then Grap The Node and kick out DoubleList and then Inset DoubleList
     //
+    bool findFlag = false;
+    PT_CACHE_NODE pNode =  FindHashTable(obj->pHashTable, key, &findFlag);
+
+    if (findFlag)
+    {
+        pNode = TakeOutNodeInDoubleList(pNode, obj->pDoublist);
+        InsertInDoubleList((obj->pDoublist), pNode);
+        int value = pNode->value;
+        return value;
+    }
+    else
+    {
+        return -1;
+    }
 }
 
+void lRUCacheFree(LRUCache* obj)
+{
+    // Purpose : effect Delete
+    // Step1 : using Double list to clear Node.
+    // Step2 : clear Double List Pointer
+    // Step3 : clear HashMpping Array
+    // Step4 : clear cache
+    PT_DOUBLE_LINK_LIST pDouList   = obj->pDoublist;
+    PT_HASH_TABLE       pHashTable = obj->pHashTable;
+    // step1:
+    PT_CACHE_NODE pTraveNode = pDouList->pHead;
+    while (NULL != pTraveNode)
+    {
+        PT_CACHE_NODE pDeleteNode = pTraveNode;
+        pTraveNode = pTraveNode->pNext;
+        DeleteNode(pDeleteNode);
+    }
+
+    //step2:
+    pDouList->pHead = NULL;
+    pDouList->pTail = NULL;
+    free(pDouList);
+    //step3:
+    int cap = pHashTable->capacity;
+    int idx = 0;
+    for (idx = 0; idx < cap; idx++)
+    {
+        pHashTable->pHashMapping[idx] = NULL;
+    }
+
+    free(pHashTable->pHashMapping);
+    free(pHashTable);
+
+    //step4:
+
+    free(obj);
+
+
+}
