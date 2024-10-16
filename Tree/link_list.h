@@ -88,7 +88,7 @@ typedef struct T_HASH_TABLE
 }T_HASH_TABLE;
 
 PT_HASH_TABLE CreateHashTable(int capacity);
-PT_CACHE_NODE FindHashTable(PT_HASH_TABLE pHashTable, int key, bool* pFindNodeFlag);
+PT_CACHE_NODE FindHashTable(PT_HASH_TABLE pHashTable, int key, int value, bool* pFindNodeFlag, bool valueNotCheckMask);
 void InsetHashTable(PT_HASH_TABLE pHashTable, PT_CACHE_NODE pNode);
 void DeleteNodeInHash(PT_HASH_TABLE pHashTable, PT_CACHE_NODE pNode);
 void TravelHashMapping(PT_HASH_TABLE pHashTable);

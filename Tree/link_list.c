@@ -400,8 +400,9 @@ PT_HASH_TABLE CreateHashTable(int capacity)
     return pHashTable;
 }
 
-// Find Node and if not the pointer point to NULL.
-PT_CACHE_NODE FindHashTable(PT_HASH_TABLE pHashTable, int key, bool* pFindNodeFlag)
+// Find Node and if not the pointer point to NULL,
+// valueMask is check Node with/without check value if 1 not check , 0 need check
+PT_CACHE_NODE FindHashTable(PT_HASH_TABLE pHashTable, int key, int value, bool* pFindNodeFlag, bool valueNotCheckMask)
 {
     int capacity = pHashTable->capacity;
 
@@ -413,7 +414,7 @@ PT_CACHE_NODE FindHashTable(PT_HASH_TABLE pHashTable, int key, bool* pFindNodeFl
 
     while (pCheckNode != NULL)
     {
-        if (key == (pCheckNode->key))
+        if ((key == (pCheckNode->key)) && (valueNotCheckMask || (value == (pCheckNode->value))))
         {
             *pFindNodeFlag = true;
             break;
@@ -429,8 +430,9 @@ PT_CACHE_NODE FindHashTable(PT_HASH_TABLE pHashTable, int key, bool* pFindNodeFl
 void InsetHashTable(PT_HASH_TABLE pHashTable, PT_CACHE_NODE pNode)
 {
     bool findNodeFlag = false;
-    int key = pNode->key;
-    FindHashTable(pHashTable, key, &(findNodeFlag));
+    int key   = pNode->key;
+    int value = pNode->value; 
+    FindHashTable(pHashTable, key, value, &(findNodeFlag), 0);
 
     if (!findNodeFlag)
     {
@@ -511,6 +513,38 @@ LRUCache* lRUCacheCreate(int capacity)
     return pLruCachae;
 }
 
+int KernalLruCahceGet(LRUCache* obj, int key, int value, bool valueNotCheckMask)
+{
+    //Slow Thinking
+    //Purpose : Update key information
+    //Step1 : check this Key exist in Cache by hash and if not exist then return -1
+    //if exist then Grap The Node and kick out DoubleList and then Inset DoubleList
+    //
+    bool findFlag = false;
+    PT_CACHE_NODE pNode =  FindHashTable(obj->pHashTable, key, value, &findFlag, valueNotCheckMask);
+
+    if (findFlag)
+    {
+        pNode = TakeOutNodeInDoubleList(pNode, obj->pDoublist);
+        InsertInDoubleList((obj->pDoublist), pNode);
+        int value = pNode->value;
+        return value;
+    }
+    else
+    {
+        return -1;
+    }
+}
+
+
+int lRUCacheGet(LRUCache* obj, int key)
+{
+    int value = -1;
+    bool valueNotCheckMask = 1;
+    value = KernalLruCahceGet(obj, key, value, valueNotCheckMask);
+    return value;
+}
+
 void lRUCachePut(LRUCache* obj, int key, int value)
 {
     //-----------------------------------------------
@@ -522,7 +556,7 @@ void lRUCachePut(LRUCache* obj, int key, int value)
     //
     //Condtion 2 : if this Node exist Update this Node inform
 
-    int retFindFlag = lRUCacheGet(obj, key);
+    int retFindFlag = KernalLruCahceGet(obj, key, value, 0);
 
     if (retFindFlag < 0)
     {
@@ -545,28 +579,6 @@ void lRUCachePut(LRUCache* obj, int key, int value)
 }
 
 
-int lRUCacheGet(LRUCache* obj, int key)
-{
-    //Slow Thinking
-    //Purpose : Update key information
-    //Step1 : check this Key exist in Cache by hash and if not exist then return -1
-    //if exist then Grap The Node and kick out DoubleList and then Inset DoubleList
-    //
-    bool findFlag = false;
-    PT_CACHE_NODE pNode =  FindHashTable(obj->pHashTable, key, &findFlag);
-
-    if (findFlag)
-    {
-        pNode = TakeOutNodeInDoubleList(pNode, obj->pDoublist);
-        InsertInDoubleList((obj->pDoublist), pNode);
-        int value = pNode->value;
-        return value;
-    }
-    else
-    {
-        return -1;
-    }
-}
 
 void lRUCacheFree(LRUCache* obj)
 {

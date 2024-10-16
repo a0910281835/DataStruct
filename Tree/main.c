@@ -402,68 +402,68 @@ int main(void)
     // 1. Node Test
     int key   = 5;
     int value = 20;
-    PT_CACHE_NODE pNode = CreateNode(key, value);
-    printf("Create Node with key:%2d, value:%2d\n", pNode->key, pNode->value);
+    //PT_CACHE_NODE pNode = CreateNode(key, value);
+    //printf("Create Node with key:%2d, value:%2d\n", pNode->key, pNode->value);
 
-    //----------Double Link List  Test Start ----------------------
-    PT_DOUBLE_LINK_LIST pDoubleList = CreateDoubleList(2);
-    bool ret = IsDoubleListEmpty(pDoubleList);
-    printf("Double list is empty : %s\n", transWordYesOrNo(ret));
-    printf("Insert Node\n");
-    InsertInDoubleList(pDoubleList, pNode);
-    ret = IsDoubleListEmpty(pDoubleList);
-    printf("Double list is empty : %s\n", transWordYesOrNo(ret));
+    ////----------Double Link List  Test Start ----------------------
+    //PT_DOUBLE_LINK_LIST pDoubleList = CreateDoubleList(2);
+    //bool ret = IsDoubleListEmpty(pDoubleList);
+    //printf("Double list is empty : %s\n", transWordYesOrNo(ret));
+    //printf("Insert Node\n");
+    //InsertInDoubleList(pDoubleList, pNode);
+    //ret = IsDoubleListEmpty(pDoubleList);
+    //printf("Double list is empty : %s\n", transWordYesOrNo(ret));
 
-    printf("Insert Node\n");
-    pNode = CreateNode(4, 11);
-    InsertInDoubleList(pDoubleList, pNode);
-    printf("Is full now?\n");
-    ret = IsDoubleListFull(pDoubleList);
-    printf("Double list is full : %s\n", transWordYesOrNo(ret));
+    //printf("Insert Node\n");
+    //pNode = CreateNode(4, 11);
+    //InsertInDoubleList(pDoubleList, pNode);
+    //printf("Is full now?\n");
+    //ret = IsDoubleListFull(pDoubleList);
+    //printf("Double list is full : %s\n", transWordYesOrNo(ret));
 
-    TravelDoubleList(pDoubleList);
-    printf("current node key and value : %2d, %2d\n", pNode->key, pNode->value);
-    printf("------------Take Out Node By Special method \n");
-    PT_CACHE_NODE pNode2 = TakeOutNodeInDoubleList(pNode, pDoubleList);
-    printf("current node2 key and value : %2d, %2d\n", pNode2->key, pNode2->value);
-    TravelDoubleList(pDoubleList);
+    //TravelDoubleList(pDoubleList);
+    //printf("current node key and value : %2d, %2d\n", pNode->key, pNode->value);
+    //printf("------------Take Out Node By Special method \n");
+    //PT_CACHE_NODE pNode2 = TakeOutNodeInDoubleList(pNode, pDoubleList);
+    //printf("current node2 key and value : %2d, %2d\n", pNode2->key, pNode2->value);
+    //TravelDoubleList(pDoubleList);
 
-    //----------Double Link List  Test end ----------------------
-    int cap = 4;
-    PT_HASH_TABLE pHashTable;
-    PT_CACHE_NODE pNode3 = NULL;
-    pHashTable = CreateHashTable(transOddNum(4));
-    printf("current node key and value : %2d, %2d\n", pNode->key, pNode->value);
-    printf("------");
-    bool findFlag = false;
-    printf("%1d\n", pHashTable->capacity);
-    printf("---find Node\n");
-    FindHashTable(pHashTable, pNode->key, &findFlag);
-    printf("This Node exist in Hash : %s\n", transWordYesOrNo(findFlag));
-    printf("---Insert The Node-----------\n");
-    InsetHashTable(pHashTable, pNode);
-    printf("---find Node\n");
-    pNode3 = FindHashTable(pHashTable, pNode->key, &findFlag);
-    printf("This Node exist in Hash : %s\n", transWordYesOrNo(findFlag));
-    printf("this Node Information : %1d,%1d\n", pNode3->key, pNode3->value);
-    PT_CACHE_NODE pNode4 = CreateNode(9, 21);
-    printf("Create Node with key:%2d, value:%2d\n", pNode4->key, pNode4->value);
-    InsetHashTable(pHashTable, pNode4);
-    printf("Inset The Node------------\n");
-    pNode3 = FindHashTable(pHashTable, pNode4->key, &findFlag);
-    printf("This Node exist in Hash : %s\n", transWordYesOrNo(findFlag));
-    PT_CACHE_NODE pTestNode = (pHashTable->pHashMapping)[4];
-    printf("%1d\n", pTestNode->key);
-    pTestNode = pTestNode->pConflictNext;
-    printf("%1d\n", pTestNode->key);
-    printf("Delete The Node-------\n");
-    DeleteNodeInHash(pHashTable, pNode);
-    pTestNode = (pHashTable->pHashMapping)[4];
-    while (pTestNode != NULL)
-    {
-        printf("%1d\n", pTestNode->key);
-        pTestNode = pTestNode->pConflictNext;
-    }
+    ////----------Double Link List  Test end ----------------------
+    //int cap = 4;
+    //PT_HASH_TABLE pHashTable;
+    //PT_CACHE_NODE pNode3 = NULL;
+    //pHashTable = CreateHashTable(transOddNum(4));
+    //printf("current node key and value : %2d, %2d\n", pNode->key, pNode->value);
+    //printf("------");
+    //bool findFlag = false;
+    //printf("%1d\n", pHashTable->capacity);
+    //printf("---find Node\n");
+    //FindHashTable(pHashTable, pNode->key, &findFlag);
+    //printf("This Node exist in Hash : %s\n", transWordYesOrNo(findFlag));
+    //printf("---Insert The Node-----------\n");
+    //InsetHashTable(pHashTable, pNode);
+    //printf("---find Node\n");
+    //pNode3 = FindHashTable(pHashTable, pNode->key, &findFlag);
+    //printf("This Node exist in Hash : %s\n", transWordYesOrNo(findFlag));
+    //printf("this Node Information : %1d,%1d\n", pNode3->key, pNode3->value);
+    //PT_CACHE_NODE pNode4 = CreateNode(9, 21);
+    //printf("Create Node with key:%2d, value:%2d\n", pNode4->key, pNode4->value);
+    //InsetHashTable(pHashTable, pNode4);
+    //printf("Inset The Node------------\n");
+    //pNode3 = FindHashTable(pHashTable, pNode4->key, &findFlag);
+    //printf("This Node exist in Hash : %s\n", transWordYesOrNo(findFlag));
+    //PT_CACHE_NODE pTestNode = (pHashTable->pHashMapping)[4];
+    //printf("%1d\n", pTestNode->key);
+    //pTestNode = pTestNode->pConflictNext;
+    //printf("%1d\n", pTestNode->key);
+    //printf("Delete The Node-------\n");
+    //DeleteNodeInHash(pHashTable, pNode);
+    //pTestNode = (pHashTable->pHashMapping)[4];
+    //while (pTestNode != NULL)
+    //{
+    //    printf("%1d\n", pTestNode->key);
+    //    pTestNode = pTestNode->pConflictNext;
+    //}
 
     //-----Cache function Operation Test------------------
 
