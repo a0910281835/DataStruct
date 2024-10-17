@@ -88,7 +88,7 @@ typedef struct T_HASH_TABLE
 }T_HASH_TABLE;
 
 PT_HASH_TABLE CreateHashTable(int capacity);
-PT_CACHE_NODE FindHashTable(PT_HASH_TABLE pHashTable, int key, int value, bool* pFindNodeFlag, bool valueNotCheckMask);
+PT_CACHE_NODE FindHashTable(PT_HASH_TABLE pHashTable, int key, bool* pFindNodeFlag);
 void InsetHashTable(PT_HASH_TABLE pHashTable, PT_CACHE_NODE pNode);
 void DeleteNodeInHash(PT_HASH_TABLE pHashTable, PT_CACHE_NODE pNode);
 void TravelHashMapping(PT_HASH_TABLE pHashTable);
@@ -104,6 +104,7 @@ typedef struct LRUCache
 
 typedef struct LRUCache LRUCache;
 
+PT_CACHE_NODE KernalLruCahceGet(LRUCache* obj, int key);
 LRUCache* lRUCacheCreate(int capacity);
 int lRUCacheGet(LRUCache* obj, int key);
 void lRUCachePut(LRUCache* obj, int key, int value);

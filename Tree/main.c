@@ -495,8 +495,8 @@ int main(void)
     lRUCachePut(pLruCache, 4, 1);
     printf("--------put Node 4,1-----------\n");
     printf("--------5 end-----------\n");
-    //key = lRUCacheGet(pLruCache, 2);
-    //lRUCacheFree(pLruCache);
+    key = lRUCacheGet(pLruCache, 2);
+    lRUCacheFree(pLruCache);
 
 
 
