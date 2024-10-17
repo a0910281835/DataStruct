@@ -470,24 +470,33 @@ int main(void)
 
     int capacity = 2;
     LRUCache* pLruCache = lRUCacheCreate(capacity);
+    printf("--------create cache-----------\n");
+    printf("--------0 end-----------\n");
     printf("hash cap : %1d, doublelist cap : %1d and size : %1d\n",(pLruCache->pHashTable)->capacity, (pLruCache->pDoublist)->capacity, (pLruCache->pDoublist)->size);
-    lRUCachePut(pLruCache, 1, 1);
+    lRUCachePut(pLruCache, 2, 1);
+    printf("--------put Node 2,1-----------\n");
+    printf("--------1 end-----------\n");
     lRUCachePut(pLruCache, 2, 2);
-    key = lRUCacheGet(pLruCache, 1);
-    printf("key : %1d\n", key);
-    lRUCachePut(pLruCache, 3, 3);
+    printf("--------put Node 2,2-----------\n");
+    printf("--------2 end-----------\n");
     key = lRUCacheGet(pLruCache, 2);
     printf("key : %1d\n", key);
-    lRUCachePut(pLruCache, 4, 4);
-    key = lRUCacheGet(pLruCache, 1);
-    printf("key : %1d\n", key);
-    key = lRUCacheGet(pLruCache, 3);
-    printf("key : %1d\n", key);
-    key = lRUCacheGet(pLruCache, 4);
-    printf("key : %1d\n", key);
+    printf("--------get key 2-----------\n");
+    printf("---travel-start-------------\n");
     TravelHashMapping(pLruCache->pHashTable);
-
-    lRUCacheFree(pLruCache);
+    printf("---travel-end-------------\n");
+    printf("--------3 end-----------\n");
+    lRUCachePut(pLruCache, 1, 1);
+    printf("--------put Node 1,1-----------\n");
+    printf("--------4 end-----------\n");
+    printf("---travel-start-------------\n");
+    TravelHashMapping(pLruCache->pHashTable);
+    printf("---travel-end-------------\n");
+    lRUCachePut(pLruCache, 4, 1);
+    printf("--------put Node 4,1-----------\n");
+    printf("--------5 end-----------\n");
+    //key = lRUCacheGet(pLruCache, 2);
+    //lRUCacheFree(pLruCache);
 
 
 

@@ -1,5 +1,5 @@
 #include "link_list.h"
-//#define _PRINTF
+#define _PRINTF
 //typedef struct T_THREAD * PT_THREAD;
 
 T_WAITTING_PRIORITY_QUEUE * CreateWaittingQueue(void)
@@ -450,6 +450,8 @@ void DeleteNodeInHash(PT_HASH_TABLE pHashTable, PT_CACHE_NODE pNode)
     int key = pNode->key;
     int mappingIdx = key % capacity;
     PT_CACHE_NODE pCurrentNode = (pHashTable->pHashMapping)[mappingIdx];
+    printf("ERROR term\n");
+    printf("kk:%d,%d\n", pCurrentNode->key, pCurrentNode->value);
 
     if (pCurrentNode->key == key)
     {
@@ -557,6 +559,7 @@ void lRUCachePut(LRUCache* obj, int key, int value)
     //Condtion 2 : if this Node exist Update this Node inform
 
     int retFindFlag = KernalLruCahceGet(obj, key, value, 0);
+    printf("get or not: %1d\n", retFindFlag);
 
     if (retFindFlag < 0)
     {
