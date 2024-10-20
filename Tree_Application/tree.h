@@ -2,8 +2,9 @@
 #define _H_TREE
 #include"basic.h"
 
-#define elder   left
-#define brother right
+#define elderSon       left
+#define brother        right
+#define fatherOrElder  father
 typedef struct BINNODE_T * BINTREE_HEAD;
 typedef struct BINNODE_T * P_BINNODE_T;
 typedef struct BINNODE_T
@@ -11,8 +12,16 @@ typedef struct BINNODE_T
     CUSTOM_ELEMENT_TYPE val;
     P_BINNODE_T left;
     P_BINNODE_T right;
+    P_BINNODE_T father;
 
 }BINNODE_T;
+
+//Leetcode 71
+//71. Simplify Path
+//
+char*  simplifyPath(char* path);
+char** ParserString(char* path, int* pNum);
+
 
 typedef enum
 {
