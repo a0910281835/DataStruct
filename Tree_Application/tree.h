@@ -13,6 +13,7 @@ typedef struct BINNODE_T
     P_BINNODE_T left;
     P_BINNODE_T right;
     P_BINNODE_T father;
+    int generationLevel;
 
 }BINNODE_T;
 

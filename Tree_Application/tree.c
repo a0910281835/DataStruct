@@ -1,6 +1,13 @@
 #include"config.h"
 #include"tree.h"
 
+P_BINNODE_T CreateBinNode(P_BINNODE_T pFatherOrElder, CUSTOM_ELEMENT_TYPE val, int level)
+{
+    P_BINNODE_T pNode = malloc(sizeof(BINNODE_T));
+    pNode->val = val;
+    pNode->generationLevel = level;
+    return pNode;
+}
 P_BINNODE_T insertValBinNode(P_BINNODE_T pBinNode, CUSTOM_ELEMENT_TYPE val)
 {
     if (pBinNode != NULL)
@@ -25,11 +32,25 @@ P_BINNODE_T insertValBinNode(P_BINNODE_T pBinNode, CUSTOM_ELEMENT_TYPE val)
     return pBinNode;
 }
 
+bool AmIGod(P_BINNODE_T pNode)
+{
+    bool ret = false;
+    P_BINNODE_T pFatherOrElder = pNode->fatherOrElder;
+    if (NULL == pFatherOrElder)
+    {
+        ret = true;
+    }
+    return ret;
+}
 
 bool AmIEldSon(P_BINNODE_T pNode)
 {
     bool ret = false;
     P_BINNODE_T pFatherOrElder = pNode->fatherOrElder;
+    if (AmIGod(pNode))
+    {
+        return false;
+    }
     if (pFatherOrElder->elderSon == pNode)
     {
         ret = true;
@@ -42,6 +63,20 @@ P_BINNODE_T FindFatherNode(P_BINNODE_T pSonNode)
 {
     P_BINNODE_T pFollower = pSonNode;
 
+    if (AmIGod(pSonNode)) return NULL;
+
+    // Condition 2 : if father exist
+    bool eldsonFlag = AmIEldSon(pFollower);
+
+    while (!eldsonFlag)
+    {
+        pFollower = pFollower->fatherOrElder;
+        eldsonFlag = AmIEldSon(pFollower);
+    }
+
+    pFollower = pFollower->fatherOrElder;
+
+    return pFollower;
 }
 
 
