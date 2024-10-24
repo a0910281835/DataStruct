@@ -25,6 +25,28 @@ P_BINNODE_T insertValBinNode(P_BINNODE_T pBinNode, CUSTOM_ELEMENT_TYPE val)
     return pBinNode;
 }
 
+
+bool AmIEldSon(P_BINNODE_T pNode)
+{
+    bool ret = false;
+    P_BINNODE_T pFatherOrElder = pNode->fatherOrElder;
+    if (pFatherOrElder->elderSon == pNode)
+    {
+        ret = true;
+    }
+    return ret;
+}
+
+
+P_BINNODE_T FindFatherNode(P_BINNODE_T pSonNode)
+{
+    P_BINNODE_T pFollower = pSonNode;
+
+}
+
+
+
+
 /*
 
 // Function Pointer reduce Cache Miss
