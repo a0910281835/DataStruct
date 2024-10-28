@@ -6,6 +6,9 @@ P_BINNODE_T CreateBinNode(P_BINNODE_T pFatherOrElder, CUSTOM_ELEMENT_TYPE val, i
     P_BINNODE_T pNode = malloc(sizeof(BINNODE_T));
     pNode->val = val;
     pNode->generationLevel = level;
+    pNode->fatherOrElder   = pFatherOrElder;
+    pNode->brother  = NULL;
+    pNode->elderSon = NULL;
     return pNode;
 }
 P_BINNODE_T insertValBinNode(P_BINNODE_T pBinNode, CUSTOM_ELEMENT_TYPE val)
@@ -490,6 +493,7 @@ char* simplifyPath(char* path)
     pRootDir->val = "root";
     pRootDir->father = NULL;
     
+    return pRootDir->val;
 }
 
 char** extendArrayCap(char** oldArray, int* pCurentCap)
@@ -537,3 +541,19 @@ char** ParserString(char* path, int* pNum)
 
     return dividedArray;
 }
+
+
+P_BINNODE_T CreateTreeFromString(char** pDividArray, int num)
+{
+    P_BINNODE_T pRoot = NULL;
+
+    printf("%1d\n", num);
+
+    for (int idx = 0; idx < num; idx++)
+    {
+        printf("%s\n", pDividArray[idx]);
+    }
+
+    return pRoot;
+}
+

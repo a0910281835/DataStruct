@@ -55,6 +55,37 @@ int main(void)
         printf("%s\n", divArray[idx]);
     }
 
+    // ./a/b/c/../../d/../e/../b/c
+    //       God(a)0
+    //       /
+    //     (b)1
+    //     / \
+    //    c2   d1
+    //           \
+    //            e1
+    printf("-----experiment-------\n");
+    P_BINNODE_T pCreate = CreateBinNode(NULL, "a", 0);
+    pGod = pCreate;
+    pCreate->elderSon = CreateBinNode(pCreate, "b", 1);
+    printf("%s\n", pCreate->val);
+    printf("%s\n", (pCreate->elderSon)->val);
+    pCreate = pCreate->elderSon;//b
+    pCreate->elderSon = CreateBinNode(pCreate, "c", 2);
+    pCreate->brother  = CreateBinNode(pCreate, "d", 1);
+    pCreate = pCreate->brother;
+    pCreate->brother  = CreateBinNode(pCreate, "e", 1);
+    pCreate = pCreate->brother;
+    P_BINNODE_T pCheck = FindFatherNode(pCreate);
+    printf("%s\n", pCheck->val);
+
+
+    CreateTreeFromString(divArray, num);
+
+
+
+
+
+
 
 
 

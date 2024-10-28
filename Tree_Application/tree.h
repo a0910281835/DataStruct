@@ -17,11 +17,14 @@ typedef struct BINNODE_T
 
 }BINNODE_T;
 
+P_BINNODE_T CreateBinNode(P_BINNODE_T pFatherOrElder, CUSTOM_ELEMENT_TYPE val, int level);
+P_BINNODE_T FindFatherNode(P_BINNODE_T pSonNode);
 //Leetcode 71
 //71. Simplify Path
 //
 char*  simplifyPath(char* path);
 char** ParserString(char* path, int* pNum);
+P_BINNODE_T CreateTreeFromString(char** pDividArray, int num);
 
 
 typedef enum
