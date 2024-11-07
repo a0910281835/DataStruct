@@ -23,8 +23,8 @@ int main(void)
 
 
     char** pStringArray = malloc(sizeof(char*) * 6);
-    //char str[] = "/home/user/Documents/../Pictures";
-    char str[] = "/a/b/c/d/e/f/g/h/i/j/k/l/m///n/o/p/q/r/s/t/u/v/w/x/y/z/a/b/c/d";
+    char str[] = "/home/user/Documents/../Pictures";
+    //char str[] = "/a/b/c/d/e/f/g/h/i/j/k/l/m///n/o/p/q/r/s/t/u/v/w/x/y/z/a/b/c/d";
     //char *str2  = str;
     //char*pch = strtok(str, "/");
     //int idx = 0;

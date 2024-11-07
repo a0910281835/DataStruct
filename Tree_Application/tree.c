@@ -492,7 +492,7 @@ char* simplifyPath(char* path)
     BINTREE_HEAD pRootDir = malloc(sizeof(BINNODE_T));
     pRootDir->val = "root";
     pRootDir->father = NULL;
-    
+
     return pRootDir->val;
 }
 
@@ -522,12 +522,12 @@ char** ParserString(char* path, int* pNum)
     *pNum = 0;
     if (NULL != pDividStr)
     {
-        
+
         do
         {
             dividedArray[(*pNum)++] = pDividStr;
             pDividStr = strtok(NULL, "/");
-            
+
             if (*pNum >= cap)
             {
                 //Extend Array
@@ -545,13 +545,43 @@ char** ParserString(char* path, int* pNum)
 
 P_BINNODE_T CreateTreeFromString(char** pDividArray, int num)
 {
-    P_BINNODE_T pRoot = NULL;
+    P_BINNODE_T pRoot     = NULL;
+    P_BINNODE_T pFather   = NULL;
+    P_BINNODE_T pFollower = pRoot;
 
     printf("%1d\n", num);
 
     for (int idx = 0; idx < num; idx++)
     {
         printf("%s\n", pDividArray[idx]);
+    }
+
+    int idx = 0;
+    for (idx = 0; idx < num; idx++)
+    {
+      if (pDividArray[idx] != "..")
+      {
+          //CreateNode and Insert The The Last Brother if Has Big Brother
+         if (pFather != NULL)
+         {
+             if ((pFather->elderSon) == NULL)
+             {
+                 pFather->elderSon = CreateBinNode(pFather, pDividArray[idx], 0);
+
+             }
+             else
+             {
+                 
+
+             }
+         }
+
+
+      }
+      else
+      {
+          // I am father and next to Node
+      }
     }
 
     return pRoot;
